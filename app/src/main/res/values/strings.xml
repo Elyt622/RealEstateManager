@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Real Estate Manager</string>
+    <string name="home">Home</string>
+    <string name="explorer">Explorer</string>
+    <string name="profile">Profile</string>
+    <string name="not_specified">Not specified</string>
+    <string name="main_picture">Main Picture</string>
+    <string name="logo_surface">Logo surface</string>
+    <string name="surface">Surface</string>
+    <string name="bed_logo">Bed logo</string>
+    <string name="bed_s">Bed(s)</string>
+    <string name="house_logo">House logo</string>
+    <string name="room_s">Room(s)</string>
+    <string name="bathtub_logo">Bathtub Logo</string>
+    <string name="bathroom_s">Bathroom(s)</string>
+    <string name="location_logo">Location Logo</string>
+    <string name="address">Address</string>
+    <string name="location">Location</string>
+    <string name="added_on">Added on</string>
+    <string name="by">by</string>
+    <string name="reference">Reference</string>
+    <string name="price">Price</string>
+    <string name="modify_now">Modify property</string>
+    <string name="main_picture_description">Main picture description</string>
+</resources>
