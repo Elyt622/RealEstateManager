@@ -1,9 +1,10 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,8 +13,8 @@ import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.InterestPoint
 import com.openclassrooms.realestatemanager.model.Property
-import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapter
 import com.openclassrooms.realestatemanager.ui.adapter.InterestPointRvAdapter
+import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapter
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
 
@@ -51,6 +52,10 @@ class PropertyActivity : AppCompatActivity() {
 
     private lateinit var agentTextView: TextView
 
+    private lateinit var titleText: TextView
+
+    private lateinit var toolbar : Toolbar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_property)
@@ -71,6 +76,8 @@ class PropertyActivity : AppCompatActivity() {
         referenceTextView = findViewById(R.id.textview_reference_property_activity)
         entryDateTextView = findViewById(R.id.textview_entry_date_property_activity)
         agentTextView = findViewById(R.id.textview_agent_property_activity)
+        titleText = findViewById(R.id.textview_type_top_toolbar_property_activity)
+        toolbar = findViewById(R.id.top_toolbar_property_activity)
 
         // RecyclerView
         rvPhoto = findViewById(R.id.recycler_view_photos_property_activity)
@@ -87,6 +94,7 @@ class PropertyActivity : AppCompatActivity() {
         configPriceTextView(property.price)
         configSurfaceTextView(property.surface)
         configAgentTextView(property.agentName)
+        configToolbar()
 
         entryDateTextView.text = """ ${Utils.todayDate}"""
         referenceTextView.text = property.ref.toString()
@@ -97,6 +105,7 @@ class PropertyActivity : AppCompatActivity() {
         typeTextView.text = property.type.name
         stateTextView.text = property.state.displayName
         descriptionTextView.text = property.description
+        titleText.text = property.type.name
     }
 
     private fun configPhotosRecyclerView(photos: List<String>){
@@ -130,5 +139,17 @@ class PropertyActivity : AppCompatActivity() {
     private fun configPriceTextView(priceInt: Int){
         val price = "$priceInt $"
         priceTextView.text = (price)
+    }
+
+    private fun configToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
     <string name="home">Home</string>
-    <string name="explorer">Explorer</string>
-    <string name="profile">Profile</string>
+    <string name="explorer">Search</string>
+    <string name="profile">Account</string>
     <string name="not_specified">Not specified</string>
     <string name="main_picture">Main Picture</string>
     <string name="logo_surface">Logo surface</string>
