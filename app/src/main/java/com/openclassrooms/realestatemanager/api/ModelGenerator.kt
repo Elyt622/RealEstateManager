@@ -5,7 +5,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ModelGenerator {
-    private var agentGenerator : List<RealEstateAgent> =  ArrayList(setOf(RealEstateAgent(1,"Bernole", "Yohan")))
+    private var agentGenerator : List<RealEstateAgent> =  ArrayList(setOf(RealEstateAgent("Bernole", "Yohan")))
 
     private var propertiesGenerator: List<Property> = ArrayList(
         setOf(
@@ -20,7 +20,7 @@ class ModelGenerator {
             "https://res.listglobally.com/listings/5714386/77227640/141bf855c3f8c8d26aa240132e342e63?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/77227640/9fcfd1e43401972c93bf4e7510d567a0?mode=max&w=1920",
             "https://res.listglobally.com/listings/5714386/77227640/3d19759b9530a56e0bf05c648f519f67?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/77227640/19b2fe05188b45fd7c93a7a4502969e2?mode=max&w=1920")),
                 "150 Columbus Avenue Upper West Side, New York", ArrayList(setOf(InterestPoint.WASHING_MACHINE, InterestPoint.AIR_CONDITIONER)), State.ON_SALE, Date(1_220_227_200L * 1000), null,
-                agentGenerator[0].idAgent, null, null),
+                agentGenerator[0].firstName, null, null),
 
             Property(2, Type.APARTMENT, 11_000_000, 507.44f, 8, 4, 3, "Welcome to 28 Laight Street," +
                     " #6AB, an incredible Tribeca Trophy with private deeded parking. This dramatic and inspiring pre-war corner loft boasts a sprawling " +
@@ -33,7 +33,7 @@ class ModelGenerator {
             "https://res.listglobally.com/listings/5714386/77175824/bf5a2807405efbb668a6be8abd18b1e4?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/77175824/4752b7c9a0a48f86a326cce2f30ddc7d?mode=max&w=1920",
             "https://res.listglobally.com/listings/5714386/77175824/578772ef54fd88eed024baecaacba1a9?mode=max&w=1920")),
                 "28 Laight Street, New York", ArrayList(setOf(InterestPoint.WASHING_MACHINE)), State.ON_SALE, Date(1_220_227_200L * 1000), null,
-                agentGenerator[0].idAgent, null, null),
+                agentGenerator[0].firstName, null, null),
 
             Property(3, Type.HOUSE, 1_850_000, null, 8, 5,3, "JAMAICA ESTATES CHARM! WELCOME TO YOUR NEW HOME. SITUATED ON A 50 X 120 LOT IN THE HEART OF JAMAICA ESTATES TREE LINED STREETS." +
                     " THIS EXPANDED CAPE TUDOR HOME OFFERS 5 BEDROOMS 3 FULL BATH WITH HEATED FLOORS, SPLIT SYSTEM A/C, OPEN EAT IN KICHEN DESIGN," +
@@ -42,18 +42,7 @@ class ModelGenerator {
                 "https://res.listglobally.com/listings/5681536/76682536/c9ec3825faea9eb9d1b079d306a24341?mode=max&w=1920", "https://res.listglobally.com/listings/5681536/76682536/25cc8f8d61bb71d2840f362018d36e0f?mode=max&w=1920",
             "https://res.listglobally.com/listings/5681536/76682536/ae92522dae5980d248270b3b0d70291e?mode=max&w=1920", "https://res.listglobally.com/listings/5681536/76682536/83b4c3528cebf5a28d6b04d74bec1fb2?mode=max&w=1920")),
                     "181-69 TUDOR RD, New York", ArrayList(setOf(InterestPoint.DISHWASHER, InterestPoint.WASHING_MACHINE)), State.ON_SALE, Date(1_220_227_200L * 1000), null,
-                    agentGenerator[0].idAgent, null, null),
-
-            Property(4, Type.HOUSE, 1_495_000, 304.35f, 8, 4,3,"Immaculate 2-family with flair and esthetic awaits you on a treelined block in Bushwick. An Owners duplex" +
-                    " consists of a Garden Level (currently used as an artist studio and workshop) complete with powder room and private backyard. On the Parlor level, there is a large living room with high ceilings, brick decorative" +
-                    " fireplace and a home office. Adjacent is the kitchen, dining area and a full bathroom. Two bedrooms face the back of the home with a large private terrace with access from both bedrooms. One of the bedrooms has an" +
-                    " ensuite bathroom.", ArrayList(setOf("https://res.listglobally.com/listings/5714386/75731805/10d81ca3ae4e49d617f234f3cd444b83?mode=max&w=1920",
-                "https://res.listglobally.com/listings/5714386/75731805/fbdbd4cce023e4dff4e6fd70a7a1ed57?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/75731805/a6504d609d1d48dd36888b355a58b1c9?mode=max&w=1920",
-                "https://res.listglobally.com/listings/5714386/75731805/955c8fe6524c3e529a227439191ec7fa?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/75731805/16164adfd33103005b5e54dc3c045a24?mode=max&w=1920",
-            "https://res.listglobally.com/listings/5714386/75731805/a8ca0233ef268f5ca56776455ce57038?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/75731805/d14db9dd6670c58b717cc98bcf099983?mode=max&w=1920",
-            "https://res.listglobally.com/listings/5714386/75731805/68a095ac03c9f6cb6b9b843c8abbd0fb?mode=max&w=1920")),
-                    "1068 Halsey Street, New York", null, State.ON_SALE, Date(1_220_227_200L * 1000), null,
-                    agentGenerator[0].idAgent, null, null),
+                    agentGenerator[0].firstName, null, null),
 
             Property(5, Type.APARTMENT, 3_750_000, 376.26f, 11,4,3, "Incredible location near transportation, Whole" +
                     " Foods, Trader Joe's, Chelsea Market, fantastic restaurants, close to the Highline, Penn Station, Hudson Yards, and shops. Well maintained" +
@@ -62,28 +51,28 @@ class ModelGenerator {
                 "https://res.listglobally.com/listings/5714386/75642116/7c8875e26a0f609894eea90306f41a99?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/75642116/78e39d7e9cb0af62728d04db089476b0?mode=max&w=1920",
             "https://res.listglobally.com/listings/5714386/75642116/6466191e8ae0d61bab387542fb4e83b4?mode=max&w=1920")),
                 "143 West 20th Street, New York", null, State.ON_SALE, Date(1_220_227_200L * 1000), null,
-                agentGenerator[0].idAgent, null, null),
+                agentGenerator[0].firstName, null, null),
 
             Property(6, Type.APARTMENT, 899_000, 58.5f, 3, 1,1,"Your oversized, loft-like home awaits in this inviting" +
                     " pre-war one-bedroom that can be easily converted to a one-bedroom plus den or home office.", ArrayList(setOf("https://res.listglobally.com/listings/5714386/75557942/e87856f193b0eb01baa18f7d59144e20?mode=max&w=1920",
                 "https://res.listglobally.com/listings/5714386/75557942/ceec61a53432327caf6e189a00dee528?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/75557942/9d41b6b9ef6bc94c370a83206a5d8861?mode=max&w=1920",
             "https://res.listglobally.com/listings/5714386/75557942/490d50e9c8c42805b9b7f13a4bfc331f?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/75557942/418308834cc1e632e4129c78c3885186?mode=max&w=1920")),
                 "110 West 94th Street, New York", null, State.ON_SALE, Date(1_220_227_200L * 1000), null,
-                agentGenerator[0].idAgent, null, null),
+                agentGenerator[0].firstName, null, null),
 
             Property(7, Type.APARTMENT, 599_000, 65.59f, 3, 1,1,"FOR INVESTORS ONLY: SOLD WITH TENANT IN-PLACE. This South-facing one bedroom condo in Yorkville is the perfect home base" +
                     " or pied-a-terre in the desirable Upper East Side neighborhood of Manhattan. The open plan kitchen-living-dining area features a fully equipped, modern kitchen with dishwasher.",
                 ArrayList(setOf("https://res.listglobally.com/listings/5706262/75421176/f4d606f40f7b6cf6186b0e5a93d3aa3b?mode=max&w=1920","https://res.listglobally.com/listings/5706262/75421176/89020c0772c5e8174ad8a3759a8a66f7?mode=max&w=1920",
                 "https://res.listglobally.com/listings/5706262/75421176/9ef5a905a584d7f65b15589e6ef8569b?mode=max&w=1920", "https://res.listglobally.com/listings/5706262/75421176/3d036f567ebb93c21f3f7c505e0ab9cc?mode=max&w=1920")),
                 "206 East 95th Street, #5A, New York", ArrayList(setOf(InterestPoint.ELEVATOR, InterestPoint.DISHWASHER)), State.ON_SALE, Date(1_220_227_200L * 1000), null,
-                agentGenerator[0].idAgent, null, null),
+                agentGenerator[0].firstName, null, null),
 
             Property(8, Type.APARTMENT, 499_000, 111.48f, 6,2,2, "Welcome to 1840 East 13th. Looking for a perfectly laid out true two bedroom co-op? Here it is, welcome to apartment 5F at 1840 East 13th Street." +
                     " Conveniently located steps away from Kings highway, you would be hard pressed to find a better more affordable apartment.",
                 ArrayList(setOf("https://res.listglobally.com/listings/5714386/75171703/24bef41fd4492c6cf1aad4bda439e7fe?mode=max&w=1920","https://res.listglobally.com/listings/5714386/75171703/c728dbd7e6aa60ece6ecf76de424b98f?mode=max&w=1920",
                 "https://res.listglobally.com/listings/5714386/75171703/24d1a60b450d9ff35097f58907646c98?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/75171703/94f2fae98b2584a6ff92577272caba52?mode=max&w=1920")),
                 "1840 East 13th Street, New York", null, State.ON_SALE, Date(1_220_227_200L * 1000), null,
-                agentGenerator[0].idAgent, null, null),
+                agentGenerator[0].firstName, null, null),
         ),
     )
 

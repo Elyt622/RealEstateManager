@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.app
 
 import android.app.Application
 import androidx.room.Room

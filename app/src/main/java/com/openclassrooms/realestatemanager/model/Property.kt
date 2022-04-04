@@ -21,7 +21,7 @@ data class Property(
     var state: State,
     var entryDate: Date,
     var sellingDate: Date?,
-    var agentId: Int,
+    var agentName: String,
     var latitude: Double?,
     var longitude: Double?
     )

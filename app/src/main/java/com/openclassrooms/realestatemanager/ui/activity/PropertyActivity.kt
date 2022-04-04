@@ -86,7 +86,7 @@ class PropertyActivity : AppCompatActivity() {
 
         configPriceTextView(property.price)
         configSurfaceTextView(property.surface)
-        //configAgentTextView(property.agent.firstName, property.agent.lastName)
+        configAgentTextView(property.agentName)
 
         entryDateTextView.text = """ ${Utils.todayDate}"""
         referenceTextView.text = property.ref.toString()
@@ -122,9 +122,9 @@ class PropertyActivity : AppCompatActivity() {
         }
     }
 
-    private fun configAgentTextView(firstname: String, lastname: String){
-        val displayNameAgent = """ $firstname $lastname"""
-        agentTextView.text = displayNameAgent
+    private fun configAgentTextView(name: String){
+        val agentFormattedText = " $name"
+        agentTextView.text = agentFormattedText
     }
 
     private fun configPriceTextView(priceInt: Int){
