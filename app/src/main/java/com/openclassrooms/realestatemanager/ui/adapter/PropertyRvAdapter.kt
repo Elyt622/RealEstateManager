@@ -39,7 +39,7 @@ class PropertyRvAdapter(private val dataSet: List<Property>) :
         viewHolder.beds.text = dataSet[position].numberBeds.toString()
         viewHolder.bathroom.text = dataSet[position].numberBathroom.toString()
         viewHolder.rooms.text = dataSet[position].numberPiece.toString()
-        viewHolder.state.text = dataSet[position].state.displayName
+        viewHolder.state.text = dataSet[position].status.displayName
 
         Glide.with(context).load(dataSet[position].photos[0]).into(viewHolder.image)
 

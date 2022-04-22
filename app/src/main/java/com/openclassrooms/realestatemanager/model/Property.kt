@@ -1,8 +1,6 @@
 package com.openclassrooms.realestatemanager.model
 
 import androidx.room.*
-import androidx.room.ForeignKey.NO_ACTION
-import com.google.android.gms.maps.model.LatLng
 import java.util.*
 
 @Entity
@@ -18,9 +16,9 @@ data class Property(
     var photos: MutableList<String>,
     val address: String,
     var interestPoint: MutableList<InterestPoint>?,
-    var state: State,
+    var status: Status,
     var entryDate: Date,
-    var sellingDate: Date?,
+    var soldDate: Date?,
     var agentName: String,
     var latitude: Double?,
     var longitude: Double?

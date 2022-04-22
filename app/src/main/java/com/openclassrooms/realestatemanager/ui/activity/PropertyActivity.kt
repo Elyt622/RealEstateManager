@@ -103,9 +103,9 @@ class PropertyActivity : AppCompatActivity() {
         roomTextView.text = property.numberPiece.toString()
         bedTextView.text = property.numberBeds.toString()
         typeTextView.text = property.type.name
-        stateTextView.text = property.state.displayName
+        stateTextView.text = property.status.displayName
         descriptionTextView.text = property.description
-        titleText.text = property.type.name
+        titleText.text = "Property Details"
     }
 
     private fun configPhotosRecyclerView(photos: List<String>){
