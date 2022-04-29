@@ -15,7 +15,7 @@ data class Property(
     var description: String,
     var photos: MutableList<String>,
     val address: String,
-    var interestPoint: MutableList<InterestPoint>?,
+    var options: MutableList<Option>?,
     var status: Status,
     var entryDate: Date,
     var soldDate: Date?,

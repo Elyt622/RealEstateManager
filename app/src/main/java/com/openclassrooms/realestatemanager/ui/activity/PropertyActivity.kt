@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.model.InterestPoint
+import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.adapter.InterestPointRvAdapter
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapter
@@ -87,7 +87,7 @@ class PropertyActivity : AppCompatActivity() {
         val property : Property = viewModel.getAllProperties()[id]
 
         configPhotosRecyclerView(property.photos)
-        configInterestPointRecyclerView(property.interestPoint)
+        configInterestPointRecyclerView(property.options)
 
         Glide.with(this).load(property.photos[0]).into(image)
 
@@ -113,7 +113,7 @@ class PropertyActivity : AppCompatActivity() {
         rvPhoto.adapter = PhotoRvAdapter(photos, this)
     }
 
-    private fun configInterestPointRecyclerView(interestPoint: List<InterestPoint>?){
+    private fun configInterestPointRecyclerView(interestPoint: List<Option>?){
         rvInterestPoint.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         if (interestPoint != null){
             rvInterestPoint.adapter = InterestPointRvAdapter(interestPoint)

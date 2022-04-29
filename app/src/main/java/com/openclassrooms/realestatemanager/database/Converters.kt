@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.database
 
 import androidx.room.TypeConverter
-import com.openclassrooms.realestatemanager.model.InterestPoint
+import com.openclassrooms.realestatemanager.model.Option
 import java.util.*
 
 
@@ -21,22 +21,22 @@ class Converters {
     }
 
     @TypeConverter
-    fun getDBInterestPoint(model: MutableList<InterestPoint>?): String =
+    fun getDBOption(model: MutableList<Option>?): String =
         if (model == null || model.isEmpty())
             ""
         else
             model.joinToString(separator = separator) { it.displayName }
 
     @TypeConverter
-    fun getModelInterestPoint(data: String?): MutableList<InterestPoint> {
-        val interestPointsString = data?.split(separator)?.toMutableList()
-        lateinit var interestPoints : MutableList<InterestPoint>
-        if (interestPointsString != null) {
-            for (interestPointString in interestPointsString) {
-                interestPoints.add(InterestPoint.valueOf(interestPointString))
+    fun getModelOption(data: String?): MutableList<Option> {
+        val optionsString = data?.split(separator)?.toMutableList()
+        lateinit var options : MutableList<Option>
+        if (optionsString != null) {
+            for (optionString in optionsString) {
+                options.add(Option.valueOf(optionString))
             }
         }
-        return interestPoints
+        return options
     }
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {

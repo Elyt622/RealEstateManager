@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.model.InterestPoint
+import com.openclassrooms.realestatemanager.model.Option
 
-class InterestPointRvAdapter(private val dataSet: List<InterestPoint>?) :
+class InterestPointRvAdapter(private val dataSet: List<Option>?) :
     RecyclerView.Adapter<InterestPointRvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

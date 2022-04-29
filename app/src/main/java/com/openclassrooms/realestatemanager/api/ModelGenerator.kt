@@ -19,7 +19,7 @@ class ModelGenerator {
             "https://res.listglobally.com/listings/5714386/77227640/9d25d297ecf9cd2472889e86b71d124b?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/77227640/a2d072afaf9340d086f83ba6251e8a61?mode=max&w=1920",
             "https://res.listglobally.com/listings/5714386/77227640/141bf855c3f8c8d26aa240132e342e63?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/77227640/9fcfd1e43401972c93bf4e7510d567a0?mode=max&w=1920",
             "https://res.listglobally.com/listings/5714386/77227640/3d19759b9530a56e0bf05c648f519f67?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/77227640/19b2fe05188b45fd7c93a7a4502969e2?mode=max&w=1920")),
-                "150 Columbus Avenue Upper West Side, New York", ArrayList(setOf(InterestPoint.WASHING_MACHINE, InterestPoint.AIR_CONDITIONER)), Status.ON_SALE, Date(1_220_227_200L * 1000), null,
+                "150 Columbus Avenue Upper West Side, New York", ArrayList(setOf(Option.WASHING_MACHINE, Option.AIR_CONDITIONER)), Status.ON_SALE, Date(1_220_227_200L * 1000), null,
                 agentGenerator[0].firstName, null, null),
 
             Property(2, Type.APARTMENT, 11_000_000, 507.44f, 8, 4, 3, "Welcome to 28 Laight Street," +
@@ -32,7 +32,7 @@ class ModelGenerator {
             "https://res.listglobally.com/listings/5714386/77175824/d823e2f7336d1fb53d827a0f52bcd1a7?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/77175824/b414451893a6e86801ee61edb6514285?mode=max&w=1920",
             "https://res.listglobally.com/listings/5714386/77175824/bf5a2807405efbb668a6be8abd18b1e4?mode=max&w=1920", "https://res.listglobally.com/listings/5714386/77175824/4752b7c9a0a48f86a326cce2f30ddc7d?mode=max&w=1920",
             "https://res.listglobally.com/listings/5714386/77175824/578772ef54fd88eed024baecaacba1a9?mode=max&w=1920")),
-                "28 Laight Street, New York", ArrayList(setOf(InterestPoint.WASHING_MACHINE)), Status.ON_SALE, Date(1_220_227_200L * 1000), null,
+                "28 Laight Street, New York", ArrayList(setOf(Option.WASHING_MACHINE)), Status.ON_SALE, Date(1_220_227_200L * 1000), null,
                 agentGenerator[0].firstName, null, null),
 
             Property(3, Type.HOUSE, 1_850_000, null, 8, 5,3, "JAMAICA ESTATES CHARM! WELCOME TO YOUR NEW HOME. SITUATED ON A 50 X 120 LOT IN THE HEART OF JAMAICA ESTATES TREE LINED STREETS." +
@@ -41,7 +41,7 @@ class ModelGenerator {
                 "https://res.listglobally.com/listings/5681536/76682536/e6d1457aa1f5c03655ca377363452270?mode=max&w=1920", "https://res.listglobally.com/listings/5681536/76682536/cf8915879aa3643dcc8a47a84906d238?mode=max&w=1920",
                 "https://res.listglobally.com/listings/5681536/76682536/c9ec3825faea9eb9d1b079d306a24341?mode=max&w=1920", "https://res.listglobally.com/listings/5681536/76682536/25cc8f8d61bb71d2840f362018d36e0f?mode=max&w=1920",
             "https://res.listglobally.com/listings/5681536/76682536/ae92522dae5980d248270b3b0d70291e?mode=max&w=1920", "https://res.listglobally.com/listings/5681536/76682536/83b4c3528cebf5a28d6b04d74bec1fb2?mode=max&w=1920")),
-                    "181-69 TUDOR RD, New York", ArrayList(setOf(InterestPoint.DISHWASHER, InterestPoint.WASHING_MACHINE)), Status.ON_SALE, Date(1_220_227_200L * 1000), null,
+                    "181-69 TUDOR RD, New York", ArrayList(setOf(Option.DISHWASHER, Option.WASHING_MACHINE)), Status.ON_SALE, Date(1_220_227_200L * 1000), null,
                     agentGenerator[0].firstName, null, null),
 
             Property(5, Type.APARTMENT, 3_750_000, 376.26f, 11,4,3, "Incredible location near transportation, Whole" +
@@ -64,7 +64,7 @@ class ModelGenerator {
                     " or pied-a-terre in the desirable Upper East Side neighborhood of Manhattan. The open plan kitchen-living-dining area features a fully equipped, modern kitchen with dishwasher.",
                 ArrayList(setOf("https://res.listglobally.com/listings/5706262/75421176/f4d606f40f7b6cf6186b0e5a93d3aa3b?mode=max&w=1920","https://res.listglobally.com/listings/5706262/75421176/89020c0772c5e8174ad8a3759a8a66f7?mode=max&w=1920",
                 "https://res.listglobally.com/listings/5706262/75421176/9ef5a905a584d7f65b15589e6ef8569b?mode=max&w=1920", "https://res.listglobally.com/listings/5706262/75421176/3d036f567ebb93c21f3f7c505e0ab9cc?mode=max&w=1920")),
-                "206 East 95th Street, #5A, New York", ArrayList(setOf(InterestPoint.ELEVATOR, InterestPoint.DISHWASHER)), Status.ON_SALE, Date(1_220_227_200L * 1000), null,
+                "206 East 95th Street, #5A, New York", ArrayList(setOf(Option.ELEVATOR, Option.DISHWASHER)), Status.ON_SALE, Date(1_220_227_200L * 1000), null,
                 agentGenerator[0].firstName, null, null),
 
             Property(8, Type.APARTMENT, 499_000, 111.48f, 6,2,2, "Welcome to 1840 East 13th. Looking for a perfectly laid out true two bedroom co-op? Here it is, welcome to apartment 5F at 1840 East 13th Street." +
