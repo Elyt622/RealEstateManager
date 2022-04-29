@@ -6,6 +6,7 @@
     tools:context=".ui.fragment.ProfileFragment">
 
     <TextView
+        android:id="@+id/textview_profile_profile_fragment"
         android:textSize="20sp"
         android:gravity="center"
         android:layout_width="match_parent"

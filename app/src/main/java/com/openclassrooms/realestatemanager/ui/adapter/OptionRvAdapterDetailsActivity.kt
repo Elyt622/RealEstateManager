@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Option
 
-class InterestPointRvAdapter(private val dataSet: List<Option>?) :
-    RecyclerView.Adapter<InterestPointRvAdapter.ViewHolder>() {
+class OptionRvAdapterDetailsActivity(private val dataSet: List<Option>?) :
+    RecyclerView.Adapter<OptionRvAdapterDetailsActivity.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.interest_point_recycler_view, parent, false)
+            .inflate(R.layout.cardview_recycler_view, parent, false)
         return ViewHolder(view)
     }
 

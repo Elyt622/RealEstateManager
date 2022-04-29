@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.AddPropertyActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_on_top_add_property_activity"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+            android:text="Add new property"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_on_bottom_add_property_activity"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <Button
+            android:text="Add new property"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/scrollView_add_property_activity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/toolbar_on_bottom_add_property_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_on_top_add_property_activity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textview_static_type_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Property type*"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_type_add_property_activity"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/textview_static_rooms_add_property_activity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_type_add_property_activity" />
+
+            <TextView
+                android:id="@+id/textview_static_rooms_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="80dp"
+                android:text="Rooms*"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_type_add_property_activity" />
+
+            <EditText
+                android:id="@+id/editText_rooms_add_property_activity"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="@+id/textview_static_rooms_add_property_activity"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_rooms_add_property_activity"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_rooms_add_property_activity"
+                android:importantForAutofill="no" />
+
+            <TextView
+                android:id="@+id/textview_static_beds_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Beds*"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/textview_static_bathrooms_add_property_activity"
+                app:layout_constraintStart_toEndOf="@+id/textview_static_rooms_add_property_activity"
+                app:layout_constraintTop_toTopOf="@+id/textview_static_rooms_add_property_activity" />
+
+            <EditText
+                android:id="@+id/editText_beds_add_property_activity"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="@+id/textview_static_beds_add_property_activity"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_beds_add_property_activity"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_beds_add_property_activity"
+                android:importantForAutofill="no" />
+
+            <TextView
+                android:id="@+id/textview_static_bathrooms_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Bathrooms*"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textview_static_beds_add_property_activity" />
+
+            <EditText
+                android:id="@+id/editText_bathrooms_add_property_activity"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="@+id/textview_static_bathrooms_add_property_activity"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_bathrooms_add_property_activity"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_bathrooms_add_property_activity"
+                android:importantForAutofill="no" />
+
+            <TextView
+                android:id="@+id/textview_static_surface_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="80dp"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:text="Surface"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_bathrooms_add_property_activity" />
+
+            <EditText
+                android:id="@+id/editText_surface_add_property_activity"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                app:layout_constraintEnd_toEndOf="@+id/textview_static_surface_add_property_activity"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_surface_add_property_activity"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_surface_add_property_activity"
+                android:importantForAutofill="no" />
+
+            <TextView
+                android:id="@+id/textview_static_description_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price*"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_beds_add_property_activity"
+                app:layout_constraintTop_toTopOf="@+id/textview_static_surface_add_property_activity" />
+
+            <EditText
+                android:id="@+id/editText_price_add_property_activity"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="@+id/textview_static_description_add_property_activity"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_description_add_property_activity"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_description_add_property_activity" />
+
+            <TextView
+                android:id="@+id/textview_static_address_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="80dp"
+                android:textStyle="bold"
+                android:text="Address*"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_surface_add_property_activity" />
+
+            <EditText
+                android:id="@+id/editText_address_add_property_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:importantForAutofill="no"
+                android:inputType="textPostalAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_address_add_property_activity" />
+
+            <TextView
+                android:id="@+id/textview_static_options_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="80dp"
+                android:textStyle="bold"
+                android:text="Options"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_address_add_property_activity" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_option_add_property_activity"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/textview_static_price_add_property_activity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_options_add_property_activity" />
+
+            <TextView
+                android:id="@+id/textview_static_price_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="80dp"
+                android:text="Description*"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_options_add_property_activity" />
+
+            <EditText
+                android:id="@+id/editText_description_add_property_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:importantForAutofill="no"
+                android:inputType="textLongMessage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_price_add_property_activity" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

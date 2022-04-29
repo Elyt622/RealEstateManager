@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
-import com.openclassrooms.realestatemanager.ui.adapter.InterestPointRvAdapter
+import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterDetailsActivity
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapter
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
@@ -113,10 +113,10 @@ class PropertyActivity : AppCompatActivity() {
         rvPhoto.adapter = PhotoRvAdapter(photos, this)
     }
 
-    private fun configInterestPointRecyclerView(interestPoint: List<Option>?){
+    private fun configInterestPointRecyclerView(options: List<Option>?){
         rvInterestPoint.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        if (interestPoint != null){
-            rvInterestPoint.adapter = InterestPointRvAdapter(interestPoint)
+        if (options != null){
+            rvInterestPoint.adapter = OptionRvAdapterDetailsActivity(options)
         }else {
             rvInterestPoint.isGone = true
         }
