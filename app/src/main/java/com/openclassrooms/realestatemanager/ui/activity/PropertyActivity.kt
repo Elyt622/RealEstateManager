@@ -100,8 +100,8 @@ class PropertyActivity : AppCompatActivity() {
         referenceTextView.text = property.ref.toString()
         addressTextView.text = property.address
         bathroomTextView.text = property.numberBathroom.toString()
-        roomTextView.text = property.numberPiece.toString()
-        bedTextView.text = property.numberBeds.toString()
+        roomTextView.text = property.numberRoom.toString()
+        bedTextView.text = property.numberBed.toString()
         typeTextView.text = property.type.name
         stateTextView.text = property.status.displayName
         descriptionTextView.text = property.description
