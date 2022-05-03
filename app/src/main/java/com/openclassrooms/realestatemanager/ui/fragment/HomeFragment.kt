@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
 
         rv = view.findViewById(R.id.recycler_view_list_properties_home_fragment)
         rv.layoutManager = GridLayoutManager(context, 2)
-        rv.adapter = PropertyRvAdapter(viewModel.getAllProperties())
+        rv.adapter = PropertyRvAdapter(viewModel.getAllProperties().blockingFirst())
     }
 
 }
