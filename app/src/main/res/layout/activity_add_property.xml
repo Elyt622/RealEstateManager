@@ -29,6 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent" >
 
         <Button
+            android:id="@+id/button_add_new_property_add_property_activity"
             android:text="Add new property"
             style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
             android:textColor="@color/colorAccent"
@@ -167,14 +168,16 @@
                 android:text="Price*"
                 android:textSize="15sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/editText_bathrooms_add_property_activity"
                 app:layout_constraintStart_toStartOf="@+id/textview_static_beds_add_property_activity"
                 app:layout_constraintTop_toTopOf="@+id/textview_static_surface_add_property_activity" />
 
             <EditText
                 android:id="@+id/editText_price_add_property_activity"
-                android:layout_width="30dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:importantForAutofill="no"
+                android:gravity="center"
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="@+id/textview_static_description_add_property_activity"
                 app:layout_constraintStart_toStartOf="@+id/textview_static_description_add_property_activity"
