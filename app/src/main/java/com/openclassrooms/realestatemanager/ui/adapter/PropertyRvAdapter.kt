@@ -45,7 +45,7 @@ class PropertyRvAdapter(private val dataSet: List<Property>) :
 
         viewHolder.elementRv.setOnClickListener {
             val intent = Intent(context, PropertyActivity::class.java)
-            intent.putExtra("ID", position)
+            intent.putExtra("REF", dataSet[position].ref)
             context.startActivity(intent)
         }
     }
