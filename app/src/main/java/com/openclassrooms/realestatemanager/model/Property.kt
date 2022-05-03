@@ -5,21 +5,22 @@ import java.util.*
 
 @Entity
 data class Property(
-    @PrimaryKey (autoGenerate = true) val ref: Int,
-    val type: Type,
-    var price: Int,
-    val surface: Float?,
-    var numberRoom: Int,
-    var numberBed: Int,
-    var numberBathroom: Int,
-    var description: String,
-    var photos: MutableList<String>,
-    val address: String,
-    var options: MutableList<Option>?,
-    var status: Status,
-    var entryDate: Date,
-    var soldDate: Date?,
-    var agentName: String,
-    var latitude: Double?,
-    var longitude: Double?
+    @PrimaryKey (autoGenerate = true) val ref: Int = 0,
+    var type: Type = Type.APARTMENT,
+    var price: Int = -1,
+    var surface: Float? = null,
+    var numberRoom: Int = -1,
+    var numberBed: Int = -1,
+    var numberBathroom: Int = -1,
+    var description: String = "",
+    var photos: MutableList<String> = mutableListOf(""),
+    var address: String = "",
+    var options: MutableList<Option>? = mutableListOf(),
+    var status: Status = Status.ON_SALE,
+    var entryDate: Date = Date(0),
+    var soldDate: Date? = null,
+    var agentName: String = "",
+    var latitude: Double? = null,
+    var longitude: Double? = null
     )
+
