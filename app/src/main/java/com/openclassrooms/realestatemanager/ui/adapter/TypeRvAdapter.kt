@@ -11,8 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Type
+import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
 
-class TypeRvAdapter(private val context: Context, private val dataSet: Array<Type>) : RecyclerView.Adapter<TypeRvAdapter.ViewHolder>(){
+class TypeRvAdapter(private val viewModel: AddPropertyViewModel, private val context: Context, private val dataSet: Array<Type>) : RecyclerView.Adapter<TypeRvAdapter.ViewHolder>(){
 
         private var clickedItem = -1
 
@@ -33,6 +34,10 @@ class TypeRvAdapter(private val context: Context, private val dataSet: Array<Typ
             }
 
             holder.cardView.setOnClickListener {
+                viewModel.getNewProperty().subscribe{ property ->
+                    property.type = dataSet[position]
+                }
+
                 if (clickedItem != -1) {
                     notifyItemChanged(clickedItem)
                 }
