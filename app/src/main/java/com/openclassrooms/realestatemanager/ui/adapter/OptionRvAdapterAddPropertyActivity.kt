@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.ui.adapter
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Option
+import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
-class OptionRvAdapterAddPropertyActivity (private val context: Context, private val dataSet: Array<Option>) : RecyclerView.Adapter<OptionRvAdapterAddPropertyActivity.ViewHolder>(){
+class OptionRvAdapterAddPropertyActivity (val viewModel: AddPropertyViewModel, val context: Context, private val dataSet: Array<Option>)
+    : RecyclerView.Adapter<OptionRvAdapterAddPropertyActivity.ViewHolder>(){
 
     private var clickedItems = BooleanArray(dataSet.size) {false}
 
@@ -39,6 +43,16 @@ class OptionRvAdapterAddPropertyActivity (private val context: Context, private 
         holder.cardView.setOnClickListener {
             clickedItems[position] = !clickedItems[position]
             notifyItemChanged(position)
+            viewModel.getNewProperty().subscribeBy (
+                onNext = { results ->
+                        results.options = viewModel.getOptionsWithPositionInRV(clickedItems)
+                },
+                onComplete = {
+
+                },
+                onError = {
+
+                })
         }
     }
 
