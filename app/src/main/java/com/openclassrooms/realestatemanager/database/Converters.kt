@@ -29,7 +29,7 @@ class Converters {
 
 
     @TypeConverter
-    fun getModelOption(data: String?): MutableList<Option>? {
+    fun getModelOption(data: String?): MutableList<Option> {
         val optionsString = data?.split(separator)?.toMutableList()
         val options : MutableList<Option> = mutableListOf()
 
