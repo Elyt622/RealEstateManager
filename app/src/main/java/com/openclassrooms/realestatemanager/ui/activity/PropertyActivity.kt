@@ -83,15 +83,15 @@ class PropertyActivity : AppCompatActivity() {
         rvPhoto = findViewById(R.id.recycler_view_photos_property_activity)
         rvInterestPoint = findViewById(R.id.recycler_view_interest_point_property_activity)
 
-        val id = intent.getIntExtra("ID", -1)
-        val property : Property = viewModel.getAllProperties()[id]
+        val ref = intent.getIntExtra("REF", -1)
+        val property : Property? = viewModel.getPropertyWithRef(ref)
 
-        configPhotosRecyclerView(property.photos)
-        configInterestPointRecyclerView(property.options)
+        configPhotosRecyclerView(property?.photos)
+        configInterestPointRecyclerView(property?.options)
 
-        Glide.with(this).load(property.photos[0]).into(image)
+        Glide.with(this).load(property?.photos?.get(0)).into(image)
 
-        configPriceTextView(property.price)
+        configPriceTextView(property?.price!!)
         configSurfaceTextView(property.surface)
         configAgentTextView(property.agentName)
         configToolbar()
@@ -108,7 +108,7 @@ class PropertyActivity : AppCompatActivity() {
         titleText.text = "Property Details"
     }
 
-    private fun configPhotosRecyclerView(photos: List<String>){
+    private fun configPhotosRecyclerView(photos: List<String>?){
         rvPhoto.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rvPhoto.adapter = PhotoRvAdapter(photos, this)
     }
@@ -137,8 +137,8 @@ class PropertyActivity : AppCompatActivity() {
     }
 
     private fun configPriceTextView(priceInt: Int){
-        val price = "$priceInt $"
-        priceTextView.text = (price)
+        val priceText = "$priceInt $"
+        priceTextView.text = priceText
     }
 
     private fun configToolbar() {
