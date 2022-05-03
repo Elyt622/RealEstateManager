@@ -25,19 +25,23 @@ class Converters {
         if (model == null || model.isEmpty())
             ""
         else
-            model.joinToString(separator = separator) { it.displayName }
+            model.joinToString(separator = separator) { it.name }
+
 
     @TypeConverter
-    fun getModelOption(data: String?): MutableList<Option> {
+    fun getModelOption(data: String?): MutableList<Option>? {
         val optionsString = data?.split(separator)?.toMutableList()
-        lateinit var options : MutableList<Option>
+        val options : MutableList<Option> = mutableListOf()
+
         if (optionsString != null) {
             for (optionString in optionsString) {
-                options.add(Option.valueOf(optionString))
+                if (optionString.isNotEmpty())
+                    options.add(Option.valueOf(optionString))
             }
         }
         return options
     }
+
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {
         return value?.let { Date(it) }
