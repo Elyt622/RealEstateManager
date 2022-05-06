@@ -36,4 +36,15 @@ class HomeFragment : Fragment() {
         rv.adapter = PropertyRvAdapter(viewModel.getAllProperties().blockingFirst())
     }
 
+
+    override fun onResume() {
+        rv.adapter = PropertyRvAdapter(viewModel.getAllProperties().blockingFirst())
+        super.onResume()
+    }
+
+    override fun onStart() {
+        rv.adapter = PropertyRvAdapter(viewModel.getAllProperties().blockingFirst())
+        super.onStart()
+    }
+
 }
