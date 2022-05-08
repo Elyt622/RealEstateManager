@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.database
 
+import android.net.Uri
+import androidx.core.net.toUri
 import androidx.room.TypeConverter
 import com.openclassrooms.realestatemanager.model.Option
 import java.util.*
@@ -9,15 +11,22 @@ class Converters {
     private val separator = ","
 
     @TypeConverter
-    fun getDBValue(model: MutableList<String>?): String =
-        if (model == null || model.isEmpty())
+    fun getDBValue(model: MutableList<Uri?>): String =
+        if (model.isEmpty())
             ""
         else
-            model.joinToString(separator = separator) { it }
+            model.joinToString(separator = separator) { it.toString() }
 
     @TypeConverter
-    fun getModelValue(data: String?): MutableList<String> {
-        return data?.split(separator)?.toMutableList() ?: mutableListOf()
+    fun getModelValue(data: String): MutableList<Uri> {
+        val photosStringList = data.split(separator).toMutableList()
+        val photoUriList = mutableListOf<Uri>()
+
+        for (photoString in photosStringList){
+            if (photoString.isNotEmpty())
+                photoUriList.add(photoString.toUri())
+        }
+        return photoUriList
     }
 
     @TypeConverter
