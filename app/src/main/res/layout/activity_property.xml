@@ -413,6 +413,7 @@
 
         <TextView
             android:id="@+id/textview_type_top_toolbar_property_activity"
+            android:text="@string/property_details"
             android:textStyle="bold"
             android:textSize="14sp"
             android:layout_width="wrap_content"
