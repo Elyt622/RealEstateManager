@@ -24,6 +24,9 @@ android {
             resValue "string", "maps_api_key", properties.getProperty("MAPS_API_KEY", "")
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
     buildTypes {
         release {
             minifyEnabled false
