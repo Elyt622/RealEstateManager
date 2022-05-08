@@ -31,4 +31,6 @@
     <string name="address_with_star">Address*</string>
     <string name="options">Options</string>
     <string name="description">Description*</string>
+    <string name="photos">Photos</string>
+    <string name="property_details">Property details</string>
 </resources>
