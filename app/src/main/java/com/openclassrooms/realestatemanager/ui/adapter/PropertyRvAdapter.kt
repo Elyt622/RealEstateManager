@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.PropertiesRecyclerViewBinding
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.activity.PropertyActivity
 import com.openclassrooms.realestatemanager.utils.Utils
@@ -20,11 +21,12 @@ class PropertyRvAdapter(private val dataSet: List<Property>) :
 
     lateinit var context: Context
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.properties_recycler_view, viewGroup, false)
-        context = view.context
-        return ViewHolder(view)
+    private lateinit var binding: PropertiesRecyclerViewBinding
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        binding = PropertiesRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        context = parent.context
+        return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
@@ -52,15 +54,15 @@ class PropertyRvAdapter(private val dataSet: List<Property>) :
 
     override fun getItemCount() = dataSet.size
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val typeProperty: TextView = view.findViewById(R.id.textview_type_property_home_fragment)
-        val price: TextView = view.findViewById(R.id.textview_price_rv_home_fragment)
-        val address: TextView = view.findViewById(R.id.textview_address_rv_home_fragment)
-        val image: ImageView = view.findViewById(R.id.image_view_main_picture_rv_home_fragment)
-        val elementRv: ConstraintLayout = view.findViewById(R.id.constraint_layout_element_rv_home_fragment)
-        val beds: TextView = view.findViewById(R.id.textview_beds_rv_home_fragment)
-        val bathroom: TextView = view.findViewById(R.id.textview_bathroom_rv_home_fragment)
-        val rooms: TextView = view.findViewById(R.id.textview_rooms_rv_home_fragment)
-        val state: TextView = view.findViewById(R.id.textview_state_rv_home_fragment)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val typeProperty: TextView = binding.textviewTypePropertyHomeFragment
+        val price: TextView = binding.textviewPriceRvHomeFragment
+        val address: TextView = binding.textviewAddressRvHomeFragment
+        val image: ImageView = binding.imageViewMainPictureRvHomeFragment
+        val elementRv: ConstraintLayout = binding.constraintLayoutElementRvHomeFragment
+        val beds: TextView = binding.textviewBedsRvHomeFragment
+        val bathroom: TextView = binding.textviewBathroomRvHomeFragment
+        val rooms: TextView = binding.textviewRoomsRvHomeFragment
+        val state: TextView = binding.textviewStateRvHomeFragment
     }
 }

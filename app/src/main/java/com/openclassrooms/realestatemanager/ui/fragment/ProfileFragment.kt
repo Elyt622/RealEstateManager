@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.ProfileFragmentBinding
 import com.openclassrooms.realestatemanager.ui.activity.AddPropertyActivity
 import com.openclassrooms.realestatemanager.viewmodel.ProfileViewModel
 
@@ -22,18 +23,21 @@ class ProfileFragment : Fragment() {
 
     private lateinit var textviewProfile: TextView
 
+    private lateinit var binding: ProfileFragmentBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.profile_fragment, container, false)
+    ): View {
+        binding = ProfileFragmentBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-        // TODO: Use the ViewModel
-        textviewProfile = view.findViewById(R.id.textview_profile_profile_fragment)
+
+        textviewProfile = binding.textviewProfileProfileFragment
 
         textviewProfile.setOnClickListener {
             val intent = Intent(context, AddPropertyActivity::class.java)

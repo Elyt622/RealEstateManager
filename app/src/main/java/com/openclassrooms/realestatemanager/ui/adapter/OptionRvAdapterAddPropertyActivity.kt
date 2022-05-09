@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.CardviewRecyclerViewBinding
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -17,12 +18,13 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 class OptionRvAdapterAddPropertyActivity (val viewModel: AddPropertyViewModel, val context: Context, private val dataSet: Array<Option>)
     : RecyclerView.Adapter<OptionRvAdapterAddPropertyActivity.ViewHolder>(){
 
+    private lateinit var binding : CardviewRecyclerViewBinding
+
     private var clickedItems = BooleanArray(dataSet.size) {false}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.cardview_recycler_view, parent, false)
-        return ViewHolder(view)
+        binding = CardviewRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -57,8 +59,8 @@ class OptionRvAdapterAddPropertyActivity (val viewModel: AddPropertyViewModel, v
 
     override fun getItemCount() = dataSet.size
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.textview_interest_point_rv_property_activity)
-        val cardView: CardView = view.findViewById(R.id.cardview_options_rv_options)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val textView: TextView = binding.textviewInterestPointRvPropertyActivity
+        val cardView: CardView = binding.cardviewOptionsRvOptions
     }
 }

@@ -6,15 +6,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.CardviewRecyclerViewBinding
 import com.openclassrooms.realestatemanager.model.Option
 
-class OptionRvAdapterDetailsActivity(private val dataSet: List<Option>?) :
-    RecyclerView.Adapter<OptionRvAdapterDetailsActivity.ViewHolder>() {
+class OptionRvAdapterDetailsActivity(private val dataSet: List<Option>?)
+    : RecyclerView.Adapter<OptionRvAdapterDetailsActivity.ViewHolder>() {
+
+    private lateinit var binding : CardviewRecyclerViewBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.cardview_recycler_view, parent, false)
-        return ViewHolder(view)
+        binding = CardviewRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -23,7 +25,7 @@ class OptionRvAdapterDetailsActivity(private val dataSet: List<Option>?) :
 
     override fun getItemCount() = dataSet?.size ?: 0
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.textview_interest_point_rv_property_activity)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val textView: TextView = binding.textviewInterestPointRvPropertyActivity
     }
 }

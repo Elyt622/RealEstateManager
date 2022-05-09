@@ -7,9 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.ExploreFragmentBinding
+import com.openclassrooms.realestatemanager.databinding.HomeFragmentBinding
 import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
 
 class ExploreFragment : Fragment() {
+
+    private lateinit var binding: ExploreFragmentBinding
 
     companion object {
         fun newInstance() = ExploreFragment()
@@ -20,8 +24,9 @@ class ExploreFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.explore_fragment, container, false)
+    ): View {
+        binding = ExploreFragmentBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -13,7 +13,7 @@ import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Type
 import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterAddPropertyActivity
@@ -54,30 +54,34 @@ class AddPropertyActivity : BaseActivity() {
 
     private lateinit var viewModel: AddPropertyViewModel
 
+    private lateinit var binding: ActivityAddPropertyBinding
+
     private var mutableListOfPhoto : MutableList<Uri> =  mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_property)
+        binding = ActivityAddPropertyBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[AddPropertyViewModel::class.java]
 
-        topToolbar = findViewById(R.id.toolbar_on_top_add_property_activity)
+        topToolbar = binding.toolbarOnTopAddPropertyActivity
 
-        typeRv = findViewById(R.id.recyclerview_type_add_property_activity)
-        photosRv = findViewById(R.id.recyclerview_photos_add_property_activity)
-        optionRv = findViewById(R.id.recyclerview_option_add_property_activity)
+        typeRv = binding.recyclerviewTypeAddPropertyActivity
+        photosRv = binding.recyclerviewPhotosAddPropertyActivity
+        optionRv = binding.recyclerviewOptionAddPropertyActivity
 
-        buttonAddProperty = findViewById(R.id.button_add_new_property_add_property_activity)
-        buttonAddPhoto = findViewById(R.id.button_add_photo_add_property_activity)
+        buttonAddProperty = binding.buttonAddNewPropertyAddPropertyActivity
+        buttonAddPhoto = binding.buttonAddPhotoAddPropertyActivity
 
-        editTextAddress = findViewById(R.id.editText_address_add_property_activity)
-        editTextBathroom = findViewById(R.id.editText_bathrooms_add_property_activity)
-        editTextBed = findViewById(R.id.editText_beds_add_property_activity)
-        editTextDescription = findViewById(R.id.editText_description_add_property_activity)
-        editTextPrice = findViewById(R.id.editText_price_add_property_activity)
-        editTextRoom = findViewById(R.id.editText_rooms_add_property_activity)
-        editTextSurface = findViewById(R.id.editText_surface_add_property_activity)
+        editTextAddress = binding.editTextAddressAddPropertyActivity
+        editTextBathroom = binding.editTextBathroomsAddPropertyActivity
+        editTextBed = binding.editTextBedsAddPropertyActivity
+        editTextDescription = binding.editTextDescriptionAddPropertyActivity
+        editTextPrice = binding.editTextPriceAddPropertyActivity
+        editTextRoom = binding.editTextRoomsAddPropertyActivity
+        editTextSurface = binding.editTextSurfaceAddPropertyActivity
 
         configToolbar()
         configTypeRecyclerView()

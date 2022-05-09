@@ -9,20 +9,21 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.PhotosPropertyRecyclerViewBinding
 
 class PhotoRvAdapter(
     val mainImage: ImageView,
     private val dataSet: MutableList<Uri>,
-) :
-    RecyclerView.Adapter<PhotoRvAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<PhotoRvAdapter.ViewHolder>() {
 
     lateinit var context: Context
 
+    private lateinit var binding : PhotosPropertyRecyclerViewBinding
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.photos_property_recycler_view, parent, false)
-        context = view.context
-        return ViewHolder(view)
+        binding = PhotosPropertyRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        context = parent.context
+        return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -35,7 +36,7 @@ class PhotoRvAdapter(
 
     override fun getItemCount() = dataSet.size
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.image_view_photo_element_rv)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val image: ImageView = binding.imageViewPhotoElementRv
     }
 }

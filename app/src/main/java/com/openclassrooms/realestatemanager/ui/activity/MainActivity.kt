@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.ui.adapter.ViewPagerAdapter
 import com.openclassrooms.realestatemanager.viewmodel.MainViewModel
 
@@ -23,15 +24,19 @@ class MainActivity : BaseActivity() {
 
     private lateinit var viewModel: ViewModel
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        toolbar = findViewById(R.id.toolbar_main_activity)
-        fragment = findViewById(R.id.fragment_activity_main)
-        bottomNav = findViewById(R.id.bottom_navigation_view_activity_main)
-        viewPager = findViewById(R.id.viewpager_activity_main)
+        toolbar = binding.toolbarMainActivity
+        fragment = binding.fragmentActivityMain
+        bottomNav = binding.bottomNavigationViewActivityMain
+        viewPager = binding.viewpagerActivityMain
 
         configToolbar()
         configBottomNav()

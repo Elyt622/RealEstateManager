@@ -13,6 +13,7 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.PhotosAddPropertyRecyclerViewBinding
 import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -24,10 +25,11 @@ class PhotoRvAdapterInAddProperty(
     var photosRv: RecyclerView
 ) : RecyclerView.Adapter<PhotoRvAdapterInAddProperty.ViewHolder>() {
 
+    private lateinit var binding : PhotosAddPropertyRecyclerViewBinding
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.photos_add_property_recycler_view, parent, false)
-            return ViewHolder(view)
+            binding = PhotosAddPropertyRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return ViewHolder(binding.root)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -44,9 +46,9 @@ class PhotoRvAdapterInAddProperty(
 
         override fun getItemCount() = dataSet.size
 
-        class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val image: ImageView = view.findViewById(R.id.image_view_photo_element_rv)
-            val buttonRemove : Button = view.findViewById(R.id.button_remove_recycler_view_add_property_activity)
+        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val image: ImageView = binding.imageViewPhotoElementRv
+            val buttonRemove : Button = binding.buttonRemoveRecyclerViewAddPropertyActivity
         }
 }
 

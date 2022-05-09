@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.ui.activity
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.ActivityPropertyBinding
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterDetailsActivity
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapter
@@ -58,32 +60,36 @@ class PropertyActivity : BaseActivity() {
 
     private lateinit var toolbar : Toolbar
 
+    private lateinit var binding: ActivityPropertyBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_property)
+        binding = ActivityPropertyBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
         viewModel = ViewModelProvider(this)[PropertyViewModel::class.java]
 
-        image = findViewById(R.id.image_view_main_picture_activity_property)
+        image = binding.imageViewMainPictureActivityProperty
 
         // TextView
-        typeTextView = findViewById(R.id.textview_type_property_activity)
-        priceTextView = findViewById(R.id.textview_price_property_activity)
-        surfaceTextView = findViewById(R.id.textview_surface_property_activity)
-        descriptionTextView = findViewById(R.id.textview_description_property_activity)
-        stateTextView = findViewById(R.id.textview_state_property_activity)
-        bedTextView = findViewById(R.id.textview_beds_property_activity)
-        roomTextView = findViewById(R.id.textview_rooms_property_activity)
-        bathroomTextView = findViewById(R.id.textview_bathroom_property_activity)
-        addressTextView = findViewById(R.id.textview_address_property_activity)
-        referenceTextView = findViewById(R.id.textview_reference_property_activity)
-        entryDateTextView = findViewById(R.id.textview_entry_date_property_activity)
-        agentTextView = findViewById(R.id.textview_agent_property_activity)
-        titleText = findViewById(R.id.textview_type_top_toolbar_property_activity)
-        toolbar = findViewById(R.id.top_toolbar_property_activity)
+        typeTextView = binding.textviewTypePropertyActivity
+        priceTextView = binding.textviewPricePropertyActivity
+        surfaceTextView = binding.textviewSurfacePropertyActivity
+        descriptionTextView = binding.textviewDescriptionPropertyActivity
+        stateTextView = binding.textviewStatePropertyActivity
+        bedTextView = binding.textviewBedsPropertyActivity
+        roomTextView = binding.textviewRoomsPropertyActivity
+        bathroomTextView = binding.textviewBathroomPropertyActivity
+        addressTextView = binding.textviewAddressPropertyActivity
+        referenceTextView = binding.textviewReferencePropertyActivity
+        entryDateTextView = binding.textviewEntryDatePropertyActivity
+        agentTextView = binding.textviewAgentPropertyActivity
+        titleText = binding.textviewTypeTopToolbarPropertyActivity
+        toolbar = binding.topToolbarPropertyActivity
 
         // RecyclerView
-        rvPhoto = findViewById(R.id.recycler_view_photos_property_activity)
-        rvInterestPoint = findViewById(R.id.recycler_view_interest_point_property_activity)
+        rvPhoto = binding.recyclerViewPhotosPropertyActivity
+        rvInterestPoint = binding.recyclerViewInterestPointPropertyActivity
 
         val ref = intent.getIntExtra("REF", -1)
 
