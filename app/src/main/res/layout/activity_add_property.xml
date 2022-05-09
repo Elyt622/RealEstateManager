@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" >
 
         <TextView
-            android:text="Add new property"
+            android:text="@string/add_new_property"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -30,14 +30,12 @@
 
         <Button
             android:id="@+id/button_add_new_property_add_property_activity"
-            android:text="Add new property"
-            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-            android:textColor="@color/colorAccent"
+            android:text="@string/add_new_property"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:textSize="16sp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"/>
+            android:layout_height="wrap_content" />
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
@@ -53,16 +51,51 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textview_static_type_add_property_activity"
+                android:id="@+id/textview_static_photos_add_property_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Property type*"
+                android:text="@string/photos"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_photos_add_property_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_photos_add_property_activity" />
+
+            <Button
+                android:id="@+id/button_add_photo_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/add_photo"
+                android:textSize="15sp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:layout_constraintEnd_toEndOf="@+id/recyclerview_photos_add_property_activity"
+                app:layout_constraintStart_toStartOf="@+id/recyclerview_photos_add_property_activity"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerview_photos_add_property_activity" />
+
+            <TextView
+                android:id="@+id/textview_static_type_add_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/property_type"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_add_photo_add_property_activity" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_type_add_property_activity"
@@ -81,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="80dp"
-                android:text="Rooms*"
+                android:text="@string/rooms"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +134,7 @@
                 android:id="@+id/textview_static_beds_add_property_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Beds*"
+                android:text="@string/beds"
                 android:textStyle="bold"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@+id/textview_static_bathrooms_add_property_activity"
@@ -123,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="Bathrooms*"
+                android:text="@string/bathrooms"
                 android:textStyle="bold"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -147,7 +180,7 @@
                 android:layout_marginTop="80dp"
                 android:textStyle="bold"
                 android:textSize="15sp"
-                android:text="Surface"
+                android:text="@string/surface"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview_static_bathrooms_add_property_activity" />
 
@@ -165,7 +198,7 @@
                 android:id="@+id/textview_static_description_add_property_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price*"
+                android:text="@string/price_with_star"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/editText_bathrooms_add_property_activity"
@@ -190,7 +223,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="80dp"
                 android:textStyle="bold"
-                android:text="Address*"
+                android:text="@string/address_with_star"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview_static_surface_add_property_activity" />
@@ -214,7 +247,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="80dp"
                 android:textStyle="bold"
-                android:text="Options"
+                android:text="@string/options"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview_static_address_add_property_activity" />
@@ -236,7 +269,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="80dp"
-                android:text="Description*"
+                android:text="@string/description"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"

@@ -35,4 +35,5 @@
     <string name="property_details">Property details</string>
     <string name="photos_added">Photos added</string>
     <string name="remove">Remove</string>
+    <string name="add_photo">Add Photo</string>
 </resources>
