@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModel
@@ -12,7 +11,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.ui.adapter.ViewPagerAdapter
 import com.openclassrooms.realestatemanager.viewmodel.MainViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var toolbar: Toolbar
 

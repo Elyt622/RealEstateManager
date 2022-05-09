@@ -1,9 +1,9 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
@@ -12,17 +12,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.model.Option
-import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterDetailsActivity
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapter
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.schedulers.Schedulers
 
-class PropertyActivity : AppCompatActivity() {
+class PropertyActivity : BaseActivity() {
 
     private lateinit var viewModel: PropertyViewModel
 
-    lateinit var image: ImageView
+    private lateinit var image: ImageView
 
     private lateinit var rvPhoto: RecyclerView
 
@@ -84,40 +86,51 @@ class PropertyActivity : AppCompatActivity() {
         rvInterestPoint = findViewById(R.id.recycler_view_interest_point_property_activity)
 
         val ref = intent.getIntExtra("REF", -1)
-        val property : Property? = viewModel.getPropertyWithRef(ref)
 
-        configPhotosRecyclerView(property?.photos)
-        configInterestPointRecyclerView(property?.options)
+        val property = viewModel.getPropertyWithRef(ref)
 
-        Glide.with(this).load(property?.photos?.get(0)).into(image)
+        property.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribeBy (
+            onNext = { results ->
+                    configPhotosRecyclerView(results.photos)
+                    configInterestPointRecyclerView(results.options)
 
-        configPriceTextView(property?.price!!)
-        configSurfaceTextView(property.surface)
-        configAgentTextView(property.agentName)
-        configToolbar()
+                    if(results.photos.isNotEmpty())
+                        Glide.with(this).load(results.photos[0]).into(image)
 
-        entryDateTextView.text = """ ${Utils.todayDate}"""
-        referenceTextView.text = property.ref.toString()
-        addressTextView.text = property.address
-        bathroomTextView.text = property.numberBathroom.toString()
-        roomTextView.text = property.numberRoom.toString()
-        bedTextView.text = property.numberBed.toString()
-        typeTextView.text = property.type.name
-        stateTextView.text = property.status.displayName
-        descriptionTextView.text = property.description
-        titleText.text = "Property Details"
+                    configPriceTextView(results.price)
+                    configSurfaceTextView(results.surface)
+                    configAgentTextView(results.agentName)
+                    configToolbar()
+
+                    entryDateTextView.text = """ ${Utils.todayDate} """
+                    referenceTextView.text = results.ref.toString()
+                    addressTextView.text = results.address
+                    bathroomTextView.text = results.numberBathroom.toString()
+                    roomTextView.text = results.numberRoom.toString()
+                    bedTextView.text = results.numberBed.toString()
+                    typeTextView.text = results.type.name
+                    stateTextView.text = results.status.displayName
+                    descriptionTextView.text = results.description
+        },
+            onError = {
+
+            },
+            onComplete = {
+
+            }
+        )
     }
 
-    private fun configPhotosRecyclerView(photos: List<String>?){
+    private fun configPhotosRecyclerView(photos: MutableList<Uri>){
         rvPhoto.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rvPhoto.adapter = PhotoRvAdapter(photos, this)
+        rvPhoto.adapter = PhotoRvAdapter(image, photos)
     }
 
     private fun configInterestPointRecyclerView(options: List<Option>?){
         rvInterestPoint.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         if (options != null){
             rvInterestPoint.adapter = OptionRvAdapterDetailsActivity(options)
-        }else {
+        } else {
             rvInterestPoint.isGone = true
         }
     }

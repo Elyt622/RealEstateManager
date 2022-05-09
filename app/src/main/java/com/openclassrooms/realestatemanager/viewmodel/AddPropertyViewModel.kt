@@ -1,13 +1,15 @@
 package com.openclassrooms.realestatemanager.viewmodel
 
-import android.util.Log
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.lang.Exception
 
 class AddPropertyViewModel : ViewModel() {
 
@@ -29,14 +31,34 @@ class AddPropertyViewModel : ViewModel() {
         return options
     }
 
-    fun insertPropertyInDatabase(property: Property) {
-        propertyDao.insertProperty(property).subscribeOn(Schedulers.io()).subscribeBy(
-            onSuccess = {
-                        Log.d("ADDPROPERTY", "INSERT WITH SUCCESS")
-            },
-            onError = {
-                Log.d("ADDPROPERTY", "INSERT FAILED: " + it.message.toString())
-            })
-        }
-
+    fun insertProperty(
+        surface: Float,
+        price: Int,
+        numberRoom: Int,
+        numberBed: Int,
+        numberBathroom: Int,
+        description: String,
+        address: String,
+        photos: MutableList<Uri>
+    ): Completable =
+        newProperty
+            .map {
+                if (address.isEmpty()){
+                    throw Exception("Address is empty")
+                }
+                it.apply {
+                    this.surface = surface
+                    this.price = price
+                    this.numberRoom = numberRoom
+                    this.numberBathroom = numberBathroom
+                    this.numberBed = numberBed
+                    this.description = description
+                    this.address = address
+                    this.photos = photos
+                }
+            }
+            .flatMapCompletable {
+                propertyDao.insertProperty(it).subscribeOn(Schedulers.io())
+            }
+            .observeOn(AndroidSchedulers.mainThread())
 }

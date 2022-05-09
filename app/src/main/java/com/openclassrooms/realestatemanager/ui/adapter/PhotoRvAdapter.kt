@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.adapter
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,11 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.ui.activity.PropertyActivity
 
-class PhotoRvAdapter(private val dataSet: List<String>, private val propertyActivity: PropertyActivity) :
+class PhotoRvAdapter(
+    val mainImage: ImageView,
+    private val dataSet: MutableList<Uri>,
+) :
     RecyclerView.Adapter<PhotoRvAdapter.ViewHolder>() {
 
     lateinit var context: Context
@@ -23,10 +26,10 @@ class PhotoRvAdapter(private val dataSet: List<String>, private val propertyActi
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(context).load(dataSet[position]).into(holder.image)
+        Glide.with(context).load(dataSet[position].toString()).into(holder.image)
 
         holder.image.setOnClickListener {
-            Glide.with(context).load(dataSet[position]).into(propertyActivity.image)
+            Glide.with(context).load(dataSet[position].toString()).into(mainImage)
         }
     }
 

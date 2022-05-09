@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.model
 
+import android.net.Uri
 import androidx.room.*
 import java.util.*
 
@@ -13,7 +14,7 @@ data class Property(
     var numberBed: Int = -1,
     var numberBathroom: Int = -1,
     var description: String = "",
-    var photos: MutableList<String> = mutableListOf(""),
+    var photos: MutableList<Uri> = mutableListOf(),
     var address: String = "",
     var options: MutableList<Option>? = mutableListOf(),
     var status: Status = Status.ON_SALE,
