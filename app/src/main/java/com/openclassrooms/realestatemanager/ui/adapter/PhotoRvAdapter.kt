@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PhotosPropertyRecyclerViewBinding
 
 class PhotoRvAdapter(

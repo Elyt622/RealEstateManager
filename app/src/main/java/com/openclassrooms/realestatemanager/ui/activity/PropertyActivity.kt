@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.activity
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar

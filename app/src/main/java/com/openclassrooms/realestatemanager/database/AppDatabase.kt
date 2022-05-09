@@ -5,7 +5,6 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao
 import com.openclassrooms.realestatemanager.model.Property
-import com.openclassrooms.realestatemanager.model.RealEstateAgent
 
 @Database(entities = [Property::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)

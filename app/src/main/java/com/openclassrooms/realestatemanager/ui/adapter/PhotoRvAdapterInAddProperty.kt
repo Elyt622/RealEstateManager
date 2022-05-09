@@ -2,21 +2,16 @@ package com.openclassrooms.realestatemanager.ui.adapter
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PhotosAddPropertyRecyclerViewBinding
 import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
-import io.reactivex.rxjava3.kotlin.subscribeBy
-import io.reactivex.rxjava3.schedulers.Schedulers
 
 class PhotoRvAdapterInAddProperty(
     val viewModel: AddPropertyViewModel,

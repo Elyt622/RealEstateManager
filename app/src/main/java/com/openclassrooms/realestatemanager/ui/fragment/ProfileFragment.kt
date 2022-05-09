@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ProfileFragmentBinding
 import com.openclassrooms.realestatemanager.ui.activity.AddPropertyActivity
 import com.openclassrooms.realestatemanager.viewmodel.ProfileViewModel

@@ -7,7 +7,6 @@ import androidx.room.Query
 import com.openclassrooms.realestatemanager.model.Property
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface PropertyDao {
