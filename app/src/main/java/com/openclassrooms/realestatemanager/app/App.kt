@@ -11,6 +11,6 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        database = Room.databaseBuilder(this, AppDatabase::class.java, "RealEstateManager").build()
+        database = Room.databaseBuilder(this, AppDatabase::class.java, "RealEstateManager").createFromAsset("database/myapp.db").build()
     }
 }
