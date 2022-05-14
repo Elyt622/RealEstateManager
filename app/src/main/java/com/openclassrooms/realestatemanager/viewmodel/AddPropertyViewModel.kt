@@ -9,7 +9,10 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.lang.Exception
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.Exception
 
 class AddPropertyViewModel : ViewModel() {
 
@@ -44,7 +47,7 @@ class AddPropertyViewModel : ViewModel() {
         newProperty
             .map {
                 if (address.isEmpty()){
-                    throw Exception("Address is empty")
+                    throw Exception("ADDRESS_IS_EMPTY")
                 }
                 it.apply {
                     this.surface = surface
