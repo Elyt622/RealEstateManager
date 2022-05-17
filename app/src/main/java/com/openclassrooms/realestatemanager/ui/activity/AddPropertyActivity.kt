@@ -1,18 +1,27 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Type
@@ -46,15 +55,21 @@ class AddPropertyActivity : BaseActivity() {
 
     private lateinit var editTextSurface: EditText
 
-    private lateinit var editTextAddress: EditText
-
     private lateinit var editTextDescription: EditText
 
+    private lateinit var editTextAddress: EditText
+
     private lateinit var buttonAddPhoto : Button
+
+    private lateinit var buttonTakePhoto: Button
 
     private lateinit var viewModel: AddPropertyViewModel
 
     private lateinit var binding: ActivityAddPropertyBinding
+
+    private lateinit var placesClient: PlacesClient
+
+    lateinit var place: Place
 
     private var mutableListOfPhoto : MutableList<Uri> =  mutableListOf()
 
@@ -66,6 +81,10 @@ class AddPropertyActivity : BaseActivity() {
 
         viewModel = ViewModelProvider(this)[AddPropertyViewModel::class.java]
 
+        // Initialize the SDK
+        Places.initialize(applicationContext, resources.getString(R.string.maps_api_key))
+        placesClient = Places.createClient(this)
+
         topToolbar = binding.toolbarOnTopAddPropertyActivity
 
         typeRv = binding.recyclerviewTypeAddPropertyActivity
@@ -74,6 +93,7 @@ class AddPropertyActivity : BaseActivity() {
 
         buttonAddProperty = binding.buttonAddNewPropertyAddPropertyActivity
         buttonAddPhoto = binding.buttonAddPhotoAddPropertyActivity
+        buttonTakePhoto = binding.buttonTakePhotoAddPropertyActivity
 
         editTextAddress = binding.editTextAddressAddPropertyActivity
         editTextBathroom = binding.editTextBathroomsAddPropertyActivity
@@ -88,8 +108,16 @@ class AddPropertyActivity : BaseActivity() {
         configOptionRecyclerView()
         configPhotosRecyclerView()
 
+        editTextAddress.setOnClickListener {
+            startAutocompleteIntent()
+        }
+
         buttonAddPhoto.setOnClickListener{
             openSomeActivityForResult()
+        }
+
+        buttonTakePhoto.setOnClickListener{
+
         }
 
         buttonAddProperty.setOnClickListener{
@@ -101,7 +129,9 @@ class AddPropertyActivity : BaseActivity() {
                 editTextBathroom.text.toString().toInt(),
                 editTextDescription.text.toString(),
                 editTextAddress.text.toString(),
-                mutableListOfPhoto
+                mutableListOfPhoto,
+                place.latLng!!.latitude,
+                place.latLng!!.longitude
             ).subscribeBy (
                 onError = {
                     when(it.message){
@@ -117,6 +147,40 @@ class AddPropertyActivity : BaseActivity() {
         }
     }
 
+    private fun fillInAddress() {
+        val components = place.addressComponents
+        val address1 = StringBuilder()
+
+        if (components != null) {
+            for (component in components.asList()) {
+                when (component.types[0]) {
+                    "street_number" -> {
+                        address1.insert(0, component.name)
+                    }
+                    "route" -> {
+                        address1.append(" ")
+                        address1.append(component.shortName)
+                    }
+                }
+            }
+        }
+        editTextAddress.setText(address1.toString())
+    }
+
+    private fun startAutocompleteIntent() {
+
+        val fields: List<Place.Field> = listOf(
+            Place.Field.ADDRESS_COMPONENTS,
+            Place.Field.LAT_LNG, Place.Field.VIEWPORT
+        )
+
+        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+            .setCountry("US")
+            .setTypeFilter(TypeFilter.ADDRESS)
+            .build(this)
+        startAutocomplete.launch(intent)
+    }
+
     private fun openSomeActivityForResult() {
         val intent = Intent()
         intent.type = "image/*"
@@ -124,8 +188,24 @@ class AddPropertyActivity : BaseActivity() {
         resultLauncher.launch(intent)
     }
 
-    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+    private val startAutocomplete = registerForActivityResult(
+        StartActivityForResult(), (ActivityResultCallback { result: ActivityResult ->
+            if (result.resultCode == RESULT_OK) {
+                val intent: Intent? = result.data
+                if (intent != null) {
+                    place = Autocomplete.getPlaceFromIntent(intent)
+                    Log.d("TAG", "Place: " + place.addressComponents)
+                    fillInAddress()
+                }
+            } else if (result.resultCode == RESULT_CANCELED) {
+                Log.i("TAG", "User canceled autocomplete")
+            }
+        } as ActivityResultCallback<ActivityResult>)
+    )
+
+    private var resultLauncher = registerForActivityResult(
+        StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
             val data: Intent? = result.data
             if (data != null) {
                 data.data?.let { mutableListOfPhoto.add(it) }
