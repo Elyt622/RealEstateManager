@@ -10,6 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityPropertyBinding
 import com.openclassrooms.realestatemanager.model.Option
@@ -61,6 +65,8 @@ class PropertyActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPropertyBinding
 
+    private lateinit var map: MapView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPropertyBinding.inflate(layoutInflater)
@@ -68,6 +74,11 @@ class PropertyActivity : BaseActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this)[PropertyViewModel::class.java]
 
+        // MapView
+        map = binding.map
+        map.onCreate(savedInstanceState)
+
+        // ImageView
         image = binding.imageViewMainPictureActivityProperty
 
         // TextView
@@ -94,36 +105,48 @@ class PropertyActivity : BaseActivity() {
 
         val property = viewModel.getPropertyWithRef(ref)
 
-        property.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribeBy (
-            onNext = { results ->
-                    configPhotosRecyclerView(results.photos)
-                    configInterestPointRecyclerView(results.options)
+        property.subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy (
+                onNext = { results ->
+                configPhotosRecyclerView(results.photos)
+                configInterestPointRecyclerView(results.options)
 
-                    if(results.photos.isNotEmpty())
-                        Glide.with(this).load(results.photos[0]).into(image)
+                if(results.photos.isNotEmpty())
+                    Glide.with(this).load(results.photos[0]).into(image)
 
-                    configPriceTextView(results.price)
-                    configSurfaceTextView(results.surface)
-                    configAgentTextView(results.agentName)
-                    configToolbar()
+                configPriceTextView(results.price)
+                configSurfaceTextView(results.surface)
+                configAgentTextView(results.agentName)
+                configToolbar()
 
-                    entryDateTextView.text = """ ${Utils.todayDate} """
-                    referenceTextView.text = results.ref.toString()
-                    addressTextView.text = results.address
-                    bathroomTextView.text = results.numberBathroom.toString()
-                    roomTextView.text = results.numberRoom.toString()
-                    bedTextView.text = results.numberBed.toString()
-                    typeTextView.text = results.type.name
-                    stateTextView.text = results.status.displayName
-                    descriptionTextView.text = results.description
-        },
+                entryDateTextView.text = """ ${Utils.todayDate} """
+                referenceTextView.text = results.ref.toString()
+                addressTextView.text = results.address
+                bathroomTextView.text = results.numberBathroom.toString()
+                roomTextView.text = results.numberRoom.toString()
+                bedTextView.text = results.numberBed.toString()
+                typeTextView.text = results.type.name
+                stateTextView.text = results.status.displayName
+                descriptionTextView.text = results.description
+                    map.getMapAsync {
+                        it.addMarker(
+                            MarkerOptions()
+                            .position(LatLng(results.latitude!!, results.longitude!!))
+                            .title(results.address))
+                        it.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                            LatLng(results.latitude!!, results.longitude!!),
+                            15F
+                        ))
+                    }
+                         },
             onError = {
 
             },
             onComplete = {
 
             }
-        )
+            )
     }
 
     private fun configPhotosRecyclerView(photos: MutableList<Uri>){
@@ -169,5 +192,30 @@ class PropertyActivity : BaseActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onStart() {
+        super.onStart()
+        map.onStart()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        map.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        map.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        map.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        map.onStop()
     }
 }
