@@ -75,14 +75,26 @@
 
             <Button
                 android:id="@+id/button_add_photo_add_property_activity"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/add_photo"
                 android:textSize="15sp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:layout_constraintEnd_toEndOf="@+id/recyclerview_photos_add_property_activity"
                 app:layout_constraintStart_toStartOf="@+id/recyclerview_photos_add_property_activity"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerview_photos_add_property_activity" />
+
+            <Button
+                android:id="@+id/button_take_photo_add_property_activity"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:text="Take photo"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="@+id/recyclerview_photos_add_property_activity"
                 app:layout_constraintTop_toBottomOf="@+id/recyclerview_photos_add_property_activity" />
 
             <TextView
@@ -234,7 +246,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:importantForAutofill="no"
+                android:focusable="false"
                 android:inputType="textPostalAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
