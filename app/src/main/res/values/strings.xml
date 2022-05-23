@@ -36,4 +36,6 @@
     <string name="photos_added">Photos added</string>
     <string name="remove">Remove</string>
     <string name="add_photo">Add Photo</string>
+    <string name="take_photo">Take photo</string>
+    <string name="record_photo">Record photo</string>
 </resources>
