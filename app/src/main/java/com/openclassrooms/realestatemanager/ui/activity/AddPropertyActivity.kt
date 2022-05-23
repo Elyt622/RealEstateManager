@@ -11,6 +11,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -69,7 +70,7 @@ class AddPropertyActivity : BaseActivity() {
 
     private lateinit var placesClient: PlacesClient
 
-    lateinit var place: Place
+    private lateinit var place: Place
 
     private var mutableListOfPhoto : MutableList<Uri> =  mutableListOf()
 
@@ -117,7 +118,7 @@ class AddPropertyActivity : BaseActivity() {
         }
 
         buttonTakePhoto.setOnClickListener{
-
+            resultLauncher.launch(Intent(this, CameraActivity::class.java))
         }
 
         buttonAddProperty.setOnClickListener{
@@ -208,10 +209,16 @@ class AddPropertyActivity : BaseActivity() {
         if (result.resultCode == RESULT_OK) {
             val data: Intent? = result.data
             if (data != null) {
-                data.data?.let { mutableListOfPhoto.add(it) }
+                data.data?.let {
+                    mutableListOfPhoto.add(it)
+                }
             }
-            configPhotosRecyclerView()
         }
+        else if (result.resultCode == 123){
+            val uriString = result.data?.getStringExtra("URI")
+            uriString?.toUri()?.let { mutableListOfPhoto.add(it) }
+        }
+        configPhotosRecyclerView()
     }
 
     private fun configPhotosRecyclerView() {
