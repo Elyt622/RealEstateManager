@@ -28,10 +28,12 @@
 
     <Button
         android:id="@+id/button_remove_recycler_view_add_property_activity"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/remove"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
