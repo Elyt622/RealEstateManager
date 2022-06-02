@@ -31,11 +31,13 @@
     <string name="address_with_star">Address*</string>
     <string name="options">Options</string>
     <string name="description">Description*</string>
-    <string name="photos">Photos</string>
+    <string name="photos">Photos*</string>
     <string name="property_details">Property details</string>
     <string name="photos_added">Photos added</string>
     <string name="remove">Remove</string>
     <string name="add_photo">Add Photo</string>
     <string name="take_photo">Take photo</string>
     <string name="record_photo">Record photo</string>
+    <string name="modify_property">Modify property</string>
+    <string name="save_property">Save property</string>
 </resources>
