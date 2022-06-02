@@ -31,14 +31,11 @@ class OptionRvAdapterAddPropertyActivity (val viewModel: AddPropertyViewModel, v
         holder.textView.text = dataSet[position].displayName
 
             if (clickedItems[position]) {
-                holder.cardView.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        context,
-                        R.color.colorPrimaryDark
-                    )
-                )
+                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
+                holder.textView.setTextColor(Color.WHITE)
             } else {
                 holder.cardView.setCardBackgroundColor(Color.WHITE)
+                holder.textView.setTextColor(ContextCompat.getColor(context, R.color.colorText))
             }
 
         holder.cardView.setOnClickListener {
