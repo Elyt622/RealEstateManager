@@ -28,7 +28,7 @@ object Utils {
      */
     val todayDate: String
         get() {
-            val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE)
+            val dateFormat: DateFormat = SimpleDateFormat(" dd/MM/yyyy", Locale.FRANCE)
             return dateFormat.format(Date())
         }
 
@@ -52,4 +52,10 @@ object Utils {
         }
         return phrase
     }
+
+    fun convertDateToString(date: Date): String {
+        val dateFormat: DateFormat = SimpleDateFormat(" dd/MM/yyyy", Locale.FRANCE)
+        return dateFormat.format(date)
+    }
+
 }
