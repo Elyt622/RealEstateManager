@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -33,7 +35,7 @@ class PropertyActivity : BaseActivity() {
 
     private lateinit var rvPhoto: RecyclerView
 
-    private lateinit var rvInterestPoint: RecyclerView
+    private lateinit var rvOptions: RecyclerView
 
     private lateinit var typeTextView: TextView
 
@@ -67,6 +69,8 @@ class PropertyActivity : BaseActivity() {
 
     private lateinit var map: MapView
 
+    private lateinit var modifyPropertyButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPropertyBinding.inflate(layoutInflater)
@@ -99,7 +103,9 @@ class PropertyActivity : BaseActivity() {
 
         // RecyclerView
         rvPhoto = binding.recyclerViewPhotosPropertyActivity
-        rvInterestPoint = binding.recyclerViewInterestPointPropertyActivity
+        rvOptions = binding.recyclerViewOptionsPropertyActivity
+
+        modifyPropertyButton = binding.buttonModifyPropertyPropertyActivity
 
         val ref = intent.getIntExtra("REF", -1)
 
@@ -110,7 +116,7 @@ class PropertyActivity : BaseActivity() {
             .subscribeBy (
                 onNext = { results ->
                 configPhotosRecyclerView(results.photos)
-                configInterestPointRecyclerView(results.options)
+                configOptionsRecyclerView(results.options)
 
                 if(results.photos.isNotEmpty())
                     Glide.with(this).load(results.photos[0]).into(image)
@@ -120,7 +126,7 @@ class PropertyActivity : BaseActivity() {
                 configAgentTextView(results.agentName)
                 configToolbar()
 
-                entryDateTextView.text = """ ${Utils.todayDate} """
+                entryDateTextView.text = Utils.convertDateToString(results.entryDate)
                 referenceTextView.text = results.ref.toString()
                 addressTextView.text = results.address
                 bathroomTextView.text = results.numberBathroom.toString()
@@ -147,6 +153,12 @@ class PropertyActivity : BaseActivity() {
 
             }
             )
+
+        modifyPropertyButton.setOnClickListener{
+            val intent = Intent(this, ModifyPropertyActivity::class.java)
+            intent.putExtra("REF", ref)
+            startActivity(intent)
+        }
     }
 
     private fun configPhotosRecyclerView(photos: MutableList<Uri>){
@@ -154,12 +166,13 @@ class PropertyActivity : BaseActivity() {
         rvPhoto.adapter = PhotoRvAdapter(image, photos)
     }
 
-    private fun configInterestPointRecyclerView(options: List<Option>?){
-        rvInterestPoint.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        if (options != null){
-            rvInterestPoint.adapter = OptionRvAdapterDetailsActivity(options)
+    private fun configOptionsRecyclerView(options: List<Option>?){
+        rvOptions.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        if (options != null && options.isNotEmpty()){
+            rvOptions.adapter = OptionRvAdapterDetailsActivity(options)
+            rvOptions.isGone = false
         } else {
-            rvInterestPoint.isGone = true
+            rvOptions.isGone = true
         }
     }
 
