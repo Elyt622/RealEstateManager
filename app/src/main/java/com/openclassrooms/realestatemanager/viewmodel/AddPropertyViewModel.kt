@@ -5,19 +5,31 @@ import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
+import com.openclassrooms.realestatemanager.model.Type
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.util.*
 
 class AddPropertyViewModel : ViewModel() {
 
-    private var newProperty : Observable<Property> = Observable.just(Property())
-
     private val propertyDao = App.database.propertyDao()
 
-    fun getNewProperty() : Observable<Property>{
-        return newProperty
+    private lateinit var type: Type
+
+    private var options: MutableList<Option>? = null
+
+    fun getType() = type
+
+    fun setType(type: Type){
+        this.type = type
+    }
+
+    fun getOptions() = options
+
+    fun setOptions(options: MutableList<Option>?){
+        this.options = options
     }
 
     fun getOptionsWithPositionInRV(elements: BooleanArray) : MutableList<Option> {
@@ -40,9 +52,10 @@ class AddPropertyViewModel : ViewModel() {
         address: String,
         photos: MutableList<Uri>,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        entryDate: Date
     ): Completable =
-        newProperty
+        Observable.just(Property())
             .map {
                 if (address.isEmpty()){
                     throw Exception("ADDRESS_IS_EMPTY")
@@ -58,6 +71,7 @@ class AddPropertyViewModel : ViewModel() {
                     this.photos = photos
                     this.latitude = latitude
                     this.longitude = longitude
+                    this.entryDate = entryDate
                 }
             }
             .flatMapCompletable {
