@@ -8,7 +8,6 @@ import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.core.view.isGone
@@ -24,18 +23,23 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityModifyPropertyBinding
 import com.openclassrooms.realestatemanager.model.Option
+import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Status
 import com.openclassrooms.realestatemanager.model.Type
-import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterModifyPropertyActivity
+import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterModifyProperty
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapterInModifyProperty
-import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapter2
+import com.openclassrooms.realestatemanager.ui.adapter.SpinnerAdapter
+import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterModifyProperty
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.ModifyPropertyViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.util.*
 
-class ModifyPropertyActivity : AppCompatActivity() {
+class ModifyPropertyActivity : BaseActivity() {
 
     private lateinit var mutableListOfPhoto: MutableList<Uri>
 
@@ -54,8 +58,6 @@ class ModifyPropertyActivity : AppCompatActivity() {
     private lateinit var descriptionEditText: EditText
 
     private lateinit var surfaceEditText: EditText
-
-    private lateinit var stateEditText: TextView
 
     private lateinit var bedEditText: EditText
 
@@ -79,15 +81,21 @@ class ModifyPropertyActivity : AppCompatActivity() {
 
     private lateinit var place: Place
 
-    private lateinit var type: Type
-
-    private var listOptions: MutableList<Option>? = null
-
     private lateinit var addPhotoButton: Button
 
     private lateinit var takePhotoButton: Button
 
     private lateinit var statusSpinner: Spinner
+
+    private lateinit var property: Observable<Property>
+
+    private var latitude: Double = 0.0
+
+    private var longitude: Double = 0.0
+
+    private lateinit var entryDate: Date
+
+    private lateinit var adapterSpinner: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +103,10 @@ class ModifyPropertyActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[ModifyPropertyViewModel::class.java]
+
+        val ref = intent.getIntExtra("REF", -1)
+
+        property = viewModel.getPropertyWithRef(ref)
 
         // Initialize the SDK
         Places.initialize(applicationContext, resources.getString(R.string.maps_api_key))
@@ -146,15 +158,39 @@ class ModifyPropertyActivity : AppCompatActivity() {
             resultLauncher.launch(Intent(this, CameraActivity::class.java))
         }
 
-        val ref = intent.getIntExtra("REF", -1)
 
-        val property = viewModel.getPropertyWithRef(ref)
+
+        savePropertyButton.setOnClickListener {
+            viewModel.updateProperty(
+                Property(
+                    ref,
+                    viewModel.getType(),
+                    priceEditText.text.toString().toInt(),
+                    surfaceEditText.text.toString().toFloat(),
+                    roomEditText.text.toString().toInt(),
+                    bedEditText.text.toString().toInt(),
+                    bathroomEditText.text.toString().toInt(),
+                    descriptionEditText.text.toString(),
+                    mutableListOfPhoto,
+                    addressEditText.text.toString(),
+                    viewModel.getOptions(),
+                    Status.values()[statusSpinner.selectedItemPosition],
+                    entryDate,
+                    viewModel.getSoldDate(),
+                    agentEditText.text.toString(),
+                    latitude,
+                    longitude
+                )
+            )
+        }
 
         property
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy (
                 onNext = {
+                    configSpinner()
+                    Log.d("DEBUG", "ON NEXT")
                     priceEditText.setText(it.price.toString())
                     descriptionEditText.setText(it.description)
                     surfaceEditText.setText(it.surface.toString())
@@ -166,22 +202,25 @@ class ModifyPropertyActivity : AppCompatActivity() {
                     agentEditText.setText(it.agentName)
                     entryDateTextView.text = Utils.convertDateToString(it.entryDate)
                     mutableListOfPhoto = it.photos
-                    type = it.type
-                    listOptions = it.options
+                    viewModel.setType(it.type)
+                    viewModel.setOptions(it.options)
                     statusSpinner.setSelection(it.status.ordinal)
+                    longitude = it.longitude
+                    latitude = it.latitude
+                    entryDate = it.entryDate
+                    viewModel.setSoldDate(it.soldDate)
 
                     configTypeRecyclerView()
                     configOptionRecyclerView()
                     configPhotosRecyclerView()
-                    configSpinner()
-                },
+                         },
                 onError = {
                     Log.d("DEBUG", it.message.toString())
                 },
                 onComplete = {
-
+                    Log.d("DEBUG", "COMPLETED")
                 }
-            )
+            ).addTo(bag)
     }
 
     private fun openSomeActivityForResult() {
@@ -192,8 +231,7 @@ class ModifyPropertyActivity : AppCompatActivity() {
     }
 
     private var resultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
+        ActivityResultContracts.StartActivityForResult()) {
             result ->
         if (result.resultCode == RESULT_OK) {
             val data: Intent? = result.data
@@ -250,6 +288,8 @@ class ModifyPropertyActivity : AppCompatActivity() {
                 val intent: Intent? = result.data
                 if (intent != null) {
                     place = Autocomplete.getPlaceFromIntent(intent)
+                    latitude = place.latLng?.latitude!!
+                    longitude = place.latLng?.longitude!!
                     Log.d("TAG", "Place: " + place.addressComponents)
                     fillInAddress()
                 }
@@ -281,10 +321,9 @@ class ModifyPropertyActivity : AppCompatActivity() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        rvType.adapter = TypeRvAdapter2(viewModel,
+        rvType.adapter = TypeRvAdapterModifyProperty(viewModel,
             this,
             Type.values(),
-            type
         )
     }
 
@@ -294,18 +333,18 @@ class ModifyPropertyActivity : AppCompatActivity() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        rvOption.adapter = OptionRvAdapterModifyPropertyActivity(
+        rvOption.adapter = OptionRvAdapterModifyProperty(
             viewModel,
             this,
             Option.values(),
-            listOptions
         )
     }
 
     private fun configSpinner(){
         val array: Array<String> = arrayOf(Status.ON_SALE.displayName, Status.SOLD.displayName)
-        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(this, R.layout.spinner_item_custom, array)
-        statusSpinner.adapter = adapter
+        adapterSpinner = ArrayAdapter(this, R.layout.spinner_item_custom, array)
+        statusSpinner.adapter = adapterSpinner
+        statusSpinner.onItemSelectedListener = SpinnerAdapter(this, viewModel)
     }
 
     private fun configToolbar() {
