@@ -26,9 +26,9 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Type
-import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterAddPropertyActivity
+import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterAddProperty
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapterInAddProperty
-import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapter
+import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterAddProperty
 import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -132,7 +132,8 @@ class AddPropertyActivity : BaseActivity() {
                 editTextAddress.text.toString(),
                 mutableListOfPhoto,
                 place.latLng!!.latitude,
-                place.latLng!!.longitude
+                place.latLng!!.longitude,
+                Date()
             ).subscribeBy (
                 onError = {
                     when(it.message){
@@ -223,18 +224,43 @@ class AddPropertyActivity : BaseActivity() {
 
     private fun configPhotosRecyclerView() {
         photosRv.isGone = mutableListOfPhoto.isEmpty()
-        photosRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        photosRv.adapter = PhotoRvAdapterInAddProperty(viewModel, this, mutableListOfPhoto, photosRv)
+
+        photosRv.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        photosRv.adapter = PhotoRvAdapterInAddProperty(
+            viewModel,
+            this,
+            mutableListOfPhoto,
+            photosRv
+        )
     }
 
     private fun configTypeRecyclerView() {
-        typeRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        typeRv.adapter = TypeRvAdapter(viewModel, this, Type.values())
+        typeRv.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        typeRv.adapter = TypeRvAdapterAddProperty(viewModel,
+            this,
+            Type.values()
+        )
     }
 
     private fun configOptionRecyclerView() {
-        optionRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        optionRv.adapter = OptionRvAdapterAddPropertyActivity(viewModel, this, Option.values())
+        optionRv.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        optionRv.adapter = OptionRvAdapterAddProperty(
+            viewModel,
+            this,
+            Option.values()
+        )
     }
 
     private fun configToolbar() {
