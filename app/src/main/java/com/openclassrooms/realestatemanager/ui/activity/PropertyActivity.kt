@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityPropertyBinding
 import com.openclassrooms.realestatemanager.model.Option
-import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterDetailsActivity
+import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterDetails
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapter
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
@@ -111,45 +111,44 @@ class PropertyActivity : BaseActivity() {
 
         val property = viewModel.getPropertyWithRef(ref)
 
-        property.subscribeOn(Schedulers.newThread())
+        property
+            .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy (
                 onNext = { results ->
-                configPhotosRecyclerView(results.photos)
-                configOptionsRecyclerView(results.options)
+                    configPhotosRecyclerView(results.photos)
+                    configOptionsRecyclerView(results.options)
 
-                if(results.photos.isNotEmpty())
-                    Glide.with(this).load(results.photos[0]).into(image)
+                    if(results.photos.isNotEmpty())
+                        Glide.with(this).load(results.photos[0]).into(image)
 
-                configPriceTextView(results.price)
-                configSurfaceTextView(results.surface)
-                configAgentTextView(results.agentName)
-                configToolbar()
+                    configPriceTextView(results.price)
+                    configSurfaceTextView(results.surface)
+                    configAgentTextView(results.agentName)
+                    configToolbar()
 
-                entryDateTextView.text = Utils.convertDateToString(results.entryDate)
-                referenceTextView.text = results.ref.toString()
-                addressTextView.text = results.address
-                bathroomTextView.text = results.numberBathroom.toString()
-                roomTextView.text = results.numberRoom.toString()
-                bedTextView.text = results.numberBed.toString()
-                typeTextView.text = results.type.name
-                stateTextView.text = results.status.displayName
-                descriptionTextView.text = results.description
+                    entryDateTextView.text = Utils.convertDateToString(results.entryDate)
+                    referenceTextView.text = results.ref.toString()
+                    addressTextView.text = results.address
+                    bathroomTextView.text = results.numberBathroom.toString()
+                    roomTextView.text = results.numberRoom.toString()
+                    bedTextView.text = results.numberBed.toString()
+                    typeTextView.text = results.type.name
+                    stateTextView.text = results.status.displayName
+                    descriptionTextView.text = results.description
+
                     map.getMapAsync {
                         it.addMarker(
                             MarkerOptions()
-                            .position(LatLng(results.latitude!!, results.longitude!!))
+                            .position(LatLng(results.latitude, results.longitude))
                             .title(results.address))
                         it.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                            LatLng(results.latitude!!, results.longitude!!),
+                            LatLng(results.latitude, results.longitude),
                             15F
                         ))
                     }
                          },
             onError = {
-
-            },
-            onComplete = {
 
             }
             )
@@ -169,7 +168,7 @@ class PropertyActivity : BaseActivity() {
     private fun configOptionsRecyclerView(options: List<Option>?){
         rvOptions.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         if (options != null && options.isNotEmpty()){
-            rvOptions.adapter = OptionRvAdapterDetailsActivity(options)
+            rvOptions.adapter = OptionRvAdapterDetails(options)
             rvOptions.isGone = false
         } else {
             rvOptions.isGone = true
