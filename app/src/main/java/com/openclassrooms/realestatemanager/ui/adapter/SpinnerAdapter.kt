@@ -16,6 +16,9 @@ class SpinnerAdapter(val context: Context, val viewModel: ModifyPropertyViewMode
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"))
         calendar.time = Date()
         when(p2){
+            Status.ON_SALE.ordinal -> {
+                viewModel.setSoldDate(null)
+            }
             Status.SOLD.ordinal -> {
                 if(viewModel.getSoldDate() != null) {
                     // TODO When user change exist date by another
