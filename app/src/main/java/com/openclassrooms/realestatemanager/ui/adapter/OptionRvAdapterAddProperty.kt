@@ -12,35 +12,39 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.CardviewRecyclerViewBinding
 import com.openclassrooms.realestatemanager.model.Option
+import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
 
-class OptionRvAdapterDetailsActivity(
-    private val dataSet: List<Option>?
-    ) : RecyclerView.Adapter<OptionRvAdapterDetailsActivity.ViewHolder>() {
+class OptionRvAdapterAddProperty (val viewModel: AddPropertyViewModel, val context: Context, private val dataSet: Array<Option>)
+    : RecyclerView.Adapter<OptionRvAdapterAddProperty.ViewHolder>(){
 
     private lateinit var binding : CardviewRecyclerViewBinding
 
-    private lateinit var context: Context
+    private var clickedItems = BooleanArray(dataSet.size) {false}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = CardviewRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        context = parent.context
         return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.textView.text = dataSet[position].displayName
 
-            holder.textView.text = dataSet?.get(position)?.displayName
-            holder.cardView.setCardBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.colorAccent
-                )
-            )
-            holder.textView.setTextColor(Color.WHITE)
+            if (clickedItems[position]) {
+                holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
+                holder.textView.setTextColor(Color.WHITE)
+            } else {
+                holder.cardView.setCardBackgroundColor(Color.WHITE)
+                holder.textView.setTextColor(ContextCompat.getColor(context, R.color.colorText))
+            }
 
+        holder.cardView.setOnClickListener {
+            clickedItems[position] = !clickedItems[position]
+            notifyItemChanged(position)
+            viewModel.setOptions(viewModel.getOptionsWithPositionInRV(clickedItems))
+        }
     }
 
-    override fun getItemCount() = dataSet?.size ?: 0
+    override fun getItemCount() = dataSet.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = binding.textviewInterestPointRvPropertyActivity

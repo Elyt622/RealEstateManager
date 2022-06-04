@@ -13,29 +13,27 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.CardviewRecyclerViewBinding
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.viewmodel.ModifyPropertyViewModel
-import io.reactivex.rxjava3.kotlin.subscribeBy
 
-class OptionRvAdapterModifyPropertyActivity(
+class OptionRvAdapterModifyProperty(
     val viewModel: ModifyPropertyViewModel,
     val context: Context,
     private val dataset: Array<Option>,
-    listOptions: MutableList<Option>?
-    ) : RecyclerView.Adapter<OptionRvAdapterModifyPropertyActivity.ViewHolder>() {
+    ) : RecyclerView.Adapter<OptionRvAdapterModifyProperty.ViewHolder>() {
 
     private lateinit var binding : CardviewRecyclerViewBinding
 
-    private var clickedItems: BooleanArray = viewModel.getBooleanArrayWithListOptions(listOptions)
+    private var clickedItems: BooleanArray = viewModel.getBooleanArrayWithListOptions(viewModel.getOptions())
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): OptionRvAdapterModifyPropertyActivity.ViewHolder {
+    ): OptionRvAdapterModifyProperty.ViewHolder {
         binding = CardviewRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(
-        holder: OptionRvAdapterModifyPropertyActivity.ViewHolder,
+        holder: OptionRvAdapterModifyProperty.ViewHolder,
         position: Int
     ) {
         holder.textView.text = dataset[position].displayName
@@ -55,17 +53,8 @@ class OptionRvAdapterModifyPropertyActivity(
 
         holder.cardView.setOnClickListener {
             clickedItems[position] = !clickedItems[position]
+            viewModel.setOptions(viewModel.getOptionsWithPositionInRV(clickedItems))
             notifyItemChanged(position)
-            viewModel.getNewProperty().subscribeBy (
-                onNext = { results ->
-                    results.options = viewModel.getOptionsWithPositionInRV(clickedItems)
-                },
-                onComplete = {
-
-                },
-                onError = {
-
-                })
         }
     }
 

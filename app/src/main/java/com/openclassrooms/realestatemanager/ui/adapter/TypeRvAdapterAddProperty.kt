@@ -11,16 +11,15 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.CardviewRecyclerViewBinding
-import com.openclassrooms.realestatemanager.model.Option
+import com.openclassrooms.realestatemanager.model.Type
 import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
-import io.reactivex.rxjava3.kotlin.subscribeBy
 
-class OptionRvAdapterAddPropertyActivity (val viewModel: AddPropertyViewModel, val context: Context, private val dataSet: Array<Option>)
-    : RecyclerView.Adapter<OptionRvAdapterAddPropertyActivity.ViewHolder>(){
+class TypeRvAdapterAddProperty(private var viewModel: AddPropertyViewModel, private val context: Context, private val dataSet: Array<Type>)
+    : RecyclerView.Adapter<TypeRvAdapterAddProperty.ViewHolder>(){
 
-    private lateinit var binding : CardviewRecyclerViewBinding
+    private var clickedItem = -1
 
-    private var clickedItems = BooleanArray(dataSet.size) {false}
+    private lateinit var binding: CardviewRecyclerViewBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = CardviewRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -28,29 +27,24 @@ class OptionRvAdapterAddPropertyActivity (val viewModel: AddPropertyViewModel, v
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = dataSet[position].displayName
-
-            if (clickedItems[position]) {
+        holder.textView.text = dataSet[position].name
+        if (clickedItem != -1) {
+            if (clickedItem == position) {
                 holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
                 holder.textView.setTextColor(Color.WHITE)
             } else {
                 holder.cardView.setCardBackgroundColor(Color.WHITE)
                 holder.textView.setTextColor(ContextCompat.getColor(context, R.color.colorText))
             }
+        }
 
         holder.cardView.setOnClickListener {
-            clickedItems[position] = !clickedItems[position]
-            notifyItemChanged(position)
-            viewModel.getNewProperty().subscribeBy (
-                onNext = { results ->
-                        results.options = viewModel.getOptionsWithPositionInRV(clickedItems)
-                },
-                onComplete = {
-
-                },
-                onError = {
-
-                })
+            viewModel.setType(dataSet[position])
+            if (clickedItem != -1) {
+                notifyItemChanged(clickedItem)
+            }
+            clickedItem = holder.adapterPosition
+            notifyItemChanged(clickedItem)
         }
     }
 

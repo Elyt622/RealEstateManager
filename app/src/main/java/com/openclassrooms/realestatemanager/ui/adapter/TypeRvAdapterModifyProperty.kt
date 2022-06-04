@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.adapter
 
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -12,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.CardviewRecyclerViewBinding
 import com.openclassrooms.realestatemanager.model.Type
+import com.openclassrooms.realestatemanager.ui.activity.ModifyPropertyActivity
 import com.openclassrooms.realestatemanager.viewmodel.ModifyPropertyViewModel
 
-class TypeRvAdapter2(
+class TypeRvAdapterModifyProperty(
     val viewModel: ModifyPropertyViewModel,
-    private val context: Context,
+    private val context: ModifyPropertyActivity,
     private val dataSet: Array<Type>,
-    val type: Type
 )
-    : RecyclerView.Adapter<TypeRvAdapter2.ViewHolder>() {
+    : RecyclerView.Adapter<TypeRvAdapterModifyProperty.ViewHolder>() {
 
-    private var clickedItem = type.ordinal
+    private var clickedItem = viewModel.getType().ordinal
 
         private lateinit var binding: CardviewRecyclerViewBinding
 
@@ -41,14 +40,12 @@ class TypeRvAdapter2(
                     holder.textView.setTextColor(Color.WHITE)
                 } else {
                     holder.cardView.setCardBackgroundColor(Color.WHITE)
-                    holder.textView.setTextColor(ContextCompat.getColor(context, R.color.colorText))
+                    holder.textView.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
                 }
             }
 
             holder.cardView.setOnClickListener {
-                viewModel.getNewProperty().subscribe{ property ->
-                    property.type = dataSet[position]
-                }
+                viewModel.setType(dataSet[position])
                 if (clickedItem != -1) {
                     notifyItemChanged(clickedItem)
                 }
