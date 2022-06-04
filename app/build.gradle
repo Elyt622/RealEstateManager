@@ -39,9 +39,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
@@ -55,7 +55,7 @@ dependencies {
 
     def room_version = "2.4.2"
     def retrofit_version = "2.9.0"
-    def camerax_version = "1.2.0-alpha01"
+    def camerax_version = "1.2.0-alpha02"
 
     //RxJava
     implementation "io.reactivex.rxjava3:rxjava:3.1.2"
