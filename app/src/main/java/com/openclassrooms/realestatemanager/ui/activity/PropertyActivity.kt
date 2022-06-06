@@ -63,6 +63,10 @@ class PropertyActivity : BaseActivity() {
 
     private lateinit var titleText: TextView
 
+    private lateinit var soldTextView: TextView
+
+    private lateinit var soldStaticTextView: TextView
+
     private lateinit var toolbar : Toolbar
 
     private lateinit var binding: ActivityPropertyBinding
@@ -98,7 +102,11 @@ class PropertyActivity : BaseActivity() {
         referenceTextView = binding.textviewReferencePropertyActivity
         entryDateTextView = binding.textviewEntryDatePropertyActivity
         agentTextView = binding.textviewAgentPropertyActivity
+        soldTextView = binding.textviewSoldDatePropertyActivity
+        soldStaticTextView = binding.textviewStaticSoldDatePropertyActivity
         titleText = binding.textviewTypeTopToolbarPropertyActivity
+
+        //Toolbar
         toolbar = binding.topToolbarPropertyActivity
 
         // RecyclerView
@@ -136,6 +144,14 @@ class PropertyActivity : BaseActivity() {
                     typeTextView.text = results.type.name
                     stateTextView.text = results.status.displayName
                     descriptionTextView.text = results.description
+                    if(results.soldDate == null){
+                        soldStaticTextView.isGone = true
+                        soldTextView.isGone = true
+                    } else {
+                        soldStaticTextView.isGone = false
+                        soldTextView.isGone = false
+                        soldTextView.text = Utils.convertDateToString(results.soldDate!!)
+                    }
 
                     map.getMapAsync {
                         it.addMarker(
