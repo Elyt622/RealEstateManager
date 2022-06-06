@@ -1,14 +1,13 @@
 package com.openclassrooms.realestatemanager.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Type
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 
@@ -64,18 +63,10 @@ class ModifyPropertyViewModel : ViewModel() {
         return booleanArray
     }
 
-    fun updateProperty(property: Property) {
-        propertyDao.updatePropertyWithRef(property)
+    fun updateProperty(property: Property) : Completable {
+        return Completable.fromSingle(propertyDao.updatePropertyWithRef(property)
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onSuccess = {
-                    Log.d("DEBUG", it.toString())
-                },
-                onError = {
-                    Log.d("DEBUG", it.message.toString())
-                }
-            )
+            .observeOn(AndroidSchedulers.mainThread()))
     }
 
 }

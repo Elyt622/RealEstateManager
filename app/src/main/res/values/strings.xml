@@ -40,4 +40,5 @@
     <string name="record_photo">Record photo</string>
     <string name="modify_property">Modify property</string>
     <string name="save_property">Save property</string>
+    <string name="sold_on">Sold on</string>
 </resources>

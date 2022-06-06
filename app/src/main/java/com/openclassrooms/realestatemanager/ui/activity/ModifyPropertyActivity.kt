@@ -71,6 +71,10 @@ class ModifyPropertyActivity : BaseActivity() {
 
     private lateinit var entryDateTextView: TextView
 
+    private lateinit var soldDateTextView: TextView
+
+    private lateinit var soldDateStaticTextView: TextView
+
     private lateinit var agentEditText: EditText
 
     private lateinit var topToolbar : Toolbar
@@ -138,6 +142,8 @@ class ModifyPropertyActivity : BaseActivity() {
         //Textview
         referenceTextView = binding.textviewReferenceModifyPropertyActivity
         entryDateTextView = binding.textviewEntryDateModifyPropertyActivity
+        soldDateTextView = binding.textviewSoldDateModifyPropertyActivity
+        soldDateStaticTextView = binding.textviewStaticSoldDateModifyPropertyActivity
 
         //Spinner
         statusSpinner = binding.spinnerStatusModifyPropertyActivity
@@ -182,6 +188,17 @@ class ModifyPropertyActivity : BaseActivity() {
                     longitude
                 )
             )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy (
+                    onComplete = {
+                        Toast.makeText(this, "Saved" , Toast.LENGTH_LONG).show()
+                        finish()
+                    },
+                    onError = {
+                        Log.d("DEBUG", it.message.toString())
+                    }
+                )
         }
 
         property
@@ -210,6 +227,14 @@ class ModifyPropertyActivity : BaseActivity() {
                     entryDate = it.entryDate
                     viewModel.setSoldDate(it.soldDate)
 
+                    if(viewModel.getSoldDate() != null){
+                        soldDateTextView.isGone = false
+                        soldDateStaticTextView.isGone = false
+                        soldDateTextView.text = Utils.convertDateToString(viewModel.getSoldDate()!!)
+                    } else {
+                        soldDateTextView.isGone = true
+                        soldDateStaticTextView.isGone = true
+                    }
                     configTypeRecyclerView()
                     configOptionRecyclerView()
                     configPhotosRecyclerView()

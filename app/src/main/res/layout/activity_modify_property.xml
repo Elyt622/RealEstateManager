@@ -356,6 +356,20 @@
                 app:layout_constraintStart_toEndOf="@+id/textview_static_agent_modify_property_activity"
                 app:layout_constraintTop_toTopOf="@+id/textview_static_agent_modify_property_activity" />
 
+            <TextView
+                android:id="@+id/textview_static_sold_date_modify_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sold_on"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_agent_modify_property_activity"
+                app:layout_constraintTop_toBottomOf="@+id/edittext_agent_modify_property_activity" />
+
+            <TextView
+                android:id="@+id/textview_sold_date_modify_property_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/textview_static_sold_date_modify_property_activity"
+                app:layout_constraintTop_toBottomOf="@+id/edittext_agent_modify_property_activity" />
 
             <TextView
                 android:id="@+id/textview_static_reference_modify_property_activity"
