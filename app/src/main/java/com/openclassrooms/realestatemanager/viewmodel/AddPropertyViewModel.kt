@@ -16,11 +16,11 @@ class AddPropertyViewModel : ViewModel() {
 
     private val propertyDao = App.database.propertyDao()
 
-    private lateinit var type: Type
+    private var type: Type? = null
 
     private var options: MutableList<Option>? = null
 
-    fun getType() = type
+    private fun getType() = type
 
     fun setType(type: Type){
         this.type = type
@@ -43,23 +43,30 @@ class AddPropertyViewModel : ViewModel() {
     }
 
     fun insertProperty(
-        surface: Float,
-        price: Int,
-        numberRoom: Int,
-        numberBed: Int,
-        numberBathroom: Int,
+        surface: Float?,
+        price: Int?,
+        numberRoom: Int?,
+        numberBed: Int?,
+        numberBathroom: Int?,
         description: String,
         address: String,
         photos: MutableList<Uri>,
-        latitude: Double,
-        longitude: Double,
-        entryDate: Date
+        latitude: Double?,
+        longitude: Double?,
+        entryDate: Date,
+        options: MutableList<Option>?
     ): Completable =
         Observable.just(Property())
             .map {
-                if (address.isEmpty()){
-                    throw Exception("ADDRESS_IS_EMPTY")
-                }
+                if (photos.size == 0) throw Exception("PHOTO_IS_EMPTY")
+                if (getType() == null) throw Exception("NO_SELECTED_TYPE")
+                if (numberRoom == null) throw Exception("ROOM_IS_EMPTY")
+                if (numberBed == null) throw Exception("BED_IS_EMPTY")
+                if (numberBathroom == null) throw Exception("BATHROOM_IS_EMPTY")
+                if (price == null) throw Exception("PRICE_IS_EMPTY")
+                if (address.isEmpty()) throw Exception("ADDRESS_IS_EMPTY")
+                if (description.isEmpty()) throw Exception("DESC_IS_EMPTY")
+                if (longitude == null || latitude == null) throw Exception("LOCATION_IS_INVALID")
                 it.apply {
                     this.surface = surface
                     this.price = price
@@ -72,6 +79,7 @@ class AddPropertyViewModel : ViewModel() {
                     this.latitude = latitude
                     this.longitude = longitude
                     this.entryDate = entryDate
+                    this.options = options
                 }
             }
             .flatMapCompletable {

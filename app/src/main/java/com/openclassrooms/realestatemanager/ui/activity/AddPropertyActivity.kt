@@ -29,9 +29,12 @@ import com.openclassrooms.realestatemanager.model.Type
 import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterAddProperty
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapterInAddProperty
 import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterAddProperty
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import java.io.File
+import java.util.*
 
 
 class AddPropertyActivity : BaseActivity() {
@@ -68,9 +71,11 @@ class AddPropertyActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAddPropertyBinding
 
-    private lateinit var placesClient: PlacesClient
+    private var place: Place? = null
 
-    private lateinit var place: Place
+    private lateinit var dir: File
+
+    private lateinit var placesClient: PlacesClient
 
     private var mutableListOfPhoto : MutableList<Uri> =  mutableListOf()
 
@@ -79,6 +84,7 @@ class AddPropertyActivity : BaseActivity() {
         binding = ActivityAddPropertyBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+        dir = getOutputDirectory()
 
         viewModel = ViewModelProvider(this)[AddPropertyViewModel::class.java]
 
@@ -123,34 +129,59 @@ class AddPropertyActivity : BaseActivity() {
 
         buttonAddProperty.setOnClickListener{
             viewModel.insertProperty(
-                editTextSurface.text.toString().toFloat(),
-                editTextPrice.text.toString().toInt(),
-                editTextRoom.text.toString().toInt(),
-                editTextBed.text.toString().toInt(),
-                editTextBathroom.text.toString().toInt(),
+                Utils.convertStringToFloat(editTextSurface.text.toString()),
+                Utils.convertStringToInt(editTextPrice.text.toString()),
+                Utils.convertStringToInt(editTextRoom.text.toString()),
+                Utils.convertStringToInt(editTextBed.text.toString()),
+                Utils.convertStringToInt(editTextBathroom.text.toString()),
                 editTextDescription.text.toString(),
                 editTextAddress.text.toString(),
                 mutableListOfPhoto,
-                place.latLng!!.latitude,
-                place.latLng!!.longitude,
-                Date()
+                place?.latLng?.latitude,
+                place?.latLng?.longitude,
+                Date(),
+                viewModel.getOptions()
             ).subscribeBy (
+                onComplete = {
+                    finish()
+                },
                 onError = {
                     when(it.message){
+                        "PHOTO_IS_EMPTY" -> {
+                            Toast.makeText(this, "No photo added", Toast.LENGTH_SHORT).show()
+                        }
+                        "NO_SELECTED_TYPE" -> {
+                            Toast.makeText(this, "No selected type", Toast.LENGTH_SHORT).show()
+                        }
+                        "ROOM_IS_EMPTY" -> {
+                            Toast.makeText(this, "Rooms is empty", Toast.LENGTH_SHORT).show()
+                        }
+                        "BED_IS_EMPTY" -> {
+                            Toast.makeText(this, "Beds is empty", Toast.LENGTH_SHORT).show()
+                        }
+                        "BATHROOM_IS_EMPTY" -> {
+                            Toast.makeText(this, "Bathrooms is empty", Toast.LENGTH_SHORT).show()
+                        }
+                        "PRICE_IS_EMPTY" -> {
+                            Toast.makeText(this, "Price is empty", Toast.LENGTH_SHORT).show()
+                        }
                         "ADDRESS_IS_EMPTY" -> {
                             Toast.makeText(this, "Address is empty", Toast.LENGTH_SHORT).show()
                         }
+                        "DESC_IS_EMPTY" -> {
+                            Toast.makeText(this, "Description is empty", Toast.LENGTH_SHORT).show()
+                        }
+                        "LOCATION_IS_INVALID" -> {
+                            Toast.makeText(this, "Location is invalid", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                },
-                onComplete = {
-                    finish()
                 }
             ).addTo(bag)
         }
     }
 
     private fun fillInAddress() {
-        val components = place.addressComponents
+        val components = place?.addressComponents
         val address1 = StringBuilder()
 
         if (components != null) {
@@ -196,7 +227,6 @@ class AddPropertyActivity : BaseActivity() {
                 val intent: Intent? = result.data
                 if (intent != null) {
                     place = Autocomplete.getPlaceFromIntent(intent)
-                    Log.d("TAG", "Place: " + place.addressComponents)
                     fillInAddress()
                 }
             } else if (result.resultCode == RESULT_CANCELED) {
@@ -206,13 +236,13 @@ class AddPropertyActivity : BaseActivity() {
     )
 
     private var resultLauncher = registerForActivityResult(
-        StartActivityForResult()) { result ->
+        StartActivityForResult()) {
+            result ->
         if (result.resultCode == RESULT_OK) {
             val data: Intent? = result.data
             if (data != null) {
-                data.data?.let {
-                    mutableListOfPhoto.add(it)
-                }
+                //TODO move photo to a specific repertory
+                mutableListOfPhoto.add(Uri.parse(data.data.toString()))
             }
         }
         else if (result.resultCode == 123){
@@ -220,6 +250,17 @@ class AddPropertyActivity : BaseActivity() {
             uriString?.toUri()?.let { mutableListOfPhoto.add(it) }
         }
         configPhotosRecyclerView()
+    }
+
+    private fun getOutputDirectory(): File {
+        val mediaDir = externalMediaDirs.firstOrNull()?.let {
+            File(it, resources.getString(R.string.app_name)).apply {
+                mkdirs()
+            }
+        }
+
+        return if (mediaDir != null && mediaDir.exists())
+            mediaDir else filesDir
     }
 
     private fun configPhotosRecyclerView() {
