@@ -71,9 +71,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun configToolbar(){
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        toolbar.setLogo(R.drawable.logo_toolbar)
+        toolbar.setOnMenuItemClickListener { item ->
+        if (item.itemId == R.id.home_top_sort) {
+                // do something
+            }
+            false
+        }
     }
 
 }
