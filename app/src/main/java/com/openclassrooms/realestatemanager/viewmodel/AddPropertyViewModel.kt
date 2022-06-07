@@ -54,7 +54,8 @@ class AddPropertyViewModel : ViewModel() {
         latitude: Double?,
         longitude: Double?,
         entryDate: Date,
-        options: MutableList<Option>?
+        options: MutableList<Option>?,
+        agentName: String
     ): Completable =
         Observable.just(Property())
             .map {
@@ -67,6 +68,7 @@ class AddPropertyViewModel : ViewModel() {
                 if (address.isEmpty()) throw Exception("ADDRESS_IS_EMPTY")
                 if (description.isEmpty()) throw Exception("DESC_IS_EMPTY")
                 if (longitude == null || latitude == null) throw Exception("LOCATION_IS_INVALID")
+                if (agentName.isEmpty()) throw Exception("AGENT_IS_EMPTY")
                 it.apply {
                     this.surface = surface
                     this.price = price
@@ -80,6 +82,7 @@ class AddPropertyViewModel : ViewModel() {
                     this.longitude = longitude
                     this.entryDate = entryDate
                     this.options = options
+                    this.agentName = agentName
                 }
             }
             .flatMapCompletable {

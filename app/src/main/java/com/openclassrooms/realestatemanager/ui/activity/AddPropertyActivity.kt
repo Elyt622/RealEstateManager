@@ -63,6 +63,8 @@ class AddPropertyActivity : BaseActivity() {
 
     private lateinit var editTextAddress: EditText
 
+    private lateinit var editTextAgentName: EditText
+
     private lateinit var buttonAddPhoto : Button
 
     private lateinit var buttonTakePhoto: Button
@@ -109,6 +111,7 @@ class AddPropertyActivity : BaseActivity() {
         editTextPrice = binding.editTextPriceAddPropertyActivity
         editTextRoom = binding.editTextRoomsAddPropertyActivity
         editTextSurface = binding.editTextSurfaceAddPropertyActivity
+        editTextAgentName = binding.editTextAgentName
 
         configToolbar()
         configTypeRecyclerView()
@@ -140,7 +143,8 @@ class AddPropertyActivity : BaseActivity() {
                 place?.latLng?.latitude,
                 place?.latLng?.longitude,
                 Date(),
-                viewModel.getOptions()
+                viewModel.getOptions(),
+                editTextAgentName.text.toString()
             ).subscribeBy (
                 onComplete = {
                     finish()
@@ -170,6 +174,9 @@ class AddPropertyActivity : BaseActivity() {
                         }
                         "DESC_IS_EMPTY" -> {
                             Toast.makeText(this, "Description is empty", Toast.LENGTH_SHORT).show()
+                        }
+                        "AGENT_IS_EMPTY" -> {
+                            Toast.makeText(this, "Agent name is empty", Toast.LENGTH_SHORT).show()
                         }
                         "LOCATION_IS_INVALID" -> {
                             Toast.makeText(this, "Location is invalid", Toast.LENGTH_SHORT).show()
