@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,10 @@ import com.openclassrooms.realestatemanager.model.Type
 import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterExploreFragment
 import com.openclassrooms.realestatemanager.ui.adapter.StatusRvAdapterExploreFragment
 import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterExploreFragment
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ExploreFragment : Fragment() {
 
@@ -40,7 +44,38 @@ class ExploreFragment : Fragment() {
         configTypeRv()
         configOptionRv()
         configStatusRv()
-        // TODO: Use the ViewModel
+
+        with(binding){
+            buttonSearch.setOnClickListener {
+                viewModel
+                    .getAllProperties()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            val propertiesWithFilters = viewModel.applyAllFilters(
+                                it,
+                                viewModel.getTypes(),
+                                Utils.convertStringToInt(editTextStartPrice.text.toString()),
+                                Utils.convertStringToInt(editTextEndPrice.text.toString()),
+                                Utils.convertStringToFloat(editTextStartSurface.text.toString()),
+                                Utils.convertStringToFloat(editTextEndSurface.text.toString()),
+                                Utils.convertStringToInt(editTextStartBeds.text.toString()),
+                                Utils.convertStringToInt(editTextEndBeds.text.toString()),
+                                Utils.convertStringToInt(editTextStartBathrooms.text.toString()),
+                                Utils.convertStringToInt(editTextEndBathrooms.text.toString()),
+                                viewModel.getOptions(),
+                                viewModel.getStatus()
+                            )
+
+                            Log.d("DEBUG", propertiesWithFilters.size.toString())
+                        },
+                        {
+                            Log.d("DEBUG", it.message.toString())
+                        }
+                    )
+            }
+        }
     }
 
     private fun configTypeRv(){

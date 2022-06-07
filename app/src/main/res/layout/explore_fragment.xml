@@ -88,7 +88,8 @@
                 android:inputType="number"
                 android:gravity="center"
                 android:layout_marginEnd="8dp"
-                android:importantForAutofill="no"                android:hint="@string/min"
+                android:importantForAutofill="no"
+                android:hint="@string/min"
                 android:textSize="14sp" />
 
             <TextView
@@ -190,7 +191,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textview_static_beds">
 
             <EditText
-                android:id="@+id/edit_text_start_room"
+                android:id="@+id/edit_text_start_beds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -201,7 +202,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textview_static_and_room"
+                android:id="@+id/textview_static_and_beds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -210,7 +211,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
 
             <EditText
-                android:id="@+id/edit_text_end_room"
+                android:id="@+id/edit_text_end_beds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
