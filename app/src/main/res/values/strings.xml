@@ -41,4 +41,15 @@
     <string name="modify_property">Modify property</string>
     <string name="save_property">Save property</string>
     <string name="sold_on">Sold on</string>
+    <string name="sort_by">Sort by</string>
+    <string name="filter_by">Filter by</string>
+    <string name="logo">Logo</string>
+    <string name="search">Search</string>
+    <string name="max">Max</string>
+    <string name="and">and</string>
+    <string name="min">Min</string>
+    <string name="sold_date">Sold date</string>
+    <string name="entry_date">Entry date</string>
+    <string name="status">Status</string>
+    <string name="type">Type</string>
 </resources>
