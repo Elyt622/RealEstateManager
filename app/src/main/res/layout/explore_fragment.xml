@@ -1,16 +1,442 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.ExploreFragment">
 
-    <TextView
-        android:id="@+id/textview_explore_explore_fragment"
-        android:textSize="20sp"
-        android:gravity="center"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/explorer" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp"
+            app:cardMaxElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <SearchView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="#E0E0E0"
+                android:iconifiedByDefault="false"
+                android:queryBackground="@android:color/transparent"
+                android:queryHint="Search properties"
+                app:theme="@style/AppTheme" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/textView_static_type_explore_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="@string/type"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+        <com.openclassrooms.realestatemanager.ui.CustomRecyclerView
+            android:id="@+id/recycler_view_type"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:scrollbars="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_static_type_explore_fragment" />
+
+        <TextView
+            android:id="@+id/textview_static_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="@string/price"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_static_price">
+
+            <EditText
+                android:id="@+id/edit_text_start_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:gravity="center"
+                android:layout_marginEnd="8dp"
+                android:importantForAutofill="no"                android:hint="@string/min"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textview_static_and_price_explorer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/and"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+
+            <EditText
+                android:id="@+id/edit_text_end_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:importantForAutofill="no"
+                android:hint="@string/max"
+                android:inputType="number"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textview_static_surface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="@string/surface"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_price" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_surface"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_static_surface">
+
+            <EditText
+                android:id="@+id/edit_text_start_surface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:importantForAutofill="no"
+                android:hint="@string/min"
+                android:inputType="numberDecimal"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textview_static_and_surface_explorer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/and"
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+
+            <EditText
+                android:id="@+id/edit_text_end_surface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="@string/max"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textview_static_beds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/bed_s"
+            android:textStyle="bold"
+            android:importantForAutofill="no"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_surface" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_beds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_static_beds">
+
+            <EditText
+                android:id="@+id/edit_text_start_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:importantForAutofill="no"
+                android:hint="@string/min"
+                android:inputType="number"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textview_static_and_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/and"
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+
+            <EditText
+                android:id="@+id/edit_text_end_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="@string/max"
+                android:inputType="number"
+                android:importantForAutofill="no"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textview_static_bathrooms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="@string/bathroom_s"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_beds" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_bathrooms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_static_bathrooms">
+
+            <EditText
+                android:id="@+id/edit_text_start_bathrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:importantForAutofill="no"
+                android:hint="@string/min"
+                android:inputType="number"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textview_static_and_bathrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/and"
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+
+            <EditText
+                android:id="@+id/edit_text_end_bathrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="@string/max"
+                android:inputType="number"
+                android:importantForAutofill="no"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textview_static_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/options"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_bathrooms" />
+
+        <com.openclassrooms.realestatemanager.ui.CustomRecyclerView
+            android:id="@+id/recycler_view_options"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:scrollbars="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_static_options" />
+
+        <TextView
+            android:id="@+id/textview_static_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="@string/status"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_options" />
+
+        <com.openclassrooms.realestatemanager.ui.CustomRecyclerView
+            android:id="@+id/recycler_view_status"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:scrollbars="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_static_status" />
+
+        <TextView
+            android:id="@+id/textview_static_entry_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="@string/entry_date"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_status" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_entry_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_static_entry_date">
+
+            <EditText
+                android:id="@+id/edit_text_start_entry_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:hint="@string/min"
+                android:inputType="date"
+                android:importantForAutofill="no"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textview_static_and_entry_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/and"
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+
+            <EditText
+                android:id="@+id/edit_text_end_entry_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:importantForAutofill="no"
+                android:hint="@string/max"
+                android:inputType="date"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/textview_static_sold_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="@string/sold_date"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_entry_date" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_sold_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_static_sold_date">
+
+            <EditText
+                android:id="@+id/edit_text_start_sold_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:hint="@string/min"
+                android:importantForAutofill="no"
+                android:inputType="date"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textview_static_and_sold_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/and"
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+
+            <EditText
+                android:id="@+id/edit_text_end_sold_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="@string/max"
+                android:importantForAutofill="no"
+                android:inputType="date"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:text="@string/search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_sold_date" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
