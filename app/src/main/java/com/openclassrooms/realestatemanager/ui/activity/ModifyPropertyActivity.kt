@@ -164,18 +164,15 @@ class ModifyPropertyActivity : BaseActivity() {
             resultLauncher.launch(Intent(this, CameraActivity::class.java))
         }
 
-
-
         savePropertyButton.setOnClickListener {
             viewModel.updateProperty(
-                Property(
                     ref,
                     viewModel.getType(),
-                    priceEditText.text.toString().toInt(),
-                    surfaceEditText.text.toString().toFloat(),
-                    roomEditText.text.toString().toInt(),
-                    bedEditText.text.toString().toInt(),
-                    bathroomEditText.text.toString().toInt(),
+                    Utils.convertStringToInt(priceEditText.text.toString()),
+                    Utils.convertStringToFloat(surfaceEditText.text.toString()),
+                    Utils.convertStringToInt(roomEditText.text.toString()),
+                    Utils.convertStringToInt(bedEditText.text.toString()),
+                    Utils.convertStringToInt(bathroomEditText.text.toString()),
                     descriptionEditText.text.toString(),
                     mutableListOfPhoto,
                     addressEditText.text.toString(),
@@ -186,7 +183,6 @@ class ModifyPropertyActivity : BaseActivity() {
                     agentEditText.text.toString(),
                     latitude,
                     longitude
-                )
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -196,7 +192,7 @@ class ModifyPropertyActivity : BaseActivity() {
                         finish()
                     },
                     onError = {
-                        Log.d("DEBUG", it.message.toString())
+                        showErrorToastMessage(it.message)
                     }
                 )
         }
@@ -241,11 +237,47 @@ class ModifyPropertyActivity : BaseActivity() {
                          },
                 onError = {
                     Log.d("DEBUG", it.message.toString())
-                },
-                onComplete = {
-                    Log.d("DEBUG", "COMPLETED")
                 }
             ).addTo(bag)
+    }
+
+    private fun showToast(message: String){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showErrorToastMessage(error: String?){
+        when(error){
+            "PHOTO_IS_EMPTY" -> {
+                showToast("No photo added")
+            }
+            "NO_SELECTED_TYPE" -> {
+                showToast("No selected type")
+            }
+            "ROOM_IS_EMPTY" -> {
+                showToast("Rooms is empty")
+            }
+            "BED_IS_EMPTY" -> {
+                showToast("Beds is empty")
+            }
+            "BATHROOM_IS_EMPTY" -> {
+                showToast("Bathrooms is empty")
+            }
+            "PRICE_IS_EMPTY" -> {
+                showToast("Price is empty")
+            }
+            "ADDRESS_IS_EMPTY" -> {
+                showToast("Address is empty")
+            }
+            "DESC_IS_EMPTY" -> {
+                showToast("Description is empty")
+            }
+            "AGENT_IS_EMPTY" -> {
+                showToast("Agent name is empty")
+            }
+            "LOCATION_IS_INVALID" -> {
+                showToast("Location is invalid")
+            }
+        }
     }
 
     private fun openSomeActivityForResult() {

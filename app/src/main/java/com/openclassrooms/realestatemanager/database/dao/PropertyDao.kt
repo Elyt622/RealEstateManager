@@ -4,7 +4,6 @@ import androidx.room.*
 import com.openclassrooms.realestatemanager.model.Property
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface PropertyDao {
@@ -18,6 +17,6 @@ interface PropertyDao {
     fun getPropertyWithRef(ref: Int) : Observable<Property>
 
     @Update
-    fun updatePropertyWithRef(property: Property) : Single<Int>
+    fun updatePropertyWithRef(property: Property) : Completable
 
 }

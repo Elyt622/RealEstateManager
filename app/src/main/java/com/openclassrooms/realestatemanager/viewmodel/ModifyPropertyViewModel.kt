@@ -1,9 +1,11 @@
 package com.openclassrooms.realestatemanager.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
+import com.openclassrooms.realestatemanager.model.Status
 import com.openclassrooms.realestatemanager.model.Type
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -63,10 +65,59 @@ class ModifyPropertyViewModel : ViewModel() {
         return booleanArray
     }
 
-    fun updateProperty(property: Property) : Completable {
-        return Completable.fromSingle(propertyDao.updatePropertyWithRef(property)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()))
-    }
+    fun updateProperty(
+        ref: Int,
+        type: Type,
+        price: Int?,
+        surface: Float?,
+        numberRoom: Int?,
+        numberBed: Int?,
+        numberBathroom: Int?,
+        description: String,
+        photos: MutableList<Uri>,
+        address: String,
+        options: MutableList<Option>?,
+        status: Status,
+        entryDate: Date,
+        soldDate: Date?,
+        agentName: String,
+        latitude: Double?,
+        longitude: Double?
+    ): Completable =
+        Observable.just(Property())
+            .map {
+                if (photos.size == 0) throw Exception("PHOTO_IS_EMPTY")
+                if (numberRoom == null) throw Exception("ROOM_IS_EMPTY")
+                if (numberBed == null) throw Exception("BED_IS_EMPTY")
+                if (numberBathroom == null) throw Exception("BATHROOM_IS_EMPTY")
+                if (price == null) throw Exception("PRICE_IS_EMPTY")
+                if (address.isEmpty()) throw Exception("ADDRESS_IS_EMPTY")
+                if (description.isEmpty()) throw Exception("DESC_IS_EMPTY")
+                if (longitude == null || latitude == null) throw Exception("LOCATION_IS_INVALID")
+                if (agentName.isEmpty()) throw Exception("AGENT_IS_EMPTY")
+                it.apply {
+                    this.ref = ref
+                    this.type = type
+                    this.surface = surface
+                    this.price = price
+                    this.numberRoom = numberRoom
+                    this.numberBathroom = numberBathroom
+                    this.numberBed = numberBed
+                    this.description = description
+                    this.address = address
+                    this.photos = photos
+                    this.latitude = latitude
+                    this.longitude = longitude
+                    this.entryDate = entryDate
+                    this.soldDate = soldDate
+                    this.options = options
+                    this.agentName = agentName
+                    this.status = status
+                }
+            }
+            .flatMapCompletable {
+                propertyDao.updatePropertyWithRef(it).subscribeOn(Schedulers.io())
+            }
+            .observeOn(AndroidSchedulers.mainThread())
 
 }
