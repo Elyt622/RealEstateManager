@@ -277,6 +277,9 @@ class ModifyPropertyActivity : BaseActivity() {
             "LOCATION_IS_INVALID" -> {
                 showToast("Location is invalid")
             }
+            "SOLD_DATE_IS_EMPTY" -> {
+                showToast("Sold date is empty")
+            }
         }
     }
 

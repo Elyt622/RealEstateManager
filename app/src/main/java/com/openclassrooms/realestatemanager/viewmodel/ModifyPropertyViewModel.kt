@@ -95,6 +95,7 @@ class ModifyPropertyViewModel : ViewModel() {
                 if (description.isEmpty()) throw Exception("DESC_IS_EMPTY")
                 if (longitude == null || latitude == null) throw Exception("LOCATION_IS_INVALID")
                 if (agentName.isEmpty()) throw Exception("AGENT_IS_EMPTY")
+                if (status == Status.SOLD && soldDate == null) throw Exception("SOLD_DATE_IS_EMPTY")
                 it.apply {
                     this.ref = ref
                     this.type = type
