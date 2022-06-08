@@ -1,11 +1,11 @@
 package com.openclassrooms.realestatemanager.ui.fragment
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.HomeFragmentBinding
@@ -34,6 +34,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
+        configPropertiesRv()
+    }
+
+    private fun configPropertiesRv(){
         rv = binding.recyclerViewListPropertiesHomeFragment
         rv.layoutManager = GridLayoutManager(context, 2)
         rv.adapter = PropertyRvAdapter(viewModel.getAllProperties().blockingFirst())
@@ -41,12 +45,12 @@ class HomeFragment : Fragment() {
 
 
     override fun onResume() {
-        rv.adapter = PropertyRvAdapter(viewModel.getAllProperties().blockingFirst())
+        configPropertiesRv()
         super.onResume()
     }
 
     override fun onStart() {
-        rv.adapter = PropertyRvAdapter(viewModel.getAllProperties().blockingFirst())
+        configPropertiesRv()
         super.onStart()
     }
 
