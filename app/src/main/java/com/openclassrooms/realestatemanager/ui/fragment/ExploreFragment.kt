@@ -1,24 +1,33 @@
 package com.openclassrooms.realestatemanager.ui.fragment
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ExploreFragmentBinding
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Status
 import com.openclassrooms.realestatemanager.model.Type
 import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterExploreFragment
+import com.openclassrooms.realestatemanager.ui.adapter.PropertyRvAdapter
 import com.openclassrooms.realestatemanager.ui.adapter.StatusRvAdapterExploreFragment
 import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterExploreFragment
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class ExploreFragment : Fragment() {
 
@@ -29,6 +38,12 @@ class ExploreFragment : Fragment() {
     }
 
     private lateinit var viewModel: ExploreViewModel
+
+    private lateinit var datePickerDialog : DatePickerDialog.OnDateSetListener
+
+    private val myCalendar: Calendar = Calendar.getInstance()
+
+    private lateinit var editText: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,9 +56,17 @@ class ExploreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[ExploreViewModel::class.java]
+
         configTypeRv()
         configOptionRv()
         configStatusRv()
+
+        datePickerDialog = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            myCalendar.set(Calendar.YEAR, year)
+            myCalendar.set(Calendar.MONTH, month)
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateLabel(myCalendar, editText)
+        }
 
         with(binding){
             buttonSearch.setOnClickListener {
@@ -65,8 +88,16 @@ class ExploreFragment : Fragment() {
                                 Utils.convertStringToInt(editTextStartBathrooms.text.toString()),
                                 Utils.convertStringToInt(editTextEndBathrooms.text.toString()),
                                 viewModel.getOptions(),
-                                viewModel.getStatus()
+                                viewModel.getStatus(),
+                                viewModel.getStartEntryDate(),
+                                viewModel.getEndEntryDate(),
+                                viewModel.getStartSoldDate(),
+                                viewModel.getEndSoldDate()
                             )
+                            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_view_activity_main)
+                            bottomNavigationView.selectedItemId = R.id.home_bottom_navigation
+                            val rv = parentFragmentManager.fragments[0].view?.findViewById<RecyclerView>(R.id.recycler_view_list_properties_home_fragment)
+                            rv?.adapter = PropertyRvAdapter(propertiesWithFilters)
 
                             Log.d("DEBUG", propertiesWithFilters.size.toString())
                         },
@@ -74,6 +105,87 @@ class ExploreFragment : Fragment() {
                             Log.d("DEBUG", it.message.toString())
                         }
                     )
+            }
+            buttonReset.setOnClickListener {
+                resetAllFields()
+            }
+
+            editTextStartEntryDate.setOnClickListener {
+                editText = editTextStartEntryDate
+                showDatePicker()
+            }
+
+            editTextEndEntryDate.setOnClickListener {
+                editText = editTextEndEntryDate
+                showDatePicker()
+            }
+
+            editTextStartSoldDate.setOnClickListener {
+                editText = editTextStartSoldDate
+                showDatePicker()
+            }
+
+            editTextEndSoldDate.setOnClickListener {
+                editText = editTextEndSoldDate
+                showDatePicker()
+            }
+        }
+    }
+
+    private fun resetAllFields(){
+        with(binding) {
+            viewModel.setTypes(mutableListOf())
+            editTextStartPrice.setText("")
+            editTextEndPrice.setText("")
+            editTextStartSurface.setText("")
+            editTextEndSurface.setText("")
+            editTextStartBeds.setText("")
+            editTextEndBeds.setText("")
+            editTextStartBathrooms.setText("")
+            editTextEndBathrooms.setText("")
+            viewModel.setOptions(mutableListOf())
+            viewModel.setStatus(mutableListOf())
+            editTextStartEntryDate.setText("")
+            editTextEndEntryDate.setText("")
+            editTextStartSoldDate.setText("")
+            editTextEndSoldDate.setText("")
+            configTypeRv()
+            configOptionRv()
+            configStatusRv()
+        }
+    }
+
+    private fun showDatePicker(){
+        DatePickerDialog(
+            requireContext(),
+            datePickerDialog,
+            myCalendar.get(Calendar.YEAR),
+            myCalendar.get(Calendar.MONTH),
+            myCalendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun updateLabel(myCalendar: Calendar, editText: EditText){
+        val myFormat = "dd/MM/yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.FRANCE)
+        with(binding){
+            when(editText){
+                editTextStartEntryDate -> {
+                    editTextStartEntryDate.setText(sdf.format(myCalendar.time))
+                    viewModel.setStartEntryDate(myCalendar.time)
+                }
+                editTextEndEntryDate -> {
+                    editTextEndEntryDate.setText(sdf.format(myCalendar.time))
+                    viewModel.setEndEntryDate(myCalendar.time)
+                }
+                editTextStartSoldDate -> {
+                    editTextStartSoldDate.setText(sdf.format(myCalendar.time))
+                    viewModel.setStartSoldDate(myCalendar.time)
+                }
+                editTextEndSoldDate -> {
+                    editTextEndSoldDate.setText(sdf.format(myCalendar.time))
+                    viewModel.setEndSoldDate(myCalendar.time)
+                }
             }
         }
     }

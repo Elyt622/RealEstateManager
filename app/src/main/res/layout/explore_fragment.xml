@@ -7,6 +7,7 @@
     tools:context=".ui.fragment.ExploreFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingBottom="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -349,6 +350,7 @@
                 android:layout_marginEnd="8dp"
                 android:gravity="center"
                 android:hint="@string/min"
+                android:focusable="false"
                 android:inputType="date"
                 android:importantForAutofill="no"
                 android:textSize="14sp" />
@@ -369,6 +371,7 @@
                 android:gravity="center"
                 android:importantForAutofill="no"
                 android:hint="@string/max"
+                android:focusable="false"
                 android:inputType="date"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -404,6 +407,7 @@
                 android:layout_marginEnd="8dp"
                 android:gravity="center"
                 android:hint="@string/min"
+                android:focusable="false"
                 android:importantForAutofill="no"
                 android:inputType="date"
                 android:textSize="14sp" />
@@ -423,6 +427,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:hint="@string/max"
+                android:focusable="false"
                 android:importantForAutofill="no"
                 android:inputType="date"
                 android:textSize="14sp" />
@@ -430,12 +435,23 @@
 
         <Button
             android:id="@+id/button_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="70dp"
             android:text="@string/search"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_sold_date" />
+
+        <Button
+            android:id="@+id/button_reset"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/reset"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linear_layout_sold_date" />
 

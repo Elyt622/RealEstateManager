@@ -19,6 +19,38 @@ class ExploreViewModel : ViewModel() {
 
     private var status: MutableList<Status> = mutableListOf()
 
+    private var startEntryDate: Date? = null
+
+    private var endEntryDate: Date? = null
+
+    private var startSoldDate: Date? = null
+
+    private var endSoldDate: Date? = null
+
+    fun getStartEntryDate() = this.startEntryDate
+
+    fun getEndEntryDate() = this.endEntryDate
+
+    fun getStartSoldDate() = this.startSoldDate
+
+    fun getEndSoldDate() = this.endSoldDate
+
+    fun setStartEntryDate(startEntryDate: Date) {
+        this.startEntryDate = startEntryDate
+    }
+
+    fun setEndEntryDate(endEntryDate: Date) {
+        this.endEntryDate = endEntryDate
+    }
+
+    fun setStartSoldDate(startSoldDate: Date) {
+        this.startSoldDate = startSoldDate
+    }
+
+    fun setEndSoldDate(endSoldDate: Date) {
+        this.endSoldDate = endSoldDate
+    }
+
     fun getTypes() = this.types
 
     fun setTypes(types: MutableList<Type>) {
@@ -83,7 +115,11 @@ class ExploreViewModel : ViewModel() {
         minBathrooms: Int?,
         maxBathrooms: Int?,
         options: MutableList<Option>,
-        statusList: MutableList<Status>
+        statusList: MutableList<Status>,
+        startEntryDate: Date?,
+        endEntryDate: Date?,
+        startSoldDate: Date?,
+        endSoldDate: Date?
     ) : List<Property>
     {
         var propertiesWithAllFilters: List<Property> = getPropertiesWithTypeFilter(properties, types)
@@ -93,6 +129,8 @@ class ExploreViewModel : ViewModel() {
         propertiesWithAllFilters = getPropertiesWithBathroomsFilter(propertiesWithAllFilters, minBathrooms, maxBathrooms)
         propertiesWithAllFilters = getPropertiesWithOptionsFilter(propertiesWithAllFilters, options)
         propertiesWithAllFilters = getPropertiesWithStatusFilter(propertiesWithAllFilters, statusList)
+        propertiesWithAllFilters = getPropertiesWithEntryDateFilter(propertiesWithAllFilters, startEntryDate, endEntryDate)
+        propertiesWithAllFilters = getPropertiesWithSoldDateFilter(propertiesWithAllFilters, startSoldDate, endSoldDate)
         return propertiesWithAllFilters
     }
 
