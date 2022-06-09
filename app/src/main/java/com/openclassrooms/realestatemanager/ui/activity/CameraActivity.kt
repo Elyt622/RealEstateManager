@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -41,15 +42,34 @@ class CameraActivity : AppCompatActivity() {
             this,
             arrayOf(Manifest.permission.CAMERA),
             123
-            )
+        )
+        cameraPermissionGranted()
 
         outputDirectory = getOutputDirectory()
-
-        startCamera()
 
         buttonTakePhoto.setOnClickListener{
             takePhoto()
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (cameraPermissionGranted()) {
+            startCamera()
+        } else {
+            finish()
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun cameraPermissionGranted() : Boolean{
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            return true
+        }
+        return false
     }
 
     private fun getOutputDirectory(): File {
