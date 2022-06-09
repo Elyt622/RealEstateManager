@@ -279,6 +279,7 @@ class ModifyPropertyActivity : BaseActivity() {
             }
             "SOLD_DATE_IS_EMPTY" -> {
                 showToast("Sold date is empty")
+                statusSpinner.setSelection(Status.ON_SALE.ordinal)
             }
         }
     }
