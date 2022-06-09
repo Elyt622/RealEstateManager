@@ -19,4 +19,15 @@ interface PropertyDao {
     @Update
     fun updatePropertyWithRef(property: Property) : Completable
 
+    @Query("SELECT * FROM Property ORDER BY price ASC")
+    fun getAllPropertiesWithAscPriceSort() : Observable<List<Property>>
+
+    @Query("SELECT * FROM Property ORDER BY price DESC")
+    fun getAllPropertiesWithDescPriceSort() : Observable<List<Property>>
+
+    @Query("SELECT * FROM Property ORDER BY type")
+    fun getAllPropertiesWithTypeSort() : Observable<List<Property>>
+
+    @Query("SELECT * FROM Property ORDER BY status")
+    fun getAllPropertiesWithStatusSort() : Observable<List<Property>>
 }
