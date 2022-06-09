@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.ui.activity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentContainerView
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,7 +21,7 @@ class MainActivity : BaseActivity() {
 
     private lateinit var viewPager: ViewPager2
 
-    private lateinit var viewModel: ViewModel
+    private lateinit var viewModel: MainViewModel
 
     private lateinit var binding: ActivityMainBinding
 
@@ -38,7 +37,6 @@ class MainActivity : BaseActivity() {
         bottomNav = binding.bottomNavigationViewActivityMain
         viewPager = binding.viewpagerActivityMain
 
-        configToolbar()
         configBottomNav()
         configViewpager()
     }
@@ -69,14 +67,4 @@ class MainActivity : BaseActivity() {
             true
         }
     }
-
-    private fun configToolbar(){
-        toolbar.setOnMenuItemClickListener { item ->
-        if (item.itemId == R.id.home_top_sort) {
-                // do something
-            }
-            false
-        }
-    }
-
 }
