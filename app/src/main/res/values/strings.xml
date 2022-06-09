@@ -54,4 +54,6 @@
     <string name="type">Type</string>
     <string name="agent_name_with_star">Agent name*</string>
     <string name="reset">Reset</string>
+    <string name="asc_price">Asc Price</string>
+    <string name="desc_price">Desc Price</string>
 </resources>
