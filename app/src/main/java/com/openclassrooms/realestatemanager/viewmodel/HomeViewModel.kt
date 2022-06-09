@@ -13,4 +13,19 @@ class HomeViewModel : ViewModel() {
         return propertyDao.getAllProperty()
     }
 
+    fun getPropertiesWithAscPriceSort(): Observable<List<Property>> {
+        return propertyDao.getAllPropertiesWithAscPriceSort()
+    }
+
+    fun getPropertiesWithDescPriceSort() : Observable<List<Property>> {
+        return propertyDao.getAllPropertiesWithDescPriceSort()
+    }
+
+    fun getPropertiesWithTypeSort() : Observable<List<Property>> {
+        return propertyDao.getAllPropertiesWithTypeSort()
+    }
+
+    fun getPropertiesWithStatusSort() : Observable<List<Property>> {
+        return propertyDao.getAllPropertiesWithStatusSort()
+    }
 }

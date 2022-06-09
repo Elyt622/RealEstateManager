@@ -120,8 +120,7 @@ class ExploreViewModel : ViewModel() {
         endEntryDate: Date?,
         startSoldDate: Date?,
         endSoldDate: Date?
-    ) : List<Property>
-    {
+    ) : List<Property> {
         var propertiesWithAllFilters: List<Property> = getPropertiesWithTypeFilter(properties, types)
         propertiesWithAllFilters = getPropertiesWithPriceFilter(propertiesWithAllFilters, minPrice, maxPrice)
         propertiesWithAllFilters = getPropertiesWithSurfaceFilter(propertiesWithAllFilters, minSurface, maxSurface)
@@ -324,5 +323,21 @@ class ExploreViewModel : ViewModel() {
             return properties
         }
         return propertiesWithFilter
+    }
+
+    fun getPropertiesWithAscPriceSort(): Observable<List<Property>> {
+        return propertyDao.getAllPropertiesWithAscPriceSort()
+    }
+
+    fun getPropertiesWithDescPriceSort() : Observable<List<Property>> {
+        return propertyDao.getAllPropertiesWithDescPriceSort()
+    }
+
+    fun getPropertiesWithTypeSort() : Observable<List<Property>> {
+        return propertyDao.getAllPropertiesWithTypeSort()
+    }
+
+    fun getPropertiesWithStatusSort() : Observable<List<Property>> {
+        return propertyDao.getAllPropertiesWithStatusSort()
     }
 }

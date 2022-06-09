@@ -4,9 +4,11 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ExploreFragmentBinding
 import com.openclassrooms.realestatemanager.model.Option
+import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Status
 import com.openclassrooms.realestatemanager.model.Type
 import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterExploreFragment
@@ -45,11 +48,31 @@ class ExploreFragment : Fragment() {
 
     private lateinit var editText: EditText
 
+    private lateinit var rv : RecyclerView
+
+    private lateinit var bottomNavigationView: BottomNavigationView
+
+    private var propertiesWithFilters: List<Property>? = null
+
+    private var propertiesWithSort: List<Property>? = null
+
+    private lateinit var toolbar: Toolbar
+
+    private lateinit var menuItem: MenuItem
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = ExploreFragmentBinding.inflate(layoutInflater)
+        rv = parentFragmentManager
+            .fragments[0]
+            .requireView()
+            .findViewById(R.id.recycler_view_list_properties_home_fragment)
+        bottomNavigationView = requireActivity()
+                .findViewById(R.id.bottom_navigation_view_activity_main)
+        toolbar = requireActivity().findViewById(R.id.toolbar_main_activity)
+        menuItem = toolbar.menu.findItem(R.id.home_top_sort).setVisible(true)
         return binding.root
     }
 
@@ -76,7 +99,7 @@ class ExploreFragment : Fragment() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         {
-                            val propertiesWithFilters = viewModel.applyAllFilters(
+                            propertiesWithFilters = viewModel.applyAllFilters(
                                 it,
                                 viewModel.getTypes(),
                                 Utils.convertStringToInt(editTextStartPrice.text.toString()),
@@ -94,12 +117,8 @@ class ExploreFragment : Fragment() {
                                 viewModel.getStartSoldDate(),
                                 viewModel.getEndSoldDate()
                             )
-                            val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation_view_activity_main)
+                            rv.adapter = PropertyRvAdapter(applySortAndFilters(propertiesWithSort, propertiesWithFilters))
                             bottomNavigationView.selectedItemId = R.id.home_bottom_navigation
-                            val rv = parentFragmentManager.fragments[0].view?.findViewById<RecyclerView>(R.id.recycler_view_list_properties_home_fragment)
-                            rv?.adapter = PropertyRvAdapter(propertiesWithFilters)
-
-                            Log.d("DEBUG", propertiesWithFilters.size.toString())
                         },
                         {
                             Log.d("DEBUG", it.message.toString())
@@ -108,27 +127,100 @@ class ExploreFragment : Fragment() {
             }
             buttonReset.setOnClickListener {
                 resetAllFields()
+                viewModel
+                    .getAllProperties()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        rv.adapter = PropertyRvAdapter(it)
+                        bottomNavigationView.selectedItemId = R.id.home_bottom_navigation
+                    }
             }
 
             editTextStartEntryDate.setOnClickListener {
                 editText = editTextStartEntryDate
-                showDatePicker()
+                showDatePickerDialog()
             }
 
             editTextEndEntryDate.setOnClickListener {
                 editText = editTextEndEntryDate
-                showDatePicker()
+                showDatePickerDialog()
             }
 
             editTextStartSoldDate.setOnClickListener {
                 editText = editTextStartSoldDate
-                showDatePicker()
+                showDatePickerDialog()
             }
 
             editTextEndSoldDate.setOnClickListener {
                 editText = editTextEndSoldDate
-                showDatePicker()
+                showDatePickerDialog()
             }
+        }
+    }
+
+    private fun applySortAndFilters(propertiesWithSort: List<Property>?, propertiesWithFilters: List<Property>?) : List<Property>{
+        val propertiesWithSortAndFilters: MutableList<Property> = mutableListOf()
+        if (propertiesWithSort != null) {
+            for (property in propertiesWithSort) {
+                if (propertiesWithFilters != null && propertiesWithFilters.contains(property)) {
+                    propertiesWithSortAndFilters.add(property)
+                }
+                else if (propertiesWithFilters == null){
+                    return propertiesWithSort
+                }
+            }
+        }
+        else {
+            if (propertiesWithFilters != null) {
+                return propertiesWithFilters
+            }
+        }
+        return propertiesWithSortAndFilters
+    }
+
+    private fun applySort() {
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar_main_activity)
+        toolbar.setOnMenuItemClickListener { item ->
+            when(item.itemId){
+                R.id.sort_price_asc -> {
+                    viewModel
+                        .getPropertiesWithAscPriceSort()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            propertiesWithSort = it
+                        }
+                }
+                R.id.sort_price_desc -> {
+                    viewModel
+                        .getPropertiesWithDescPriceSort()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe{
+                            propertiesWithSort = it
+                        }
+                }
+                R.id.sort_type -> {
+                    viewModel
+                        .getPropertiesWithTypeSort()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe{
+                            propertiesWithSort = it
+                        }
+                }
+                R.id.sort_status -> {
+                    viewModel
+                        .getPropertiesWithStatusSort()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe{
+                            propertiesWithSort = it
+                        }
+                }
+            }
+            false
         }
     }
 
@@ -155,7 +247,7 @@ class ExploreFragment : Fragment() {
         }
     }
 
-    private fun showDatePicker(){
+    private fun showDatePickerDialog(){
         DatePickerDialog(
             requireContext(),
             datePickerDialog,
@@ -233,6 +325,11 @@ class ExploreFragment : Fragment() {
                 Status.values()
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        applySort()
     }
 
 }
