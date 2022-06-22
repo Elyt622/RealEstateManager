@@ -6,7 +6,9 @@ import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Status
 import com.openclassrooms.realestatemanager.model.Type
+import com.openclassrooms.realestatemanager.utils.Utils
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import java.util.*
 
 class ExploreViewModel : ViewModel() {
@@ -100,7 +102,7 @@ class ExploreViewModel : ViewModel() {
     }
 
     fun getAllProperties(): Observable<List<Property>> {
-        return propertyDao.getAllProperty()
+        return propertyDao.loadAllProperty()
     }
 
     fun applyAllFilters(
@@ -120,224 +122,184 @@ class ExploreViewModel : ViewModel() {
         endEntryDate: Date?,
         startSoldDate: Date?,
         endSoldDate: Date?
-    ) : List<Property> {
-        var propertiesWithAllFilters: List<Property> = getPropertiesWithTypeFilter(properties, types)
-        propertiesWithAllFilters = getPropertiesWithPriceFilter(propertiesWithAllFilters, minPrice, maxPrice)
-        propertiesWithAllFilters = getPropertiesWithSurfaceFilter(propertiesWithAllFilters, minSurface, maxSurface)
-        propertiesWithAllFilters = getPropertiesWithBedsFilter(propertiesWithAllFilters, minBeds, maxBeds)
-        propertiesWithAllFilters = getPropertiesWithBathroomsFilter(propertiesWithAllFilters, minBathrooms, maxBathrooms)
-        propertiesWithAllFilters = getPropertiesWithOptionsFilter(propertiesWithAllFilters, options)
-        propertiesWithAllFilters = getPropertiesWithStatusFilter(propertiesWithAllFilters, statusList)
-        propertiesWithAllFilters = getPropertiesWithEntryDateFilter(propertiesWithAllFilters, startEntryDate, endEntryDate)
-        propertiesWithAllFilters = getPropertiesWithSoldDateFilter(propertiesWithAllFilters, startSoldDate, endSoldDate)
-        return propertiesWithAllFilters
+    ) : Single<List<Property>> {
+        var listPropertiesWithFilter : List<Property> = listOf()
+        return getPropertiesWithTypeFilter(properties, types)
+            .flatMap { property1 ->
+                getPropertiesWithPriceFilter(
+                    property1,
+                    minPrice,
+                    maxPrice
+                )
+                    .subscribe { property2 ->
+                    listPropertiesWithFilter = Utils.findCommon(property1, property2)
+                    getPropertiesWithSurfaceFilter(
+                        property2,
+                        minSurface,
+                        maxSurface
+                    )
+                        .subscribe { property3 ->
+                            listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property3)
+                            getPropertiesWithBedsFilter(
+                                property3,
+                                minBeds,
+                                maxBeds
+                            )
+                                .subscribe { property4 ->
+                                    listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property4)
+                                    getPropertiesWithBathroomsFilter(
+                                        property4,
+                                        minBathrooms,
+                                        maxBathrooms
+                                    )
+                                        .subscribe { property5 ->
+                                            listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property5)
+                                            getPropertiesWithOptionsFilter(
+                                                property5,
+                                                options
+                                            )
+                                                .subscribe { property6 ->
+                                                    listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property6)
+                                                    getPropertiesWithStatusFilter(
+                                                        property6,
+                                                        statusList
+                                                    )
+                                                        .subscribe { property7 ->
+                                                            listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property7)
+                                                            getPropertiesWithEntryDateFilter(
+                                                                property7,
+                                                                startEntryDate,
+                                                                endEntryDate
+                                                            )
+                                                                .subscribe { property8 ->
+                                                                    listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property8)
+                                                                    getPropertiesWithSoldDateFilter(
+                                                                        property8,
+                                                                        startSoldDate,
+                                                                        endSoldDate
+                                                                    )
+                                                                        .subscribe { property9 ->
+                                                                            listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property9)
+                                                                        }
+                                                                }
+                                                        }
+                                                }
+                                        }
+                                }
+                        }
+                    }
+                return@flatMap Single.just(listPropertiesWithFilter)
+            }
     }
 
-    private fun getPropertiesWithPriceFilter(properties: List<Property>, minPrice: Int?, maxPrice: Int?) : List<Property> {
-        val propertiesWithFilter: MutableList<Property> = mutableListOf()
-        if (minPrice != null && maxPrice != null) {
-            for (property in properties) {
-                if (property.price >= minPrice && property.price <= maxPrice)
-                    propertiesWithFilter.add(property)
-            }
-        }else if (minPrice == null && maxPrice != null) {
-            for (property in properties) {
-                if (property.price <= maxPrice)
-                    propertiesWithFilter.add(property)
-            }
+    private fun getPropertiesWithPriceFilter(properties: List<Property>, minPrice: Int?, maxPrice: Int?) : Single<List<Property>> {
+        return if (minPrice != null && maxPrice != null) {
+            propertyDao.loadPropertiesWithPriceFilter(minPrice, maxPrice)
+        } else if (minPrice == null && maxPrice != null) {
+            propertyDao.loadPropertiesWithMaxPriceFilter(maxPrice)
         } else if (minPrice != null && maxPrice == null) {
-            for (property in properties) {
-                if (property.price >= minPrice)
-                    propertiesWithFilter.add(property)
-            }
+            propertyDao.loadPropertiesWithMinPriceFilter(minPrice)
         } else {
-            return properties
+            return Single.just(properties)
         }
-        return propertiesWithFilter
     }
 
-    private fun getPropertiesWithTypeFilter(properties: List<Property>, types: MutableList<Type>) : List<Property> {
-        val propertiesWithFilter: MutableList<Property> = mutableListOf()
-        if (types.size != 0){
-            for (type in types){
-                for (property in properties){
-                    if (property.type == type)
-                        propertiesWithFilter.add(property)
-                }
-            }
+    private fun getPropertiesWithTypeFilter(properties: List<Property>, types: MutableList<Type>) : Single<List<Property>> {
+        return if (types.size != 0){
+            propertyDao.loadPropertiesWithTypesFilter(types)
         } else {
-            return properties
+            Single.just(properties)
         }
-        return propertiesWithFilter
     }
 
-    private fun getPropertiesWithSurfaceFilter(properties: List<Property>, minSurface: Float?, maxSurface: Float?) : List<Property> {
-        val propertiesWithFilter: MutableList<Property> = mutableListOf()
+    private fun getPropertiesWithSurfaceFilter(properties: List<Property>, minSurface: Float?, maxSurface: Float?) : Single<List<Property>> {
         if (minSurface != null && maxSurface != null) {
-            for (property in properties) {
-                if (property.surface != null) {
-                    if (property.surface!! in minSurface..maxSurface)
-                        propertiesWithFilter.add(property)
-                }
-            }
-        }else if (minSurface == null && maxSurface != null) {
-            for (property in properties) {
-                if (property.surface != null) {
-                    if (property.surface!! <= maxSurface)
-                        propertiesWithFilter.add(property)
-                }
-            }
+            return propertyDao.loadPropertiesWithSurfaceFilter(minSurface, maxSurface)
+        } else if (minSurface == null && maxSurface != null) {
+            return propertyDao.loadPropertiesWithMaxSurfaceFilter(maxSurface)
         } else if (minSurface != null && maxSurface == null) {
-            for (property in properties) {
-                if (property.surface != null) {
-                    if (property.surface!! >= minSurface)
-                        propertiesWithFilter.add(property)
-                }
-            }
-        } else {
-            return properties
+            return propertyDao.loadPropertiesWithMinSurfaceFilter(minSurface)
         }
-        return propertiesWithFilter
+        return Single.just(properties)
     }
 
-    private fun getPropertiesWithBedsFilter(properties: List<Property>, minBeds: Int?, maxBeds: Int?) : List<Property> {
-        val propertiesWithFilter: MutableList<Property> = mutableListOf()
-        if (minBeds != null && maxBeds != null) {
-            for (property in properties) {
-                if (property.numberBed >= minBeds && property.numberBed <= maxBeds)
-                    propertiesWithFilter.add(property)
-            }
+    private fun getPropertiesWithBedsFilter(properties: List<Property>, minBeds: Int?, maxBeds: Int?) : Single<List<Property>> {
+        return if (minBeds != null && maxBeds != null) {
+            propertyDao.loadPropertiesWithBedroomFilter(minBeds, maxBeds)
         }else if (minBeds == null && maxBeds != null) {
-            for (property in properties) {
-                if (property.numberBed <= maxBeds)
-                    propertiesWithFilter.add(property)
-            }
+            propertyDao.loadPropertiesWithMaxBedroomFilter(maxBeds)
         } else if (minBeds != null && maxBeds == null) {
-            for (property in properties) {
-                if (property.numberBed >= minBeds)
-                    propertiesWithFilter.add(property)
-            }
+            propertyDao.loadPropertiesWithMinBedroomFilter(minBeds)
         } else {
-            return properties
+            return Single.just(properties)
         }
-        return propertiesWithFilter
     }
 
-    private fun getPropertiesWithBathroomsFilter(properties: List<Property>, minBathrooms: Int?, maxBathrooms: Int?) : List<Property> {
-        val propertiesWithFilter: MutableList<Property> = mutableListOf()
-        if (minBathrooms != null && maxBathrooms != null) {
-            for (property in properties) {
-                if (property.numberBathroom >= minBathrooms && property.numberBathroom <= maxBathrooms)
-                    propertiesWithFilter.add(property)
-            }
+    private fun getPropertiesWithBathroomsFilter(properties: List<Property>, minBathrooms: Int?, maxBathrooms: Int?) : Single<List<Property>> {
+        return if (minBathrooms != null && maxBathrooms != null) {
+            propertyDao.loadPropertiesWithBathroomFilter(minBathrooms, maxBathrooms)
         }else if (minBathrooms == null && maxBathrooms != null) {
-            for (property in properties) {
-                if (property.numberBathroom <= maxBathrooms)
-                    propertiesWithFilter.add(property)
-            }
+            propertyDao.loadPropertiesWithMaxBathroomFilter(maxBathrooms)
         } else if (minBathrooms != null && maxBathrooms == null) {
-            for (property in properties) {
-                if (property.numberBathroom >= minBathrooms)
-                    propertiesWithFilter.add(property)
-            }
+            propertyDao.loadPropertiesWithMinBathroomFilter(minBathrooms)
         } else {
-            return properties
+            return Single.just(properties)
         }
-        return propertiesWithFilter
     }
 
-    private fun getPropertiesWithOptionsFilter(properties: List<Property>, options: MutableList<Option>) : List<Property> {
-        val propertiesWithFilter: MutableList<Property> = mutableListOf()
-        if (options.size != 0){
-            for (option in options) {
-                for (property in properties) {
-                    if (property.options?.contains(option) == true)
-                        propertiesWithFilter.add(property)
-                }
-            }
+    private fun getPropertiesWithOptionsFilter(properties: List<Property>, options: MutableList<Option>) : Single<List<Property>> {
+        return if (options.size != 0){
+            propertyDao.loadPropertiesWithOptionsFilter(options)
         } else {
-            return properties
+            return Single.just(properties)
         }
-        return propertiesWithFilter
     }
 
-    private fun getPropertiesWithStatusFilter(properties: List<Property>, statusList: MutableList<Status>) : List<Property> {
-        val propertiesWithFilter: MutableList<Property> = mutableListOf()
-        if (status.size != 0){
-            for (status in statusList) {
-                for (property in properties) {
-                    if (property.status == status)
-                        propertiesWithFilter.add(property)
-                }
-            }
+    private fun getPropertiesWithStatusFilter(properties: List<Property>, statusList: MutableList<Status>) : Single<List<Property>> {
+        return if (statusList.size != 0){
+            propertyDao.loadPropertiesWithStatusFilter(statusList)
         } else {
-            return properties
+            return Single.just(properties)
         }
-        return propertiesWithFilter
     }
 
-    private fun getPropertiesWithEntryDateFilter(properties: List<Property>, minEntryDate: Date?, maxEntryDate: Date?): List<Property> {
-        val propertiesWithFilter: MutableList<Property> = mutableListOf()
-        if (minEntryDate != null && maxEntryDate != null) {
-            for (property in properties) {
-                if (property.entryDate.after(minEntryDate) && property.entryDate.before(maxEntryDate))
-                    propertiesWithFilter.add(property)
-            }
+    private fun getPropertiesWithEntryDateFilter(properties: List<Property>, minEntryDate: Date?, maxEntryDate: Date?): Single<List<Property>> {
+        return if (minEntryDate != null && maxEntryDate != null) {
+            propertyDao.loadPropertiesWithEntryDateFilter(minEntryDate, maxEntryDate)
         }else if (minEntryDate == null && maxEntryDate != null) {
-            for (property in properties) {
-                if (property.entryDate.before(maxEntryDate))
-                    propertiesWithFilter.add(property)
-            }
+            propertyDao.loadPropertiesWithMaxEntryDateFilter(maxEntryDate)
         } else if (minEntryDate != null && maxEntryDate == null) {
-            for (property in properties) {
-                if (property.entryDate.after(minEntryDate))
-                    propertiesWithFilter.add(property)
-            }
+            propertyDao.loadPropertiesWithMinEntryDateFilter(minEntryDate)
         } else {
-            return properties
+            Single.just(properties)
         }
-        return propertiesWithFilter
     }
 
-    private fun getPropertiesWithSoldDateFilter(properties: List<Property>, minSoldDate: Date?, maxSoldDate: Date?): List<Property> {
-        val propertiesWithFilter: MutableList<Property> = mutableListOf()
-        if (minSoldDate != null && maxSoldDate != null) {
-            for (property in properties) {
-                if (property.soldDate != null)
-                    if (property.soldDate?.after(minSoldDate)!! && property.soldDate?.before(maxSoldDate)!!)
-                        propertiesWithFilter.add(property)
-            }
+    private fun getPropertiesWithSoldDateFilter(properties: List<Property>, minSoldDate: Date?, maxSoldDate: Date?): Single<List<Property>> {
+        return if (minSoldDate != null && maxSoldDate != null) {
+            propertyDao.loadPropertiesWithSoldDateFilter(minSoldDate, maxSoldDate)
         }else if (minSoldDate == null && maxSoldDate != null) {
-            for (property in properties) {
-                if (property.soldDate != null)
-                    if (property.soldDate?.before(maxSoldDate)!!)
-                    propertiesWithFilter.add(property)
-            }
+            propertyDao.loadPropertiesWithMaxSoldDateFilter(maxSoldDate)
         } else if (minSoldDate != null && maxSoldDate == null) {
-            for (property in properties) {
-                if (property.soldDate != null)
-                    if (property.soldDate?.after(minSoldDate)!!)
-                        propertiesWithFilter.add(property)
-            }
+            propertyDao.loadPropertiesWithMinSoldDateFilter(minSoldDate)
         } else {
-            return properties
+            Single.just(properties)
         }
-        return propertiesWithFilter
     }
 
     fun getPropertiesWithAscPriceSort(): Observable<List<Property>> {
-        return propertyDao.getAllPropertiesWithAscPriceSort()
+        return propertyDao.loadAllPropertiesWithAscPriceSort()
     }
 
     fun getPropertiesWithDescPriceSort() : Observable<List<Property>> {
-        return propertyDao.getAllPropertiesWithDescPriceSort()
+        return propertyDao.loadAllPropertiesWithDescPriceSort()
     }
 
     fun getPropertiesWithTypeSort() : Observable<List<Property>> {
-        return propertyDao.getAllPropertiesWithTypeSort()
+        return propertyDao.loadAllPropertiesWithTypeSort()
     }
 
     fun getPropertiesWithStatusSort() : Observable<List<Property>> {
-        return propertyDao.getAllPropertiesWithStatusSort()
+        return propertyDao.loadAllPropertiesWithStatusSort()
     }
 }

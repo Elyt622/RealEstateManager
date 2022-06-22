@@ -27,6 +27,7 @@ import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterExploreFragm
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
@@ -99,7 +100,7 @@ class ExploreFragment : Fragment() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         {
-                            propertiesWithFilters = viewModel.applyAllFilters(
+                            viewModel.applyAllFilters(
                                 it,
                                 viewModel.getTypes(),
                                 Utils.convertStringToInt(editTextStartPrice.text.toString()),
@@ -117,8 +118,17 @@ class ExploreFragment : Fragment() {
                                 viewModel.getStartSoldDate(),
                                 viewModel.getEndSoldDate()
                             )
-                            rv.adapter = PropertyRvAdapter(applySortAndFilters(propertiesWithSort, propertiesWithFilters))
-                            bottomNavigationView.selectedItemId = R.id.home_bottom_navigation
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeBy(
+                                    onSuccess = {
+                                        rv.adapter = PropertyRvAdapter(applySortAndFilters(propertiesWithSort, it))
+                                        bottomNavigationView.selectedItemId = R.id.home_bottom_navigation
+                                    },
+                                    onError = {
+
+                                    })
+
                         },
                         {
                             Log.d("DEBUG", it.message.toString())
