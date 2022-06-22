@@ -10,22 +10,22 @@ class HomeViewModel : ViewModel() {
     private val propertyDao = App.database.propertyDao()
 
     fun getAllProperties(): Observable<List<Property>>{
-        return propertyDao.getAllProperty()
+        return propertyDao.loadAllProperty()
     }
 
     fun getPropertiesWithAscPriceSort(): Observable<List<Property>> {
-        return propertyDao.getAllPropertiesWithAscPriceSort()
+        return propertyDao.loadAllPropertiesWithAscPriceSort()
     }
 
     fun getPropertiesWithDescPriceSort() : Observable<List<Property>> {
-        return propertyDao.getAllPropertiesWithDescPriceSort()
+        return propertyDao.loadAllPropertiesWithDescPriceSort()
     }
 
     fun getPropertiesWithTypeSort() : Observable<List<Property>> {
-        return propertyDao.getAllPropertiesWithTypeSort()
+        return propertyDao.loadAllPropertiesWithTypeSort()
     }
 
     fun getPropertiesWithStatusSort() : Observable<List<Property>> {
-        return propertyDao.getAllPropertiesWithStatusSort()
+        return propertyDao.loadAllPropertiesWithStatusSort()
     }
 }
