@@ -10,7 +10,7 @@ class PropertyViewModel : ViewModel() {
     private val propertyDao = App.database.propertyDao()
 
     fun getPropertyWithRef(ref: Int): Observable<Property>{
-        return propertyDao.getPropertyWithRef(ref)
+        return propertyDao.loadPropertyWithRef(ref)
     }
 
 }
