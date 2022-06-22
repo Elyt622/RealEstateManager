@@ -42,7 +42,7 @@ class ModifyPropertyViewModel : ViewModel() {
     }
 
     fun getPropertyWithRef(ref: Int): Observable<Property> {
-        return propertyDao.getPropertyWithRef(ref)
+        return propertyDao.loadPropertyWithRef(ref)
     }
 
     fun getOptionsWithPositionInRV(elements: BooleanArray) : MutableList<Option> {
