@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.fragment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -53,8 +52,6 @@ class ExploreFragment : Fragment() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
-    private var propertiesWithFilters: List<Property>? = null
-
     private var propertiesWithSort: List<Property>? = null
 
     private lateinit var toolbar: Toolbar
@@ -66,10 +63,6 @@ class ExploreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = ExploreFragmentBinding.inflate(layoutInflater)
-        rv = parentFragmentManager
-            .fragments[0]
-            .requireView()
-            .findViewById(R.id.recycler_view_list_properties_home_fragment)
         bottomNavigationView = requireActivity()
                 .findViewById(R.id.bottom_navigation_view_activity_main)
         toolbar = requireActivity().findViewById(R.id.toolbar_main_activity)
@@ -85,6 +78,23 @@ class ExploreFragment : Fragment() {
         configOptionRv()
         configStatusRv()
 
+        if (parentFragmentManager.findFragmentByTag("DetailsFragment") == null)
+            rv = parentFragmentManager
+                .fragments[0]
+                .requireView()
+                .findViewById(R.id.recycler_view_list_properties_home_fragment)
+        else {
+            if (parentFragmentManager.fragments[1] != null && parentFragmentManager.fragments[1].view != null) {
+                rv = parentFragmentManager
+                    .fragments[1]
+                    .requireView()
+                    .findViewById(R.id.recycler_view_list_properties_home_fragment)
+                parentFragmentManager.beginTransaction()
+                    .hide(parentFragmentManager
+                        .findFragmentByTag("DetailsFragment")!!).commit()
+            }
+        }
+
         datePickerDialog = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             myCalendar.set(Calendar.YEAR, year)
             myCalendar.set(Calendar.MONTH, month)
@@ -98,42 +108,40 @@ class ExploreFragment : Fragment() {
                     .getAllProperties()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                        {
-                            viewModel.applyAllFilters(
-                                it,
-                                viewModel.getTypes(),
-                                Utils.convertStringToInt(editTextStartPrice.text.toString()),
-                                Utils.convertStringToInt(editTextEndPrice.text.toString()),
-                                Utils.convertStringToFloat(editTextStartSurface.text.toString()),
-                                Utils.convertStringToFloat(editTextEndSurface.text.toString()),
-                                Utils.convertStringToInt(editTextStartBeds.text.toString()),
-                                Utils.convertStringToInt(editTextEndBeds.text.toString()),
-                                Utils.convertStringToInt(editTextStartBathrooms.text.toString()),
-                                Utils.convertStringToInt(editTextEndBathrooms.text.toString()),
-                                viewModel.getOptions(),
-                                viewModel.getStatus(),
-                                viewModel.getStartEntryDate(),
-                                viewModel.getEndEntryDate(),
-                                viewModel.getStartSoldDate(),
-                                viewModel.getEndSoldDate()
+                    .subscribe {
+                        viewModel.applyAllFilters(
+                            it,
+                            viewModel.getTypes(),
+                            Utils.convertStringToInt(editTextStartPrice.text.toString()),
+                            Utils.convertStringToInt(editTextEndPrice.text.toString()),
+                            Utils.convertStringToFloat(editTextStartSurface.text.toString()),
+                            Utils.convertStringToFloat(editTextEndSurface.text.toString()),
+                            Utils.convertStringToInt(editTextStartBeds.text.toString()),
+                            Utils.convertStringToInt(editTextEndBeds.text.toString()),
+                            Utils.convertStringToInt(editTextStartBathrooms.text.toString()),
+                            Utils.convertStringToInt(editTextEndBathrooms.text.toString()),
+                            viewModel.getOptions(),
+                            viewModel.getStatus(),
+                            viewModel.getStartEntryDate(),
+                            viewModel.getEndEntryDate(),
+                            viewModel.getStartSoldDate(),
+                            viewModel.getEndSoldDate()
+                        )
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeBy(
+                                onSuccess = { propertiesWithFilter ->
+                                    rv.adapter = PropertyRvAdapter(
+                                        applySortAndFilters(
+                                            propertiesWithSort,
+                                            propertiesWithFilter
+                                        )
+                                    )
+                                    bottomNavigationView.selectedItemId =
+                                        R.id.home_bottom_navigation
+                                }
                             )
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeBy(
-                                    onSuccess = {
-                                        rv.adapter = PropertyRvAdapter(applySortAndFilters(propertiesWithSort, it))
-                                        bottomNavigationView.selectedItemId = R.id.home_bottom_navigation
-                                    },
-                                    onError = {
-
-                                    })
-
-                        },
-                        {
-                            Log.d("DEBUG", it.message.toString())
-                        }
-                    )
+                    }
             }
             buttonReset.setOnClickListener {
                 resetAllFields()
@@ -339,6 +347,9 @@ class ExploreFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        val fragment = parentFragmentManager.findFragmentByTag("DetailsFragment")
+        if(fragment != null)
+            parentFragmentManager.beginTransaction().hide(fragment).commit()
         applySort()
     }
 

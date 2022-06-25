@@ -1,13 +1,13 @@
 package com.openclassrooms.realestatemanager.ui.fragment
 
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.databinding.ProfileFragmentBinding
 import com.openclassrooms.realestatemanager.ui.activity.AddPropertyActivity
 import com.openclassrooms.realestatemanager.viewmodel.ProfileViewModel
@@ -43,5 +43,13 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val fragment = parentFragmentManager.findFragmentByTag("DetailsFragment")
+        if(fragment != null)
+            parentFragmentManager.beginTransaction().hide(fragment).commit()
+    }
+
 
 }

@@ -1,21 +1,30 @@
 package com.openclassrooms.realestatemanager.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isEmpty
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.HomeFragmentBinding
+import com.openclassrooms.realestatemanager.event.LaunchActivityEvent
+import com.openclassrooms.realestatemanager.ui.activity.PropertyActivity
 import com.openclassrooms.realestatemanager.ui.adapter.PropertyRvAdapter
 import com.openclassrooms.realestatemanager.viewmodel.HomeViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+
 
 class HomeFragment : Fragment() {
 
@@ -31,10 +40,13 @@ class HomeFragment : Fragment() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
+    private var fragmentDetails: FragmentContainerView? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View {
         binding = HomeFragmentBinding.inflate(layoutInflater)
         bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation_view_activity_main)
+        fragmentDetails = requireActivity().findViewById(R.id.fragment_details)
         return binding.root
     }
 
@@ -43,10 +55,13 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         rv = binding.recyclerViewListPropertiesHomeFragment
-        rv.layoutManager = GridLayoutManager(context, 2)
-
+        if(fragmentDetails != null){
+            rv.layoutManager = GridLayoutManager(context, 1)
+        }
+        else {
+            rv.layoutManager = GridLayoutManager(context, 2)
+        }
         configPropertiesRv()
-
         applySort()
     }
 
@@ -57,6 +72,8 @@ class HomeFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{
                 rv.adapter = PropertyRvAdapter(it)
+                if (fragmentDetails != null)
+                    parentFragmentManager.beginTransaction().show(parentFragmentManager.findFragmentByTag("DetailsFragment")!!).commit()
             }
     }
 
@@ -105,8 +122,32 @@ class HomeFragment : Fragment() {
             }
     }
 
+    @Subscribe
+    fun onEvent(event: LaunchActivityEvent) {
+        if (parentFragmentManager.findFragmentByTag("DetailsFragment") == null) {
+                val intent = Intent(activity, PropertyActivity::class.java)
+                intent.putExtra("REF", event.ref)
+                startActivity(intent)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
     override fun onResume() {
         applySort()
+        if(fragmentDetails != null && rv.isNotEmpty()){
+            parentFragmentManager.beginTransaction().show(parentFragmentManager.findFragmentByTag("DetailsFragment")!!).commit()
+        } else if (fragmentDetails != null && rv.isEmpty()) {
+            parentFragmentManager.beginTransaction().hide(parentFragmentManager.findFragmentByTag("DetailsFragment")!!).commit()
+        }
         super.onResume()
     }
 }
