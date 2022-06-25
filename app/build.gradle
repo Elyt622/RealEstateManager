@@ -57,6 +57,9 @@ dependencies {
     def retrofit_version = "2.9.0"
     def camerax_version = "1.2.0-alpha02"
 
+    // Event bus
+    implementation 'org.greenrobot:eventbus:3.2.0'
+
     //RxJava
     implementation "io.reactivex.rxjava3:rxjava:3.1.2"
     implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
