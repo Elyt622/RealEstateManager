@@ -43,6 +43,8 @@ class MainActivity : BaseActivity() {
                     0 -> bottomNav.menu.getItem(0).isChecked = true
                     1 -> bottomNav.menu.getItem(1).isChecked = true
                     2 -> bottomNav.menu.getItem(2).isChecked = true
+                    3 -> bottomNav.menu.getItem(3).isChecked = true
+
                 }
                 super.onPageSelected(position)
             }
@@ -54,7 +56,8 @@ class MainActivity : BaseActivity() {
             when(it.itemId){
                 R.id.home_bottom_navigation -> viewPager.currentItem = 0
                 R.id.explorer_bottom_navigation -> viewPager.currentItem = 1
-                R.id.profile_bottom_navigation -> viewPager.currentItem = 2
+                R.id.map_bottom_navigation -> viewPager.currentItem = 2
+                R.id.profile_bottom_navigation -> viewPager.currentItem = 3
             }
             true
         }
