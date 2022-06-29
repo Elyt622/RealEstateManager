@@ -1,12 +1,13 @@
 package com.openclassrooms.realestatemanager.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Status
 import com.openclassrooms.realestatemanager.model.Type
-import com.openclassrooms.realestatemanager.utils.Utils
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import java.util.*
@@ -37,19 +38,19 @@ class ExploreViewModel : ViewModel() {
 
     fun getEndSoldDate() = this.endSoldDate
 
-    fun setStartEntryDate(startEntryDate: Date) {
+    fun setStartEntryDate(startEntryDate: Date?) {
         this.startEntryDate = startEntryDate
     }
 
-    fun setEndEntryDate(endEntryDate: Date) {
+    fun setEndEntryDate(endEntryDate: Date?) {
         this.endEntryDate = endEntryDate
     }
 
-    fun setStartSoldDate(startSoldDate: Date) {
+    fun setStartSoldDate(startSoldDate: Date?) {
         this.startSoldDate = startSoldDate
     }
 
-    fun setEndSoldDate(endSoldDate: Date) {
+    fun setEndSoldDate(endSoldDate: Date?) {
         this.endSoldDate = endSoldDate
     }
 
@@ -105,9 +106,40 @@ class ExploreViewModel : ViewModel() {
         return propertyDao.loadAllProperty()
     }
 
+    private fun <T> getQueryForSelect(list: List<T>): String{
+        val stringBuilder = StringBuilder()
+        stringBuilder.append("(")
+        for (element in list) {
+            if (list.size > 1) {
+                if (list.last() != element)
+                    stringBuilder.append("\"$element\",")
+                else
+                    stringBuilder.append("\"$element\"")
+            } else {
+                stringBuilder.append("\"$element\"")
+            }
+        }
+        stringBuilder.append(")")
+        return stringBuilder.toString()
+    }
+
+    private fun <T> getQueryForSelectOptions(list: List<T>): String{
+        val stringBuilder = StringBuilder()
+        for (element in list) {
+            if (list.size > 1) {
+                if (list.last() != element)
+                    stringBuilder.append("\"%$element%\" OR options LIKE ")
+                else
+                    stringBuilder.append("\"%$element%\"")
+            } else {
+                stringBuilder.append("\"%$element%\"")
+            }
+        }
+        return stringBuilder.toString()
+    }
+
     fun applyAllFilters(
-        properties: List<Property>,
-        types: MutableList<Type>,
+        types: List<Type>,
         minPrice: Int?,
         maxPrice: Int?,
         minSurface: Float?,
@@ -116,175 +148,41 @@ class ExploreViewModel : ViewModel() {
         maxBeds: Int?,
         minBathrooms: Int?,
         maxBathrooms: Int?,
-        options: MutableList<Option>,
-        statusList: MutableList<Status>,
+        options: List<Option>,
+        statusList: List<Status>,
         startEntryDate: Date?,
         endEntryDate: Date?,
         startSoldDate: Date?,
         endSoldDate: Date?
     ) : Single<List<Property>> {
-        var listPropertiesWithFilter : List<Property> = listOf()
-        return getPropertiesWithTypeFilter(properties, types)
-            .flatMap { property1 ->
-                getPropertiesWithPriceFilter(
-                    property1,
-                    minPrice,
-                    maxPrice
-                )
-                    .subscribe { property2 ->
-                    listPropertiesWithFilter = Utils.findCommon(property1, property2)
-                    getPropertiesWithSurfaceFilter(
-                        property2,
-                        minSurface,
-                        maxSurface
-                    )
-                        .subscribe { property3 ->
-                            listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property3)
-                            getPropertiesWithBedsFilter(
-                                property3,
-                                minBeds,
-                                maxBeds
-                            )
-                                .subscribe { property4 ->
-                                    listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property4)
-                                    getPropertiesWithBathroomsFilter(
-                                        property4,
-                                        minBathrooms,
-                                        maxBathrooms
-                                    )
-                                        .subscribe { property5 ->
-                                            listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property5)
-                                            getPropertiesWithOptionsFilter(
-                                                property5,
-                                                options
-                                            )
-                                                .subscribe { property6 ->
-                                                    listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property6)
-                                                    getPropertiesWithStatusFilter(
-                                                        property6,
-                                                        statusList
-                                                    )
-                                                        .subscribe { property7 ->
-                                                            listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property7)
-                                                            getPropertiesWithEntryDateFilter(
-                                                                property7,
-                                                                startEntryDate,
-                                                                endEntryDate
-                                                            )
-                                                                .subscribe { property8 ->
-                                                                    listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property8)
-                                                                    getPropertiesWithSoldDateFilter(
-                                                                        property8,
-                                                                        startSoldDate,
-                                                                        endSoldDate
-                                                                    )
-                                                                        .subscribe { property9 ->
-                                                                            listPropertiesWithFilter = Utils.findCommon(listPropertiesWithFilter, property9)
-                                                                        }
-                                                                }
-                                                        }
-                                                }
-                                        }
-                                }
-                        }
-                    }
-                return@flatMap Single.just(listPropertiesWithFilter)
-            }
-    }
+        var stringBuilder = StringBuilder()
 
-    private fun getPropertiesWithPriceFilter(properties: List<Property>, minPrice: Int?, maxPrice: Int?) : Single<List<Property>> {
-        return if (minPrice != null && maxPrice != null) {
-            propertyDao.loadPropertiesWithPriceFilter(minPrice, maxPrice)
-        } else if (minPrice == null && maxPrice != null) {
-            propertyDao.loadPropertiesWithMaxPriceFilter(maxPrice)
-        } else if (minPrice != null && maxPrice == null) {
-            propertyDao.loadPropertiesWithMinPriceFilter(minPrice)
-        } else {
-            return Single.just(properties)
-        }
-    }
+        if(types.isNotEmpty()) stringBuilder.append("type IN ${getQueryForSelect(types)} AND ")
+        if(minPrice != null) stringBuilder.append("price >= $minPrice AND ")
+        if(maxPrice != null) stringBuilder.append("price <= $maxPrice AND ")
+        if(minSurface != null) stringBuilder.append("surface >= $minSurface AND ")
+        if(maxSurface != null) stringBuilder.append("surface <= $maxSurface AND ")
+        if(minBeds != null) stringBuilder.append("numberBed >= $minBeds AND ")
+        if(maxBeds != null) stringBuilder.append("numberBed <= $maxBeds AND ")
+        if(minBathrooms != null) stringBuilder.append("numberBathroom >= $minBathrooms AND ")
+        if(maxBathrooms != null) stringBuilder.append("numberBathroom <= $maxBathrooms AND ")
+        if(options.isNotEmpty()) stringBuilder.append("options LIKE ${getQueryForSelectOptions(options)} AND ")
+        if(statusList.isNotEmpty()) stringBuilder.append("status IN ${getQueryForSelect(statusList)} AND ")
+        if(startEntryDate != null) stringBuilder.append("entryDate >= ${startEntryDate.time} AND ")
+        if(endEntryDate != null) stringBuilder.append("entryDate <= ${endEntryDate.time} AND ")
+        if(startSoldDate != null) stringBuilder.append("soldDate >= ${startSoldDate.time} AND ")
+        if(endSoldDate != null) stringBuilder.append("soldDate <= ${endSoldDate.time} AND")
 
-    private fun getPropertiesWithTypeFilter(properties: List<Property>, types: MutableList<Type>) : Single<List<Property>> {
-        return if (types.size != 0){
-            propertyDao.loadPropertiesWithTypesFilter(types)
-        } else {
-            Single.just(properties)
+        if(stringBuilder.isNotEmpty()){
+            val lastIdx = stringBuilder.lastIndexOf(" AND")
+            stringBuilder = StringBuilder(stringBuilder).replace(lastIdx, lastIdx+4, ";")
         }
-    }
 
-    private fun getPropertiesWithSurfaceFilter(properties: List<Property>, minSurface: Float?, maxSurface: Float?) : Single<List<Property>> {
-        if (minSurface != null && maxSurface != null) {
-            return propertyDao.loadPropertiesWithSurfaceFilter(minSurface, maxSurface)
-        } else if (minSurface == null && maxSurface != null) {
-            return propertyDao.loadPropertiesWithMaxSurfaceFilter(maxSurface)
-        } else if (minSurface != null && maxSurface == null) {
-            return propertyDao.loadPropertiesWithMinSurfaceFilter(minSurface)
-        }
-        return Single.just(properties)
-    }
-
-    private fun getPropertiesWithBedsFilter(properties: List<Property>, minBeds: Int?, maxBeds: Int?) : Single<List<Property>> {
-        return if (minBeds != null && maxBeds != null) {
-            propertyDao.loadPropertiesWithBedroomFilter(minBeds, maxBeds)
-        }else if (minBeds == null && maxBeds != null) {
-            propertyDao.loadPropertiesWithMaxBedroomFilter(maxBeds)
-        } else if (minBeds != null && maxBeds == null) {
-            propertyDao.loadPropertiesWithMinBedroomFilter(minBeds)
-        } else {
-            return Single.just(properties)
-        }
-    }
-
-    private fun getPropertiesWithBathroomsFilter(properties: List<Property>, minBathrooms: Int?, maxBathrooms: Int?) : Single<List<Property>> {
-        return if (minBathrooms != null && maxBathrooms != null) {
-            propertyDao.loadPropertiesWithBathroomFilter(minBathrooms, maxBathrooms)
-        }else if (minBathrooms == null && maxBathrooms != null) {
-            propertyDao.loadPropertiesWithMaxBathroomFilter(maxBathrooms)
-        } else if (minBathrooms != null && maxBathrooms == null) {
-            propertyDao.loadPropertiesWithMinBathroomFilter(minBathrooms)
-        } else {
-            return Single.just(properties)
-        }
-    }
-
-    private fun getPropertiesWithOptionsFilter(properties: List<Property>, options: MutableList<Option>) : Single<List<Property>> {
-        return if (options.size != 0){
-            propertyDao.loadPropertiesWithOptionsFilter(options)
-        } else {
-            return Single.just(properties)
-        }
-    }
-
-    private fun getPropertiesWithStatusFilter(properties: List<Property>, statusList: MutableList<Status>) : Single<List<Property>> {
-        return if (statusList.size != 0){
-            propertyDao.loadPropertiesWithStatusFilter(statusList)
-        } else {
-            return Single.just(properties)
-        }
-    }
-
-    private fun getPropertiesWithEntryDateFilter(properties: List<Property>, minEntryDate: Date?, maxEntryDate: Date?): Single<List<Property>> {
-        return if (minEntryDate != null && maxEntryDate != null) {
-            propertyDao.loadPropertiesWithEntryDateFilter(minEntryDate, maxEntryDate)
-        }else if (minEntryDate == null && maxEntryDate != null) {
-            propertyDao.loadPropertiesWithMaxEntryDateFilter(maxEntryDate)
-        } else if (minEntryDate != null && maxEntryDate == null) {
-            propertyDao.loadPropertiesWithMinEntryDateFilter(minEntryDate)
-        } else {
-            Single.just(properties)
-        }
-    }
-
-    private fun getPropertiesWithSoldDateFilter(properties: List<Property>, minSoldDate: Date?, maxSoldDate: Date?): Single<List<Property>> {
-        return if (minSoldDate != null && maxSoldDate != null) {
-            propertyDao.loadPropertiesWithSoldDateFilter(minSoldDate, maxSoldDate)
-        }else if (minSoldDate == null && maxSoldDate != null) {
-            propertyDao.loadPropertiesWithMaxSoldDateFilter(maxSoldDate)
-        } else if (minSoldDate != null && maxSoldDate == null) {
-            propertyDao.loadPropertiesWithMinSoldDateFilter(minSoldDate)
-        } else {
-            Single.just(properties)
-        }
+        val query = SimpleSQLiteQuery(
+            "SELECT * FROM Property WHERE $stringBuilder"
+        )
+        Log.d("DEBUG", query.sql.toString())
+        return propertyDao.filter(query)
     }
 
     fun getPropertiesWithAscPriceSort(): Observable<List<Property>> {

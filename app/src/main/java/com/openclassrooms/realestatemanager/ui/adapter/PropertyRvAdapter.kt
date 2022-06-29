@@ -33,8 +33,8 @@ class PropertyRvAdapter(private val dataSet: List<Property>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        if(config.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE))
-            EventBus.getDefault().post(LaunchActivityEvent(dataSet[0].ref))
+        if(config.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE) && position == 0)
+            EventBus.getDefault().post(LaunchActivityEvent(dataSet[position].ref))
 
         viewHolder.typeProperty.text = dataSet[position].type.name
 

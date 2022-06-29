@@ -1,22 +1,15 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.ui.adapter.ViewPagerAdapter
-import com.openclassrooms.realestatemanager.ui.fragment.PropertyFragment
 import com.openclassrooms.realestatemanager.viewmodel.MainViewModel
 
 class MainActivity : BaseActivity() {
-
-    private lateinit var toolbar: Toolbar
-
-    private lateinit var fragment: FragmentContainerView
 
     private lateinit var bottomNav : BottomNavigationView
 
@@ -33,25 +26,11 @@ class MainActivity : BaseActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        toolbar = binding.toolbarMainActivity
-        fragment = binding.fragmentActivityMain
-
         bottomNav = binding.bottomNavigationViewActivityMain
         viewPager = binding.viewpagerActivityMain
 
-        configDetailsFragment()
         configBottomNav()
         configViewpager()
-    }
-
-    private fun configDetailsFragment(){
-        with(binding) {
-            if (fragmentDetails != null) {
-                supportFragmentManager.beginTransaction()
-                    .replace(fragmentDetails.id, PropertyFragment(), "DetailsFragment")
-                    .commit()
-            }
-        }
     }
 
     private fun configViewpager() {

@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.ui.fragment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -78,22 +79,10 @@ class ExploreFragment : Fragment() {
         configOptionRv()
         configStatusRv()
 
-        if (parentFragmentManager.findFragmentByTag("DetailsFragment") == null)
-            rv = parentFragmentManager
-                .fragments[0]
-                .requireView()
-                .findViewById(R.id.recycler_view_list_properties_home_fragment)
-        else {
-            if (parentFragmentManager.fragments[1] != null && parentFragmentManager.fragments[1].view != null) {
-                rv = parentFragmentManager
-                    .fragments[1]
-                    .requireView()
-                    .findViewById(R.id.recycler_view_list_properties_home_fragment)
-                parentFragmentManager.beginTransaction()
-                    .hide(parentFragmentManager
-                        .findFragmentByTag("DetailsFragment")!!).commit()
-            }
-        }
+        rv = parentFragmentManager
+            .fragments[0]
+            .requireView()
+            .findViewById(R.id.recycler_view_list_properties_home_fragment)
 
         datePickerDialog = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             myCalendar.set(Calendar.YEAR, year)
@@ -104,13 +93,7 @@ class ExploreFragment : Fragment() {
 
         with(binding){
             buttonSearch.setOnClickListener {
-                viewModel
-                    .getAllProperties()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
                         viewModel.applyAllFilters(
-                            it,
                             viewModel.getTypes(),
                             Utils.convertStringToInt(editTextStartPrice.text.toString()),
                             Utils.convertStringToInt(editTextEndPrice.text.toString()),
@@ -139,10 +122,12 @@ class ExploreFragment : Fragment() {
                                     )
                                     bottomNavigationView.selectedItemId =
                                         R.id.home_bottom_navigation
+                                },
+                                onError = {
+                                    Log.d("DEBUG", it.message.toString())
                                 }
                             )
                     }
-            }
             buttonReset.setOnClickListener {
                 resetAllFields()
                 viewModel
@@ -244,7 +229,6 @@ class ExploreFragment : Fragment() {
 
     private fun resetAllFields(){
         with(binding) {
-            viewModel.setTypes(mutableListOf())
             editTextStartPrice.setText("")
             editTextEndPrice.setText("")
             editTextStartSurface.setText("")
@@ -253,16 +237,23 @@ class ExploreFragment : Fragment() {
             editTextEndBeds.setText("")
             editTextStartBathrooms.setText("")
             editTextEndBathrooms.setText("")
-            viewModel.setOptions(mutableListOf())
-            viewModel.setStatus(mutableListOf())
             editTextStartEntryDate.setText("")
             editTextEndEntryDate.setText("")
             editTextStartSoldDate.setText("")
             editTextEndSoldDate.setText("")
-            configTypeRv()
-            configOptionRv()
-            configStatusRv()
         }
+        with(viewModel) {
+            setTypes(mutableListOf())
+            setOptions(mutableListOf())
+            setStatus(mutableListOf())
+            setStartEntryDate(null)
+            setEndEntryDate(null)
+            setStartSoldDate(null)
+            setEndSoldDate(null)
+        }
+        configTypeRv()
+        configOptionRv()
+        configStatusRv()
     }
 
     private fun showDatePickerDialog(){
@@ -347,10 +338,6 @@ class ExploreFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val fragment = parentFragmentManager.findFragmentByTag("DetailsFragment")
-        if(fragment != null)
-            parentFragmentManager.beginTransaction().hide(fragment).commit()
         applySort()
     }
-
 }

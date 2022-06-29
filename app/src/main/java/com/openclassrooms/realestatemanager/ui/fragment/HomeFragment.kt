@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.isEmpty
-import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +28,6 @@ class HomeFragment : Fragment() {
     companion object {
         fun newInstance() = HomeFragment()
     }
-
     private lateinit var viewModel: HomeViewModel
 
     private lateinit var rv : RecyclerView
@@ -40,22 +36,35 @@ class HomeFragment : Fragment() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
-    private var fragmentDetails: FragmentContainerView? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View {
         binding = HomeFragmentBinding.inflate(layoutInflater)
+
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
         bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation_view_activity_main)
-        fragmentDetails = requireActivity().findViewById(R.id.fragment_details)
+        rv = binding.recyclerViewListPropertiesHomeFragment
         return binding.root
+    }
+
+    private fun configDetailsFragment(){
+        with(binding) {
+            if (fragmentDetails != null) {
+                fragmentDetails.setTag(fragmentDetails.id, "DetailsFragment")
+                parentFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_details, PropertyFragment())
+                    .commit()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
-        rv = binding.recyclerViewListPropertiesHomeFragment
-        if(fragmentDetails != null){
+        configDetailsFragment()
+
+        if(binding.fragmentDetails != null){
             rv.layoutManager = GridLayoutManager(context, 1)
         }
         else {
@@ -72,8 +81,6 @@ class HomeFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{
                 rv.adapter = PropertyRvAdapter(it)
-                if (fragmentDetails != null)
-                    parentFragmentManager.beginTransaction().show(parentFragmentManager.findFragmentByTag("DetailsFragment")!!).commit()
             }
     }
 
@@ -124,7 +131,7 @@ class HomeFragment : Fragment() {
 
     @Subscribe
     fun onEvent(event: LaunchActivityEvent) {
-        if (parentFragmentManager.findFragmentByTag("DetailsFragment") == null) {
+        if (parentFragmentManager.findFragmentById(R.id.fragment_details) == null) {
                 val intent = Intent(activity, PropertyActivity::class.java)
                 intent.putExtra("REF", event.ref)
                 startActivity(intent)
@@ -143,11 +150,6 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         applySort()
-        if(fragmentDetails != null && rv.isNotEmpty()){
-            parentFragmentManager.beginTransaction().show(parentFragmentManager.findFragmentByTag("DetailsFragment")!!).commit()
-        } else if (fragmentDetails != null && rv.isEmpty()) {
-            parentFragmentManager.beginTransaction().hide(parentFragmentManager.findFragmentByTag("DetailsFragment")!!).commit()
-        }
         super.onResume()
     }
 }

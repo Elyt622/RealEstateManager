@@ -43,13 +43,4 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        val fragment = parentFragmentManager.findFragmentByTag("DetailsFragment")
-        if(fragment != null)
-            parentFragmentManager.beginTransaction().hide(fragment).commit()
-    }
-
-
 }

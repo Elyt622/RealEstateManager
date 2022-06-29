@@ -191,14 +191,18 @@ class PropertyFragment : Fragment() {
                                 15F
                             ))
                     }
+                },
+                onError = {
+
                 }
             )
     }
 
     @Subscribe
     fun onEvent(event: LaunchActivityEvent) {
+        ref = event.ref
             if (parentFragmentManager.findFragmentByTag("DetailsFragment") != null) {
-                loadProperty(viewModel.getPropertyWithRef(event.ref))
+                loadProperty(viewModel.getPropertyWithRef(ref))
             }
     }
 
