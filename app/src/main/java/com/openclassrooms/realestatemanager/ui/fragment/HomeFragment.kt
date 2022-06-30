@@ -50,10 +50,9 @@ class HomeFragment : Fragment() {
     private fun configDetailsFragment(){
         with(binding) {
             if (fragmentDetails != null) {
-                fragmentDetails.setTag(fragmentDetails.id, "DetailsFragment")
                 parentFragmentManager
                     .beginTransaction()
-                    .replace(R.id.fragment_details, PropertyFragment())
+                    .replace(fragmentDetails.id, PropertyFragment(), "DetailsProperty")
                     .commit()
             }
         }
@@ -131,7 +130,7 @@ class HomeFragment : Fragment() {
 
     @Subscribe
     fun onEvent(event: LaunchActivityEvent) {
-        if (parentFragmentManager.findFragmentById(R.id.fragment_details) == null) {
+        if (parentFragmentManager.findFragmentByTag("DetailsProperty") == null) {
                 val intent = Intent(activity, PropertyActivity::class.java)
                 intent.putExtra("REF", event.ref)
                 startActivity(intent)
