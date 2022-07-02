@@ -4,10 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/drawable/baseline_filter_24.xml" value="0.3485" />
+        <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/drawable/baseline_sort_24.xml" value="0.3485" />
+        <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/drawable/explore-24px.xml" value="0.3485" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/drawable/sort-24px.xml" value="0.3485" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout-large-land/activity_main.xml" value="0.10073627844712182" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout-large-land/fragment_property.xml" value="0.16" />
+        <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout-large-land/home_fragment.xml" value="0.16900937081659972" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout-large-port/activity_main.xml" value="0.4950980392156863" />
+        <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout-large-port/fragment_property.xml" value="0.118359375" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout-large-port/home_fragment.xml" value="0.275" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout-xlarge-port/activity_main.xml" value="0.275" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout-xlarge-port/home_fragment.xml" value="0.27421875" />
@@ -20,7 +24,8 @@
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout/cardview_recycler_view.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout/explore_fragment.xml" value="0.3162839248434238" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout/fragment_filter_dialog.xml" value="0.2640625" />
-        <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout/fragment_property.xml" value="0.365625" />
+        <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout/fragment_map.xml" value="0.16" />
+        <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout/fragment_property.xml" value="0.26120689655172413" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout/home_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout/interest_point_recycler_view.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Yohan/Desktop/RealEstateManager/app/src/main/res/layout/photos_add_property_recycler_view.xml" value="0.2635416666666667" />
