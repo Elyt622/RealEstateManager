@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui
+package com.openclassrooms.realestatemanager.ui.custom
 
 import android.content.Context
 import android.util.AttributeSet
