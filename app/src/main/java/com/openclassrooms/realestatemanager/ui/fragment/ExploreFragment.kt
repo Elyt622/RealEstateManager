@@ -128,9 +128,12 @@ class ExploreFragment : Fragment() {
                                         R.id.home_bottom_navigation
                                 },
                                 onError = {
-                                    Log.d("DEBUG", it.message.toString())
-                                }
-                            )
+                                    Toast.makeText(
+                                        activity,
+                                        "No filter selected",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                })
                     }
             buttonReset.setOnClickListener {
                 resetAllFields()

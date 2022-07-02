@@ -188,7 +188,7 @@ class ModifyPropertyActivity : BaseActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy (
                     onComplete = {
-                        Toast.makeText(this, "Saved" , Toast.LENGTH_LONG).show()
+                        showToast("Saved")
                         finish()
                     },
                     onError = {
@@ -203,7 +203,6 @@ class ModifyPropertyActivity : BaseActivity() {
             .subscribeBy (
                 onNext = {
                     configSpinner()
-                    Log.d("DEBUG", "ON NEXT")
                     priceEditText.setText(it.price.toString())
                     descriptionEditText.setText(it.description)
                     surfaceEditText.setText(it.surface.toString())

@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.app.App
@@ -181,7 +180,7 @@ class ExploreViewModel : ViewModel() {
         val query = SimpleSQLiteQuery(
             "SELECT * FROM Property WHERE $stringBuilder"
         )
-        Log.d("DEBUG", query.sql.toString())
+
         return propertyDao.filter(query)
     }
 
