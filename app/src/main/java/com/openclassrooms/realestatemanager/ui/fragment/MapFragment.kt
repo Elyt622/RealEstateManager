@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentMapBinding
 import com.openclassrooms.realestatemanager.viewmodel.MapViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -29,6 +31,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var map: SupportMapFragment
 
+    private lateinit var viewPager: ViewPager2
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,9 +45,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[MapViewModel::class.java]
         map = SupportMapFragment.newInstance()
+        viewPager = requireActivity().findViewById(R.id.viewpager_activity_main)
+
         parentFragmentManager
             .beginTransaction()
-            .replace(binding.map.id, map, "mapFragment")
+            .add(binding.map.id, map, "mapFragment")
             .commit()
         map.getMapAsync(this)
     }
@@ -73,4 +79,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         )
     }
 
+    override fun onResume() {
+        viewPager.isUserInputEnabled = false
+        super.onResume()
+    }
 }

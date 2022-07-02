@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ProfileFragmentBinding
 import com.openclassrooms.realestatemanager.ui.activity.AddPropertyActivity
 import com.openclassrooms.realestatemanager.viewmodel.ProfileViewModel
@@ -24,11 +26,15 @@ class ProfileFragment : Fragment() {
 
     private lateinit var binding: ProfileFragmentBinding
 
+    private lateinit var viewPager: ViewPager2
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = ProfileFragmentBinding.inflate(layoutInflater)
+        viewPager = requireActivity().findViewById(R.id.viewpager_activity_main)
+
         return binding.root
     }
 
@@ -42,5 +48,10 @@ class ProfileFragment : Fragment() {
             val intent = Intent(context, AddPropertyActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewPager.isUserInputEnabled = true
     }
 }

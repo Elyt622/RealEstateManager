@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.HomeFragmentBinding
@@ -36,12 +37,15 @@ class HomeFragment : Fragment() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
+    private lateinit var viewPager: ViewPager2
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View {
         binding = HomeFragmentBinding.inflate(layoutInflater)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
+        viewPager = requireActivity().findViewById(R.id.viewpager_activity_main)
         bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation_view_activity_main)
         rv = binding.recyclerViewListPropertiesHomeFragment
         return binding.root
@@ -52,7 +56,7 @@ class HomeFragment : Fragment() {
             if (fragmentDetails != null) {
                 parentFragmentManager
                     .beginTransaction()
-                    .replace(fragmentDetails.id, PropertyFragment(), "DetailsProperty")
+                    .add(R.id.fragment_details, PropertyFragment(), "DetailsProperty")
                     .commit()
             }
         }
@@ -148,6 +152,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onResume() {
+        viewPager.isUserInputEnabled = true
         applySort()
         super.onResume()
     }

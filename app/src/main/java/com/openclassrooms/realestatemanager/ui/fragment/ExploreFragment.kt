@@ -2,17 +2,18 @@ package com.openclassrooms.realestatemanager.ui.fragment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ExploreFragmentBinding
@@ -59,6 +60,8 @@ class ExploreFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
 
+    private lateinit var viewPager: ViewPager2
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,6 +70,7 @@ class ExploreFragment : Fragment() {
         bottomNavigationView = requireActivity()
                 .findViewById(R.id.bottom_navigation_view_activity_main)
         toolbar = requireActivity().findViewById(R.id.toolbar_main_activity)
+        viewPager = requireActivity().findViewById(R.id.viewpager_activity_main)
         menuItem = toolbar.menu.findItem(R.id.home_top_sort).setVisible(true)
         return binding.root
     }
@@ -337,6 +341,7 @@ class ExploreFragment : Fragment() {
     }
 
     override fun onResume() {
+        viewPager.isUserInputEnabled = true
         super.onResume()
         applySort()
     }
