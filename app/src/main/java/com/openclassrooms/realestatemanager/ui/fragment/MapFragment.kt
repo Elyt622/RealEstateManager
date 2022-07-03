@@ -44,14 +44,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[MapViewModel::class.java]
-        map = SupportMapFragment.newInstance()
+        val map = childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment?
         viewPager = requireActivity().findViewById(R.id.viewpager_activity_main)
 
-        parentFragmentManager
-            .beginTransaction()
-            .add(binding.map.id, map, "mapFragment")
-            .commit()
-        map.getMapAsync(this)
+        map?.getMapAsync(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

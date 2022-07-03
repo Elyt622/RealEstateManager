@@ -51,21 +51,8 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun configDetailsFragment(){
-        with(binding) {
-            if (fragmentDetails != null) {
-                parentFragmentManager
-                    .beginTransaction()
-                    .add(R.id.fragment_details, PropertyFragment(), "DetailsProperty")
-                    .commit()
-            }
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        configDetailsFragment()
 
         if(binding.fragmentDetails != null){
             rv.layoutManager = GridLayoutManager(context, 1)
@@ -134,7 +121,7 @@ class HomeFragment : Fragment() {
 
     @Subscribe
     fun onEvent(event: LaunchActivityEvent) {
-        if (parentFragmentManager.findFragmentByTag("DetailsProperty") == null) {
+        if (binding.fragmentDetails == null) {
                 val intent = Intent(activity, PropertyActivity::class.java)
                 intent.putExtra("REF", event.ref)
                 startActivity(intent)
@@ -152,8 +139,8 @@ class HomeFragment : Fragment() {
     }
 
     override fun onResume() {
+        super.onResume()
         viewPager.isUserInputEnabled = true
         applySort()
-        super.onResume()
     }
 }

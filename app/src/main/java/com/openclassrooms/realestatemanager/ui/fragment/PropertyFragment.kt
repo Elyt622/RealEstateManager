@@ -201,7 +201,7 @@ class PropertyFragment : Fragment() {
     @Subscribe
     fun onEvent(event: LaunchActivityEvent) {
         ref = event.ref
-            if (parentFragmentManager.findFragmentByTag("DetailsProperty") != null) {
+            if (this.isResumed) {
                 loadProperty(viewModel.getPropertyWithRef(ref))
             }
     }

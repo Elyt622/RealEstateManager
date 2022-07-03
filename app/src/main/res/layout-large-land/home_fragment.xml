@@ -22,6 +22,7 @@
             android:id="@+id/fragment_details"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:name="com.openclassrooms.realestatemanager.ui.fragment.PropertyFragment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recycler_view_list_properties_home_fragment"
             app:layout_constraintTop_toTopOf="parent" />
