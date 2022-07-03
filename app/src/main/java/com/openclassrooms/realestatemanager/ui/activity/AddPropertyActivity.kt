@@ -29,11 +29,15 @@ import com.openclassrooms.realestatemanager.model.Type
 import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterAddProperty
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapterInAddProperty
 import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterAddProperty
+import com.openclassrooms.realestatemanager.utils.URIPathHelper
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.nio.channels.FileChannel
 import java.util.*
 
 
@@ -248,8 +252,18 @@ class AddPropertyActivity : BaseActivity() {
         if (result.resultCode == RESULT_OK) {
             val data: Intent? = result.data
             if (data != null) {
-                //TODO move photo to a specific repertory
-                mutableListOfPhoto.add(Uri.parse(data.data.toString()))
+                copyFile(
+                    File(
+                        URIPathHelper().getPath(
+                            this,
+                            data.data!!
+                        ).toString()),
+                    File(
+                        "$dir/${File(
+                            data.dataString.toString()
+                        ).name}.jpg")
+                )
+                mutableListOfPhoto.add(Uri.parse(data.dataString))
             }
         }
         else if (result.resultCode == 123){
@@ -257,6 +271,19 @@ class AddPropertyActivity : BaseActivity() {
             uriString?.toUri()?.let { mutableListOfPhoto.add(it) }
         }
         configPhotosRecyclerView()
+    }
+
+    private fun copyFile(sourceFile: File, destFile: File) {
+        if (!sourceFile.exists()) {
+            return
+        }
+        val source: FileChannel? = FileInputStream(sourceFile).channel
+        val destination: FileChannel? = FileOutputStream(destFile).channel
+        if (destination != null && source != null) {
+            destination.transferFrom(source, 0, source.size())
+        }
+        source?.close()
+        destination?.close()
     }
 
     private fun getOutputDirectory(): File {

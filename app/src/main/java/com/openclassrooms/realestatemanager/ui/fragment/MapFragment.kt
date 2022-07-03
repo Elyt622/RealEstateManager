@@ -29,8 +29,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var viewModel: MapViewModel
 
-    private lateinit var map: SupportMapFragment
-
     private lateinit var viewPager: ViewPager2
 
     override fun onCreateView(
