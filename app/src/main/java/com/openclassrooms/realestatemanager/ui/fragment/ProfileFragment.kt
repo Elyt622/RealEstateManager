@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ProfileFragmentBinding
 import com.openclassrooms.realestatemanager.ui.activity.AddPropertyActivity
+import com.openclassrooms.realestatemanager.ui.activity.LoanSimulatorActivity
 import com.openclassrooms.realestatemanager.viewmodel.ProfileViewModel
 
 class ProfileFragment : Fragment() {
@@ -42,11 +43,16 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
-        textviewProfile = binding.textviewProfileProfileFragment
+        with(binding) {
+            buttonAddProperty.setOnClickListener {
+                val intent = Intent(context, AddPropertyActivity::class.java)
+                startActivity(intent)
+            }
 
-        textviewProfile.setOnClickListener {
-            val intent = Intent(context, AddPropertyActivity::class.java)
-            startActivity(intent)
+            buttonLoanSimulator.setOnClickListener {
+                val intent = Intent(context, LoanSimulatorActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 

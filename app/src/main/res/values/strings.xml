@@ -57,4 +57,5 @@
     <string name="asc_price">Asc Price</string>
     <string name="desc_price">Desc Price</string>
     <string name="map">Map</string>
+    <string name="real_estate_loan_simulator">Real estate loan simulator</string>
 </resources>
