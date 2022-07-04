@@ -66,7 +66,7 @@
     <string name="years">years</string>
     <string name="interest_rate_before_negotiation">Interest rate before negotiation</string>
     <string name="insurance_rates">Insurance rates</string>
-    <string name="in_insurance">$ in insurance.</string>
+    <string name="in_insurance">$ in insurance</string>
     <string name="with">$ with</string>
     <string name="cost_of_credit">Cost of credit:</string>
 </resources>

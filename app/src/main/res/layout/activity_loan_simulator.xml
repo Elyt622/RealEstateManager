@@ -41,6 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/textview_static_monthly"
             app:layout_constraintStart_toStartOf="@+id/textview_static_monthly"
@@ -50,39 +52,44 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
-                android:textStyle="bold"
-                android:text="@string/cost_of_credit" />
+                android:textSize="12sp"
+                android:text="@string/cost_of_credit"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView_credit_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:layout_marginEnd="4dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/with"
                 android:layout_marginEnd="4dp"
+                android:textSize="12sp"
+                android:text="@string/with"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView_insurance_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:textSize="12sp"
                 android:text="@string/in_insurance"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:id="@+id/linearLayoutCompat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,22 +116,22 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="@string/amount_of_your_loan"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/amount_of_your_loan"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat"
+            app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:id="@id/linearLayoutCompat3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -149,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textview_static_duration"
@@ -163,7 +170,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat3" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:id="@+id/linearLayoutCompat2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -208,7 +215,7 @@
             android:textSize="36sp"
             android:textStyle="bold" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textview_static_interest"
