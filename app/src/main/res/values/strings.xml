@@ -58,4 +58,15 @@
     <string name="desc_price">Desc Price</string>
     <string name="map">Map</string>
     <string name="real_estate_loan_simulator">Real estate loan simulator</string>
+    <string name="calculating_your_monthly_mortgage_payments">Calculating your monthly mortgage payments</string>
+    <string name="your_monthly_payment_will_be">Your monthly payment will be</string>
+    <string name="month">$/month</string>
+    <string name="amount_of_your_loan">Amount of your loan</string>
+    <string name="duration_of_your_loan">Duration of your loan</string>
+    <string name="years">years</string>
+    <string name="interest_rate_before_negotiation">Interest rate before negotiation</string>
+    <string name="insurance_rates">Insurance rates</string>
+    <string name="in_insurance">$ in insurance.</string>
+    <string name="with">$ with</string>
+    <string name="cost_of_credit">Cost of credit:</string>
 </resources>
