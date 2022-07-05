@@ -35,7 +35,11 @@ class LoanSimulatorActivity : BaseActivity() {
                 )
 
                 if (editTextAmountLoan.text.toString().isEmpty()) {
-                    Toast.makeText(this@LoanSimulatorActivity, "Amount of the loan is empty", Toast.LENGTH_LONG)
+                    Toast.makeText(
+                        this@LoanSimulatorActivity,
+                        "Amount of the loan is empty",
+                        Toast.LENGTH_LONG
+                    )
                         .show()
                     linearLayoutCreditCost.isGone = true
                 } else {
@@ -46,6 +50,7 @@ class LoanSimulatorActivity : BaseActivity() {
                     textViewInsuranceCost.text = df.format(viewModel.getInsuranceGlobalToPay())
                     linearLayoutCreditCost.isGone = false
                 }
+            }
 
                 imageButtonAddYears.setOnClickListener {
                     viewModel.setDuration(viewModel.getDuration() + 1)
@@ -56,7 +61,6 @@ class LoanSimulatorActivity : BaseActivity() {
                     viewModel.setDuration(viewModel.getDuration() - 1)
                     textViewDurationLoan.text = viewModel.getDuration().toString()
                 }
-            }
         }
     }
 }
