@@ -58,7 +58,7 @@
     <string name="desc_price">Desc Price</string>
     <string name="map">Map</string>
     <string name="real_estate_loan_simulator">Real estate loan simulator</string>
-    <string name="calculating_your_monthly_mortgage_payments">Calculating your monthly mortgage payments</string>
+    <string name="calculating_your_monthly_mortgage_payments">Home loan calculator</string>
     <string name="your_monthly_payment_will_be">Your monthly payment will be</string>
     <string name="month">$/month</string>
     <string name="amount_of_your_loan">Amount of your loan</string>

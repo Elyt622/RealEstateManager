@@ -22,6 +22,8 @@ class LoanSimulatorActivity : BaseActivity() {
 
         viewModel = ViewModelProvider(this)[LoanSimulatorViewModel::class.java]
 
+        configToolbar()
+
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.UP
 
@@ -61,5 +63,17 @@ class LoanSimulatorActivity : BaseActivity() {
                 textViewDurationLoan.text = viewModel.getDuration().toString()
             }
         }
+    }
+
+    private fun configToolbar() {
+        setSupportActionBar(binding.toolbarTop)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
