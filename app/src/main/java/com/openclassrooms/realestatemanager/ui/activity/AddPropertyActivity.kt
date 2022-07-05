@@ -1,9 +1,11 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -11,7 +13,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.widget.Toolbar
-import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,6 +76,8 @@ class AddPropertyActivity : BaseActivity() {
 
     private lateinit var viewModel: AddPropertyViewModel
 
+    private lateinit var editTextDescriptionPhoto : EditText
+
     private lateinit var binding: ActivityAddPropertyBinding
 
     private var place: Place? = null
@@ -84,6 +87,8 @@ class AddPropertyActivity : BaseActivity() {
     private lateinit var placesClient: PlacesClient
 
     private var mutableListOfPhoto : MutableList<Uri> =  mutableListOf()
+
+    private var mutableListDescriptionPhoto : MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,6 +121,7 @@ class AddPropertyActivity : BaseActivity() {
         editTextRoom = binding.editTextRoomsAddPropertyActivity
         editTextSurface = binding.editTextSurfaceAddPropertyActivity
         editTextAgentName = binding.editTextAgentName
+        editTextDescriptionPhoto = EditText(this)
 
         configToolbar()
         configTypeRecyclerView()
@@ -144,6 +150,7 @@ class AddPropertyActivity : BaseActivity() {
                 editTextDescription.text.toString(),
                 editTextAddress.text.toString(),
                 mutableListOfPhoto,
+                mutableListDescriptionPhoto,
                 place?.latLng?.latitude,
                 place?.latLng?.longitude,
                 Date(),
@@ -246,31 +253,71 @@ class AddPropertyActivity : BaseActivity() {
         } as ActivityResultCallback<ActivityResult>)
     )
 
+    private fun createDialog(data: Intent, fromGallery: Boolean) : AlertDialog {
+        val view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_photo_description, null)
+        val editTextInput: EditText = view.findViewById(R.id.editText_photo_description)
+        return AlertDialog.Builder(this)
+            .setView(view)
+            .setPositiveButton("OK") { _, _ ->
+                if (editTextInput.text.toString().isNotEmpty()) {
+                    if (fromGallery) {
+                        mutableListOfPhoto.add(Uri.parse(data.dataString))
+                        mutableListDescriptionPhoto.add(editTextInput.text.toString())
+                        copyFile(
+                            File(
+                                URIPathHelper().getPath(
+                                    this,
+                                    data.data!!
+                                ).toString()
+                            ),
+                            File(
+                                "$dir/${
+                                    File(
+                                        data.dataString.toString()
+                                    ).name
+                                }.jpg"
+                            )
+                        )
+                    } else {
+                        mutableListOfPhoto.add(
+                            Uri.parse(
+                                data.getStringExtra("URI")
+                            )
+                        )
+                        mutableListDescriptionPhoto.add(
+                            editTextInput.text.toString()
+                        )
+                    }
+                    configPhotosRecyclerView()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "The description is empty!\nNo photo added!",
+                        Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
+            .setNegativeButton("CANCEL", null)
+            .create()
+    }
+
     private var resultLauncher = registerForActivityResult(
         StartActivityForResult()) {
             result ->
-        if (result.resultCode == RESULT_OK) {
-            val data: Intent? = result.data
-            if (data != null) {
-                copyFile(
-                    File(
-                        URIPathHelper().getPath(
-                            this,
-                            data.data!!
-                        ).toString()),
-                    File(
-                        "$dir/${File(
-                            data.dataString.toString()
-                        ).name}.jpg")
-                )
-                mutableListOfPhoto.add(Uri.parse(data.dataString))
+        when (result.resultCode) {
+            RESULT_OK -> {
+                val data: Intent? = result.data
+                if (data != null) {
+                    createDialog(data, true).show()
+                }
+            }
+            123 -> {
+                val data: Intent? = result.data
+                if (data != null) {
+                    createDialog(data, false).show()
+                }
             }
         }
-        else if (result.resultCode == 123){
-            val uriString = result.data?.getStringExtra("URI")
-            uriString?.toUri()?.let { mutableListOfPhoto.add(it) }
-        }
-        configPhotosRecyclerView()
     }
 
     private fun copyFile(sourceFile: File, destFile: File) {
@@ -309,6 +356,7 @@ class AddPropertyActivity : BaseActivity() {
             viewModel,
             this,
             mutableListOfPhoto,
+            mutableListDescriptionPhoto,
             photosRv
         )
     }

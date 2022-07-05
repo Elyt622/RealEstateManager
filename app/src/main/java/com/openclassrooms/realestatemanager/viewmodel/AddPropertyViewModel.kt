@@ -51,6 +51,7 @@ class AddPropertyViewModel : ViewModel() {
         description: String,
         address: String,
         photos: MutableList<Uri>,
+        descriptionPhoto: MutableList<String>,
         latitude: Double?,
         longitude: Double?,
         entryDate: Date,
@@ -83,6 +84,7 @@ class AddPropertyViewModel : ViewModel() {
                     this.entryDate = entryDate
                     this.options = options
                     this.agentName = agentName
+                    this.descriptionPhoto = descriptionPhoto
                 }
             }
             .flatMapCompletable {
