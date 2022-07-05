@@ -22,5 +22,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/textview_description_photo"
+            android:textColor="@color/quantum_white_100"
+            android:textStyle="bold"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:background="#44000000"/>
+
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

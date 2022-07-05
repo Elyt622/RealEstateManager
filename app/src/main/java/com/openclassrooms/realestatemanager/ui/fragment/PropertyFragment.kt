@@ -152,7 +152,7 @@ class PropertyFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy (
                 onNext = { results ->
-                    configPhotosRecyclerView(results.photos)
+                    configPhotosRecyclerView(results.descriptionPhoto, results.photos)
                     configOptionsRecyclerView(results.options)
 
                     if(results.photos.isNotEmpty())
@@ -206,14 +206,14 @@ class PropertyFragment : Fragment() {
             }
     }
 
-    private fun configPhotosRecyclerView(photos: MutableList<Uri>){
+    private fun configPhotosRecyclerView(descriptionPhoto: MutableList<String>, photos: MutableList<Uri>){
         if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
             rvPhoto.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            rvPhoto.adapter = PhotoRvAdapter(image, photos)
+            rvPhoto.adapter = PhotoRvAdapter(descriptionPhoto, image, photos)
         } else {
             rvPhoto.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            rvPhoto.adapter = PhotoRvAdapter(image, photos)
+            rvPhoto.adapter = PhotoRvAdapter(descriptionPhoto, image, photos)
         }
     }
 

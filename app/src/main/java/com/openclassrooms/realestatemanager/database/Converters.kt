@@ -52,6 +52,25 @@ class Converters {
     }
 
     @TypeConverter
+    fun getDBString(model: MutableList<String>): String =
+        if (model.isEmpty())
+            ""
+        else
+            model.joinToString(separator = separator) { it }
+
+    @TypeConverter
+    fun getModelString(data: String): MutableList<String> {
+        val stringList = data.split(separator).toMutableList()
+        val strList = mutableListOf<String>()
+
+        for (str in stringList){
+            if (str.isNotEmpty())
+                strList.add(str)
+        }
+        return strList
+    }
+
+    @TypeConverter
     fun fromTimestamp(value: Long?): Date? {
         return value?.let { Date(it) }
     }

@@ -16,6 +16,7 @@ data class Property(
     var numberBathroom: Int = -1,
     var description: String = "",
     var photos: MutableList<Uri> = mutableListOf(),
+    var descriptionPhoto: MutableList<String> = mutableListOf(),
     var address: String = "",
     var options: MutableList<Option>? = mutableListOf(),
     var status: Status = Status.ON_SALE,

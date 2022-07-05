@@ -124,7 +124,7 @@ class PropertyActivity : BaseActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy (
                 onNext = { results ->
-                    configPhotosRecyclerView(results.photos)
+                    configPhotosRecyclerView(results.descriptionPhoto, results.photos)
                     configOptionsRecyclerView(results.options)
 
                     if(results.photos.isNotEmpty())
@@ -176,9 +176,9 @@ class PropertyActivity : BaseActivity() {
         }
     }
 
-    private fun configPhotosRecyclerView(photos: MutableList<Uri>){
+    private fun configPhotosRecyclerView(descriptionPhotos : MutableList<String>, photos: MutableList<Uri>){
         rvPhoto.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rvPhoto.adapter = PhotoRvAdapter(image, photos)
+        rvPhoto.adapter = PhotoRvAdapter(descriptionPhotos, image, photos)
     }
 
     private fun configOptionsRecyclerView(options: List<Option>?){
