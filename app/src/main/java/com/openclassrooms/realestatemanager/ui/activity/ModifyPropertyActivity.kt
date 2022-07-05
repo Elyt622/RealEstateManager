@@ -1,15 +1,16 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
-import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +31,7 @@ import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterModifyProp
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapterInModifyProperty
 import com.openclassrooms.realestatemanager.ui.adapter.SpinnerAdapter
 import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterModifyProperty
+import com.openclassrooms.realestatemanager.utils.URIPathHelper
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.ModifyPropertyViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -37,6 +39,10 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.nio.channels.FileChannel
 import java.util.*
 
 class ModifyPropertyActivity : BaseActivity() {
@@ -101,7 +107,9 @@ class ModifyPropertyActivity : BaseActivity() {
 
     private lateinit var adapterSpinner: ArrayAdapter<String>
 
-    private var descriptionPhoto: MutableList<String> = mutableListOf()
+    private var mutableListDescriptionPhoto: MutableList<String> = mutableListOf()
+
+    private lateinit var dir : File
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,6 +120,7 @@ class ModifyPropertyActivity : BaseActivity() {
 
         val ref = intent.getIntExtra("REF", -1)
 
+        dir = getOutputDirectory()
         property = viewModel.getPropertyWithRef(ref)
 
         // Initialize the SDK
@@ -177,7 +186,7 @@ class ModifyPropertyActivity : BaseActivity() {
                 Utils.convertStringToInt(bathroomEditText.text.toString()),
                 descriptionEditText.text.toString(),
                 mutableListOfPhoto,
-                descriptionPhoto,
+                mutableListDescriptionPhoto,
                 addressEditText.text.toString(),
                 viewModel.getOptions(),
                 Status.values()[statusSpinner.selectedItemPosition],
@@ -217,7 +226,7 @@ class ModifyPropertyActivity : BaseActivity() {
                     agentEditText.setText(it.agentName)
                     entryDateTextView.text = Utils.convertDateToString(it.entryDate)
                     mutableListOfPhoto = it.photos
-                    descriptionPhoto = it.descriptionPhoto
+                    mutableListDescriptionPhoto = it.descriptionPhoto
                     viewModel.setType(it.type)
                     viewModel.setOptions(it.options)
                     statusSpinner.setSelection(it.status.ordinal)
@@ -287,6 +296,78 @@ class ModifyPropertyActivity : BaseActivity() {
         }
     }
 
+    private fun createDialog(data: Intent, fromGallery: Boolean) : AlertDialog {
+        val view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_photo_description, null)
+        val editTextInput: EditText = view.findViewById(R.id.editText_photo_description)
+        return AlertDialog.Builder(this)
+            .setView(view)
+            .setPositiveButton("OK") { _, _ ->
+                if (editTextInput.text.toString().isNotEmpty()) {
+                    if (fromGallery) {
+                        mutableListOfPhoto.add(Uri.parse(data.dataString))
+                        mutableListDescriptionPhoto.add(editTextInput.text.toString())
+                        copyFile(
+                            File(
+                                URIPathHelper().getPath(
+                                    this,
+                                    data.data!!
+                                ).toString()
+                            ),
+                            File(
+                                "$dir/${
+                                    File(
+                                        data.dataString.toString()
+                                    ).name
+                                }.jpg"
+                            )
+                        )
+                    } else {
+                        mutableListOfPhoto.add(
+                            Uri.parse(
+                                data.getStringExtra("URI")
+                            )
+                        )
+                        mutableListDescriptionPhoto.add(
+                            editTextInput.text.toString()
+                        )
+                    }
+                    configPhotosRecyclerView()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "The description is empty!\nNo photo added!",
+                        Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
+            .setNegativeButton("CANCEL", null)
+            .create()
+    }
+
+    private fun getOutputDirectory(): File {
+        val mediaDir = externalMediaDirs.firstOrNull()?.let {
+            File(it, resources.getString(R.string.app_name)).apply {
+                mkdirs()
+            }
+        }
+
+        return if (mediaDir != null && mediaDir.exists())
+            mediaDir else filesDir
+    }
+
+    private fun copyFile(sourceFile: File, destFile: File) {
+        if (!sourceFile.exists()) {
+            return
+        }
+        val source: FileChannel? = FileInputStream(sourceFile).channel
+        val destination: FileChannel? = FileOutputStream(destFile).channel
+        if (destination != null && source != null) {
+            destination.transferFrom(source, 0, source.size())
+        }
+        source?.close()
+        destination?.close()
+    }
+
     private fun openSomeActivityForResult() {
         val intent = Intent()
         intent.type = "image/*"
@@ -295,21 +376,23 @@ class ModifyPropertyActivity : BaseActivity() {
     }
 
     private var resultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) {
+        ActivityResultContracts.StartActivityForResult()
+    ) {
             result ->
-        if (result.resultCode == RESULT_OK) {
-            val data: Intent? = result.data
-            if (data != null) {
-
-                //TODO move photo to a specific repertory
-                mutableListOfPhoto.add(Uri.parse(data.data.toString()))
+        when (result.resultCode) {
+            RESULT_OK -> {
+                val data: Intent? = result.data
+                if (data != null) {
+                    createDialog(data, true).show()
+                }
+            }
+            123 -> {
+                val data: Intent? = result.data
+                if (data != null) {
+                    createDialog(data, false).show()
+                }
             }
         }
-        else if (result.resultCode == 123){
-            val uriString = result.data?.getStringExtra("URI")
-            uriString?.toUri()?.let { mutableListOfPhoto.add(it) }
-        }
-        configPhotosRecyclerView()
     }
 
     private fun fillInAddress() {
@@ -375,7 +458,7 @@ class ModifyPropertyActivity : BaseActivity() {
             viewModel,
             this,
             mutableListOfPhoto,
-            descriptionPhoto,
+            mutableListDescriptionPhoto,
             rvPhoto
         )
     }
