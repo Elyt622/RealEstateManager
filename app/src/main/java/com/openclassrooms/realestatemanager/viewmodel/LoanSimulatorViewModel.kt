@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -32,19 +31,19 @@ class LoanSimulatorViewModel : ViewModel() {
         this.duration = duration
     }
 
-    fun setInterestRate(interestRate: Double) {
+    private fun setInterestRate(interestRate: Double) {
         this.interestRate = interestRate
     }
 
-    fun setInsuranceRate(insuranceRate: Double) {
+    private fun setInsuranceRate(insuranceRate: Double) {
         this.insuranceRate = insuranceRate
     }
 
-    fun setInsuranceGlobalToPay(insuranceGlobalToPay: Double) {
+    private fun setInsuranceGlobalToPay(insuranceGlobalToPay: Double) {
         this.insuranceGlobalToPay = insuranceGlobalToPay
     }
 
-    fun setInterestGlobalToPay(interestGlobalToPay: Double) {
+    private fun setInterestGlobalToPay(interestGlobalToPay: Double) {
         this.interestGlobalToPay = interestGlobalToPay
     }
 
@@ -55,19 +54,14 @@ class LoanSimulatorViewModel : ViewModel() {
         df.roundingMode = RoundingMode.UP
 
         val insuranceGlobalToPay = (insuranceRate / 100.0 * loan * duration)
+        setInsuranceGlobalToPay(insuranceGlobalToPay)
+
         val monthlyToPay =
             ((loan * interestRate / 100) / 12) / (1 - (1 + (interestRate / 100 / 12)).pow(-duration * 12))
         val interestGlobalToPay = ((12.0 * duration * monthlyToPay) - loan)
-        val insuranceMonthlyToPay = getInsuranceGlobalToPay() / (duration * 12)
-
-        Log.d(
-            "DEBUG", "Insurance Global to Pay = $insuranceGlobalToPay\n" +
-                    "Interest Monthly to Pay = $monthlyToPay\n" +
-                    "Interest Global to pay = $interestGlobalToPay"
-        )
-
-        setInsuranceGlobalToPay(insuranceGlobalToPay)
         setInterestGlobalToPay(interestGlobalToPay)
+
+        val insuranceMonthlyToPay = getInsuranceGlobalToPay() / (duration * 12)
 
         return df.format(monthlyToPay + insuranceMonthlyToPay)
     }

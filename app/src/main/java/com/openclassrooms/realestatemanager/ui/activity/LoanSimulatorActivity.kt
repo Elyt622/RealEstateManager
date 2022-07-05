@@ -39,8 +39,7 @@ class LoanSimulatorActivity : BaseActivity() {
                         this@LoanSimulatorActivity,
                         "Amount of the loan is empty",
                         Toast.LENGTH_LONG
-                    )
-                        .show()
+                    ).show()
                     linearLayoutCreditCost.isGone = true
                 } else {
                     textViewMonthlyPayment.text = viewModel.getCalculationMortgagePayment(
@@ -52,15 +51,15 @@ class LoanSimulatorActivity : BaseActivity() {
                 }
             }
 
-                imageButtonAddYears.setOnClickListener {
-                    viewModel.setDuration(viewModel.getDuration() + 1)
-                    textViewDurationLoan.text = viewModel.getDuration().toString()
-                }
+            imageButtonAddYears.setOnClickListener {
+                viewModel.setDuration(viewModel.getDuration() + 1)
+                textViewDurationLoan.text = viewModel.getDuration().toString()
+            }
 
-                imageButtonRemoveYears.setOnClickListener {
-                    viewModel.setDuration(viewModel.getDuration() - 1)
-                    textViewDurationLoan.text = viewModel.getDuration().toString()
-                }
+            imageButtonRemoveYears.setOnClickListener {
+                viewModel.setDuration(viewModel.getDuration() - 1)
+                textViewDurationLoan.text = viewModel.getDuration().toString()
+            }
         }
     }
 }
