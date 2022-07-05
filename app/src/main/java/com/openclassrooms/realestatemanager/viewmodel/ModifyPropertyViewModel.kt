@@ -75,6 +75,7 @@ class ModifyPropertyViewModel : ViewModel() {
         numberBathroom: Int?,
         description: String,
         photos: MutableList<Uri>,
+        descriptionPhoto: MutableList<String>,
         address: String,
         options: MutableList<Option>?,
         status: Status,
@@ -114,6 +115,7 @@ class ModifyPropertyViewModel : ViewModel() {
                     this.options = options
                     this.agentName = agentName
                     this.status = status
+                    this.descriptionPhoto = descriptionPhoto
                 }
             }
             .flatMapCompletable {

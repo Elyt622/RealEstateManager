@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,6 +18,7 @@ class PhotoRvAdapterInModifyProperty(
     val viewModel: ModifyPropertyViewModel,
     val context: Context,
     private val mutableListOfPhoto: MutableList<Uri>,
+    private val descriptionPhoto: MutableList<String>,
     private val rvPhoto: RecyclerView
 ) : RecyclerView.Adapter<PhotoRvAdapterInModifyProperty.ViewHolder>() {
 
@@ -30,9 +32,12 @@ class PhotoRvAdapterInModifyProperty(
     override fun onBindViewHolder(holder: PhotoRvAdapterInModifyProperty.ViewHolder, position: Int) {
         if(mutableListOfPhoto.isNotEmpty())
             Glide.with(context).load(mutableListOfPhoto[position]).into(holder.image)
+        if (descriptionPhoto.isNotEmpty() && descriptionPhoto.size == mutableListOfPhoto.size)
+            holder.textDescriptionPhoto.text = descriptionPhoto[position]
 
         holder.buttonRemove.setOnClickListener{
             mutableListOfPhoto.removeAt(position)
+            descriptionPhoto.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, mutableListOfPhoto.size)
             rvPhoto.isGone = mutableListOfPhoto.isEmpty()
@@ -44,5 +49,6 @@ class PhotoRvAdapterInModifyProperty(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = binding.imageViewPhotoElementRv
         val buttonRemove : Button = binding.buttonRemoveRecyclerViewAddPropertyActivity
+        val textDescriptionPhoto : TextView = binding.textviewDescriptionPhoto
     }
 }

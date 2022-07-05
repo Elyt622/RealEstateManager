@@ -101,6 +101,8 @@ class ModifyPropertyActivity : BaseActivity() {
 
     private lateinit var adapterSpinner: ArrayAdapter<String>
 
+    private var descriptionPhoto: MutableList<String> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityModifyPropertyBinding.inflate(layoutInflater)
@@ -166,23 +168,24 @@ class ModifyPropertyActivity : BaseActivity() {
 
         savePropertyButton.setOnClickListener {
             viewModel.updateProperty(
-                    ref,
-                    viewModel.getType(),
-                    Utils.convertStringToInt(priceEditText.text.toString()),
-                    Utils.convertStringToFloat(surfaceEditText.text.toString()),
-                    Utils.convertStringToInt(roomEditText.text.toString()),
-                    Utils.convertStringToInt(bedEditText.text.toString()),
-                    Utils.convertStringToInt(bathroomEditText.text.toString()),
-                    descriptionEditText.text.toString(),
-                    mutableListOfPhoto,
-                    addressEditText.text.toString(),
-                    viewModel.getOptions(),
-                    Status.values()[statusSpinner.selectedItemPosition],
-                    entryDate,
-                    viewModel.getSoldDate(),
-                    agentEditText.text.toString(),
-                    latitude,
-                    longitude
+                ref,
+                viewModel.getType(),
+                Utils.convertStringToInt(priceEditText.text.toString()),
+                Utils.convertStringToFloat(surfaceEditText.text.toString()),
+                Utils.convertStringToInt(roomEditText.text.toString()),
+                Utils.convertStringToInt(bedEditText.text.toString()),
+                Utils.convertStringToInt(bathroomEditText.text.toString()),
+                descriptionEditText.text.toString(),
+                mutableListOfPhoto,
+                descriptionPhoto,
+                addressEditText.text.toString(),
+                viewModel.getOptions(),
+                Status.values()[statusSpinner.selectedItemPosition],
+                entryDate,
+                viewModel.getSoldDate(),
+                agentEditText.text.toString(),
+                latitude,
+                longitude
             )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -214,6 +217,7 @@ class ModifyPropertyActivity : BaseActivity() {
                     agentEditText.setText(it.agentName)
                     entryDateTextView.text = Utils.convertDateToString(it.entryDate)
                     mutableListOfPhoto = it.photos
+                    descriptionPhoto = it.descriptionPhoto
                     viewModel.setType(it.type)
                     viewModel.setOptions(it.options)
                     statusSpinner.setSelection(it.status.ordinal)
@@ -371,6 +375,7 @@ class ModifyPropertyActivity : BaseActivity() {
             viewModel,
             this,
             mutableListOfPhoto,
+            descriptionPhoto,
             rvPhoto
         )
     }
