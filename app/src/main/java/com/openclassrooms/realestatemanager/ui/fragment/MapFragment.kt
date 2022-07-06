@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -12,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentMapBinding
@@ -49,20 +52,31 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-
+        var marker: Marker?
         viewModel
             .getAllProperties()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { properties ->
-                for (property in properties)
-                    googleMap.addMarker(
+                for (property in properties) {
+                    marker = googleMap.addMarker(
                         MarkerOptions()
                             .position(LatLng(property.latitude, property.longitude))
                             .title(property.address)
                             .snippet(property.type.name)
                     )
+                    marker?.tag = property.ref
+                }
             }
+
+        googleMap.setOnMarkerClickListener {
+            val result = it.tag.toString().toInt()
+            setFragmentResult("requestRef", bundleOf("RefBundle" to result))
+            if (requireActivity().supportFragmentManager.fragments[0].childFragmentManager.findFragmentById(R.id.fragment_details) != null)
+                viewPager.currentItem = 0
+            false
+        }
+
         googleMap.moveCamera(
             CameraUpdateFactory
                 .newLatLngZoom(
