@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ExploreFragmentBinding
 import com.openclassrooms.realestatemanager.model.Option
@@ -52,8 +51,6 @@ class ExploreFragment : Fragment() {
 
     private lateinit var rv : RecyclerView
 
-    private lateinit var bottomNavigationView: BottomNavigationView
-
     private var propertiesWithSort: List<Property>? = null
 
     private lateinit var toolbar: Toolbar
@@ -67,8 +64,6 @@ class ExploreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = ExploreFragmentBinding.inflate(layoutInflater)
-        bottomNavigationView = requireActivity()
-                .findViewById(R.id.bottom_navigation_view_activity_main)
         toolbar = requireActivity().findViewById(R.id.toolbar_main_activity)
         viewPager = requireActivity().findViewById(R.id.viewpager_activity_main)
         menuItem = toolbar.menu.findItem(R.id.home_top_sort).setVisible(true)
@@ -124,8 +119,7 @@ class ExploreFragment : Fragment() {
                                             propertiesWithFilter
                                         )
                                     )
-                                    bottomNavigationView.selectedItemId =
-                                        R.id.home_bottom_navigation
+                                    viewPager.currentItem = 0
                                 },
                                 onError = {
                                     Toast.makeText(
@@ -143,7 +137,7 @@ class ExploreFragment : Fragment() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
                         rv.adapter = PropertyRvAdapter(it)
-                        bottomNavigationView.selectedItemId = R.id.home_bottom_navigation
+                        viewPager.currentItem = 0
                     }
             }
 
