@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.fragment
 
 import android.app.DatePickerDialog
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -14,8 +15,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.maps.SupportMapFragment
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ExploreFragmentBinding
+import com.openclassrooms.realestatemanager.event.LaunchActivityEvent
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Status
@@ -29,6 +32,7 @@ import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.greenrobot.eventbus.EventBus
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -58,6 +62,8 @@ class ExploreFragment : Fragment() {
     private lateinit var menuItem: MenuItem
 
     private lateinit var viewPager: ViewPager2
+
+    private lateinit var map : SupportMapFragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -119,6 +125,11 @@ class ExploreFragment : Fragment() {
                                             propertiesWithFilter
                                         )
                                     )
+                                    showFragmentDetails(propertiesWithFilter)
+                                    map = parentFragmentManager.fragments[3].childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+                                    viewModel.setMarkerOnMap(map, propertiesWithFilter)
+                                    if(resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE) && propertiesWithFilter.isNotEmpty())
+                                        EventBus.getDefault().post(LaunchActivityEvent(propertiesWithFilter[0].ref))
                                     viewPager.currentItem = 0
                                 },
                                 onError = {
@@ -136,7 +147,12 @@ class ExploreFragment : Fragment() {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
-                        rv.adapter = PropertyRvAdapter(it)
+                        allProperties ->
+                        rv.adapter = PropertyRvAdapter(allProperties)
+                        viewModel.setMarkerOnMap(map, allProperties)
+                        showFragmentDetails(allProperties)
+                        if(resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE) && allProperties.isNotEmpty())
+                            EventBus.getDefault().post(LaunchActivityEvent(allProperties[0].ref))
                         viewPager.currentItem = 0
                     }
             }
@@ -160,6 +176,34 @@ class ExploreFragment : Fragment() {
                 editText = editTextEndSoldDate
                 showDatePickerDialog()
             }
+        }
+    }
+
+    private fun showFragmentDetails(properties: List<Property>) {
+        val fragment = requireActivity()
+            .supportFragmentManager
+            .fragments[0]
+            .childFragmentManager
+            .findFragmentById(R.id.fragment_details)
+        if (fragment != null) {
+            if (properties.isEmpty())
+                requireActivity()
+                    .supportFragmentManager
+                    .fragments[0]
+                    .childFragmentManager
+                    .beginTransaction()
+                    .hide(
+                        fragment
+                    ).commit()
+            else
+                requireActivity()
+                    .supportFragmentManager
+                    .fragments[0]
+                    .childFragmentManager
+                    .beginTransaction()
+                    .show(
+                        fragment
+                    ).commit()
         }
     }
 

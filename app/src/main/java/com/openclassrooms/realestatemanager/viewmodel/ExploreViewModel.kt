@@ -2,6 +2,9 @@ package com.openclassrooms.realestatemanager.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.sqlite.db.SimpleSQLiteQuery
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
@@ -135,6 +138,21 @@ class ExploreViewModel : ViewModel() {
             }
         }
         return stringBuilder.toString()
+    }
+
+    fun setMarkerOnMap(map : SupportMapFragment, properties: List<Property>) {
+        map.getMapAsync{
+            it.clear()
+            for (property in properties) {
+                val marker = it.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(property.latitude, property.longitude))
+                        .title(property.address)
+                        .snippet(property.type.name)
+                )
+                marker?.tag = property.ref
+            }
+        }
     }
 
     fun applyAllFilters(
