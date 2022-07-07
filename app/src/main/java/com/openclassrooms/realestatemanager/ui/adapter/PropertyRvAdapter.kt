@@ -28,13 +28,10 @@ class PropertyRvAdapter(private val dataSet: List<Property>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = PropertiesRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         context = parent.context
-        config = parent.context.resources.configuration
         return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        if(config.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE) && position == 0)
-            EventBus.getDefault().post(LaunchActivityEvent(dataSet[position].ref))
 
         viewHolder.typeProperty.text = dataSet[position].type.name
 
