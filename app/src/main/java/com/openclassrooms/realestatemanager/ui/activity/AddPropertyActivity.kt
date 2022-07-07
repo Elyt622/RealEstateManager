@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +15,8 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -133,7 +137,15 @@ class AddPropertyActivity : BaseActivity() {
         }
 
         buttonAddPhoto.setOnClickListener{
-            openSomeActivityForResult()
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                123
+            )
+            readPermissionGranted()
+            writePermissionGranted()
         }
 
         buttonTakePhoto.setOnClickListener{
@@ -198,6 +210,37 @@ class AddPropertyActivity : BaseActivity() {
         }
     }
 
+    private fun readPermissionGranted() : Boolean {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED) {
+            return true
+        }
+        return false
+    }
+
+    private fun writePermissionGranted() : Boolean {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED) {
+            return true
+        }
+        return false
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (readPermissionGranted() && writePermissionGranted()) {
+            openSomeActivityForResult()
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
     private fun fillInAddress() {
         val components = place?.addressComponents
         val address1 = StringBuilder()
@@ -225,7 +268,8 @@ class AddPropertyActivity : BaseActivity() {
             Place.Field.LAT_LNG, Place.Field.VIEWPORT
         )
 
-        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+        val intent = Autocomplete
+            .IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
             .setCountry("US")
             .setTypeFilter(TypeFilter.ADDRESS)
             .build(this)
@@ -254,7 +298,9 @@ class AddPropertyActivity : BaseActivity() {
     )
 
     private fun createDialog(data: Intent, fromGallery: Boolean) : AlertDialog {
-        val view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_photo_description, null)
+        val view = LayoutInflater
+            .from(this)
+            .inflate(R.layout.alert_dialog_photo_description, null)
         val editTextInput: EditText = view.findViewById(R.id.editText_photo_description)
         return AlertDialog.Builder(this)
             .setView(view)

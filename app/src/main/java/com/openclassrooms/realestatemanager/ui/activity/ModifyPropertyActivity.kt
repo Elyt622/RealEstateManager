@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.ui.activity
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +13,8 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -168,7 +172,15 @@ class ModifyPropertyActivity : BaseActivity() {
         }
 
         addPhotoButton.setOnClickListener {
-            openSomeActivityForResult()
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                123
+            )
+            readPermissionGranted()
+            writePermissionGranted()
         }
 
         takePhotoButton.setOnClickListener {
@@ -294,6 +306,31 @@ class ModifyPropertyActivity : BaseActivity() {
                 statusSpinner.setSelection(Status.ON_SALE.ordinal)
             }
         }
+    }
+
+    private fun readPermissionGranted() : Boolean {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            return true
+        }
+        return false
+    }
+
+    private fun writePermissionGranted() : Boolean {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            return true
+        }
+        return false
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (readPermissionGranted() && writePermissionGranted()) {
+            openSomeActivityForResult()
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun createDialog(data: Intent, fromGallery: Boolean) : AlertDialog {

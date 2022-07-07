@@ -40,10 +40,14 @@ class CameraActivity : AppCompatActivity() {
 
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(Manifest.permission.CAMERA),
+            arrayOf(Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE),
             123
         )
         cameraPermissionGranted()
+        readPermissionGranted()
+        writePermissionGranted()
 
         outputDirectory = getOutputDirectory()
 
@@ -57,7 +61,7 @@ class CameraActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (cameraPermissionGranted()) {
+        if (cameraPermissionGranted() && readPermissionGranted() && writePermissionGranted()) {
             startCamera()
         } else {
             finish()
@@ -65,8 +69,22 @@ class CameraActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private fun cameraPermissionGranted() : Boolean{
+    private fun cameraPermissionGranted() : Boolean {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            return true
+        }
+        return false
+    }
+
+    private fun readPermissionGranted() : Boolean {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            return true
+        }
+        return false
+    }
+
+    private fun writePermissionGranted() : Boolean {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
             return true
         }
         return false
