@@ -186,7 +186,7 @@ class ExploreFragment : Fragment() {
             .childFragmentManager
             .findFragmentById(R.id.fragment_details)
         if (fragment != null) {
-            if (properties.isEmpty())
+            if (properties.isEmpty()) {
                 requireActivity()
                     .supportFragmentManager
                     .fragments[0]
@@ -195,6 +195,8 @@ class ExploreFragment : Fragment() {
                     .hide(
                         fragment
                     ).commit()
+                Toast.makeText(requireActivity(), "No results with this filter", Toast.LENGTH_LONG).show()
+            }
             else
                 requireActivity()
                     .supportFragmentManager
