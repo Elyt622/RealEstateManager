@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setFragmentResultListener("requestRef") { requestKey, bundle ->
+        setFragmentResultListener("requestRef") { _, bundle ->
             val result = bundle.getInt("RefBundle")
             EventBus.getDefault().post(LaunchActivityEvent(result))
         }
@@ -52,7 +52,6 @@ class HomeFragment : Fragment() {
         binding = HomeFragmentBinding.inflate(layoutInflater)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-
         viewPager = requireActivity().findViewById(R.id.viewpager_activity_main)
         bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation_view_activity_main)
         rv = binding.recyclerViewListPropertiesHomeFragment
@@ -77,8 +76,9 @@ class HomeFragment : Fragment() {
             .getAllProperties()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{
+            .subscribe {
                 rv.adapter = PropertyRvAdapter(it)
+                showDetailsFragment()
             }
     }
 
@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
     }
 
     @Subscribe
-    fun onEvent(event: LaunchActivityEvent) {
+    fun  onEvent(event: LaunchActivityEvent) {
         if (binding.fragmentDetails == null) {
                 val intent = Intent(activity, PropertyActivity::class.java)
                 intent.putExtra("REF", event.ref)
@@ -150,5 +150,17 @@ class HomeFragment : Fragment() {
         super.onResume()
         viewPager.isUserInputEnabled = true
         applySort()
+    }
+
+    private fun showDetailsFragment() {
+        val fragment = childFragmentManager
+            .findFragmentById(binding.fragmentDetails!!.id)
+        if (fragment != null) {
+            childFragmentManager
+                .beginTransaction()
+                .show(
+                    fragment
+                ).commit()
+        }
     }
 }
