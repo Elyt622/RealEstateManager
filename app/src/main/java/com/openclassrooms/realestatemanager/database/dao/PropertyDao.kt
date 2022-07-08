@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.database.dao
 
+import android.database.Cursor
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.model.Property
@@ -14,6 +15,9 @@ interface PropertyDao {
 
     @Query("SELECT * FROM Property")
     fun loadAllProperty() : Observable<List<Property>>
+
+    @Query("SELECT * FROM Property")
+    fun loadAllPropertyWithCursor() : Cursor
 
     @Query("SELECT * FROM Property WHERE ref = :ref")
     fun loadPropertyWithRef(ref: Int) : Observable<Property>
