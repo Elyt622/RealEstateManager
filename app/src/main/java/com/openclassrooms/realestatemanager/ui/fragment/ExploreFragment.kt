@@ -70,8 +70,8 @@ class ExploreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = ExploreFragmentBinding.inflate(layoutInflater)
-        toolbar = requireActivity().findViewById(R.id.toolbar_main_activity)
-        viewPager = requireActivity().findViewById(R.id.viewpager_activity_main)
+        toolbar = requireActivity().findViewById(R.id.toolbar)
+        viewPager = requireActivity().findViewById(R.id.viewpager)
         menuItem = toolbar.menu.findItem(R.id.home_top_sort).setVisible(true)
         return binding.root
     }
@@ -230,7 +230,6 @@ class ExploreFragment : Fragment() {
     }
 
     private fun applySort() {
-        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar_main_activity)
         toolbar.setOnMenuItemClickListener { item ->
             when(item.itemId){
                 R.id.sort_price_asc -> {

@@ -46,7 +46,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[MapViewModel::class.java]
         val map = childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment?
-        viewPager = requireActivity().findViewById(R.id.viewpager_activity_main)
+        viewPager = requireActivity().findViewById(R.id.viewpager)
 
         map?.getMapAsync(this)
     }

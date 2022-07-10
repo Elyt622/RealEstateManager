@@ -52,8 +52,8 @@ class HomeFragment : Fragment() {
         binding = HomeFragmentBinding.inflate(layoutInflater)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        viewPager = requireActivity().findViewById(R.id.viewpager_activity_main)
-        bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation_view_activity_main)
+        viewPager = requireActivity().findViewById(R.id.viewpager)
+        bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation_view)
         rv = binding.recyclerViewListPropertiesHomeFragment
         return binding.root
     }
@@ -83,7 +83,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun applySort() {
-            val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar_main_activity)
+            val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
             toolbar.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.sort_price_asc -> {
