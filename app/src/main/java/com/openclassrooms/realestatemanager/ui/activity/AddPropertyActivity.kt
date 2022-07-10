@@ -8,19 +8,16 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
@@ -48,39 +45,7 @@ import java.util.*
 
 class AddPropertyActivity : BaseActivity() {
 
-    private lateinit var topToolbar: Toolbar
-
-    private lateinit var typeRv: RecyclerView
-
-    private lateinit var optionRv: RecyclerView
-
-    private lateinit var photosRv: RecyclerView
-
-    private lateinit var buttonAddProperty: Button
-
-    private lateinit var editTextRoom: EditText
-
-    private lateinit var editTextBed: EditText
-
-    private lateinit var editTextBathroom: EditText
-
-    private lateinit var editTextPrice: EditText
-
-    private lateinit var editTextSurface: EditText
-
-    private lateinit var editTextDescription: EditText
-
-    private lateinit var editTextAddress: EditText
-
-    private lateinit var editTextAgentName: EditText
-
-    private lateinit var buttonAddPhoto : Button
-
-    private lateinit var buttonTakePhoto: Button
-
     private lateinit var viewModel: AddPropertyViewModel
-
-    private lateinit var editTextDescriptionPhoto : EditText
 
     private lateinit var binding: ActivityAddPropertyBinding
 
@@ -107,38 +72,18 @@ class AddPropertyActivity : BaseActivity() {
         Places.initialize(applicationContext, resources.getString(R.string.maps_api_key))
         placesClient = Places.createClient(this)
 
-        topToolbar = binding.toolbarOnTopAddPropertyActivity
-
-        typeRv = binding.recyclerviewTypeAddPropertyActivity
-        photosRv = binding.recyclerviewPhotosAddPropertyActivity
-        optionRv = binding.recyclerviewOptionAddPropertyActivity
-
-        buttonAddProperty = binding.buttonAddNewPropertyAddPropertyActivity
-        buttonAddPhoto = binding.buttonAddPhotoAddPropertyActivity
-        buttonTakePhoto = binding.buttonTakePhotoAddPropertyActivity
-
-        editTextAddress = binding.editTextAddressAddPropertyActivity
-        editTextBathroom = binding.editTextBathroomsAddPropertyActivity
-        editTextBed = binding.editTextBedsAddPropertyActivity
-        editTextDescription = binding.editTextDescriptionAddPropertyActivity
-        editTextPrice = binding.editTextPriceAddPropertyActivity
-        editTextRoom = binding.editTextRoomsAddPropertyActivity
-        editTextSurface = binding.editTextSurfaceAddPropertyActivity
-        editTextAgentName = binding.editTextAgentName
-        editTextDescriptionPhoto = EditText(this)
-
         configToolbar()
         configTypeRecyclerView()
         configOptionRecyclerView()
         configPhotosRecyclerView()
-
+        with(binding){
         editTextAddress.setOnClickListener {
             startAutocompleteIntent()
         }
 
         buttonAddPhoto.setOnClickListener{
             ActivityCompat.requestPermissions(
-                this,
+                this@AddPropertyActivity,
                 arrayOf(
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -149,16 +94,16 @@ class AddPropertyActivity : BaseActivity() {
         }
 
         buttonTakePhoto.setOnClickListener{
-            resultLauncher.launch(Intent(this, CameraActivity::class.java))
+            resultLauncher.launch(Intent(this@AddPropertyActivity, CameraActivity::class.java))
         }
 
-        buttonAddProperty.setOnClickListener{
+        buttonAddNewProperty.setOnClickListener{
             viewModel.insertProperty(
                 Utils.convertStringToFloat(editTextSurface.text.toString()),
                 Utils.convertStringToInt(editTextPrice.text.toString()),
-                Utils.convertStringToInt(editTextRoom.text.toString()),
-                Utils.convertStringToInt(editTextBed.text.toString()),
-                Utils.convertStringToInt(editTextBathroom.text.toString()),
+                Utils.convertStringToInt(editTextRooms.text.toString()),
+                Utils.convertStringToInt(editTextBeds.text.toString()),
+                Utils.convertStringToInt(editTextBathrooms.text.toString()),
                 editTextDescription.text.toString(),
                 editTextAddress.text.toString(),
                 mutableListOfPhoto,
@@ -175,38 +120,39 @@ class AddPropertyActivity : BaseActivity() {
                 onError = {
                     when(it.message){
                         "PHOTO_IS_EMPTY" -> {
-                            Toast.makeText(this, "No photo added", Toast.LENGTH_SHORT).show()
+                            showToast("No photo added")
                         }
                         "NO_SELECTED_TYPE" -> {
-                            Toast.makeText(this, "No selected type", Toast.LENGTH_SHORT).show()
+                            showToast("No selected type")
                         }
                         "ROOM_IS_EMPTY" -> {
-                            Toast.makeText(this, "Rooms is empty", Toast.LENGTH_SHORT).show()
+                            showToast("Rooms is empty")
                         }
                         "BED_IS_EMPTY" -> {
-                            Toast.makeText(this, "Beds is empty", Toast.LENGTH_SHORT).show()
+                            showToast("Beds is empty")
                         }
                         "BATHROOM_IS_EMPTY" -> {
-                            Toast.makeText(this, "Bathrooms is empty", Toast.LENGTH_SHORT).show()
+                            showToast("Bathrooms is empty")
                         }
                         "PRICE_IS_EMPTY" -> {
-                            Toast.makeText(this, "Price is empty", Toast.LENGTH_SHORT).show()
+                            showToast("Price is empty")
                         }
                         "ADDRESS_IS_EMPTY" -> {
-                            Toast.makeText(this, "Address is empty", Toast.LENGTH_SHORT).show()
+                            showToast("Address is empty")
                         }
                         "DESC_IS_EMPTY" -> {
-                            Toast.makeText(this, "Description is empty", Toast.LENGTH_SHORT).show()
+                            showToast("Description is empty")
                         }
                         "AGENT_IS_EMPTY" -> {
-                            Toast.makeText(this, "Agent name is empty", Toast.LENGTH_SHORT).show()
+                             showToast("Agent name is empty")
                         }
                         "LOCATION_IS_INVALID" -> {
-                            Toast.makeText(this, "Location is invalid", Toast.LENGTH_SHORT).show()
+                            showToast("Location is invalid")
                         }
                     }
                 }
             ).addTo(bag)
+        }
         }
     }
 
@@ -218,6 +164,10 @@ class AddPropertyActivity : BaseActivity() {
             return true
         }
         return false
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun writePermissionGranted() : Boolean {
@@ -258,7 +208,7 @@ class AddPropertyActivity : BaseActivity() {
                 }
             }
         }
-        editTextAddress.setText(address1.toString())
+        binding.editTextAddress.setText(address1.toString())
     }
 
     private fun startAutocompleteIntent() {
@@ -391,49 +341,55 @@ class AddPropertyActivity : BaseActivity() {
     }
 
     private fun configPhotosRecyclerView() {
-        photosRv.isGone = mutableListOfPhoto.isEmpty()
-
-        photosRv.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        photosRv.adapter = PhotoRvAdapterInAddProperty(
-            viewModel,
-            this,
-            mutableListOfPhoto,
-            mutableListDescriptionPhoto,
-            photosRv
-        )
+        with(binding) {
+            recyclerviewPhotos.isGone = mutableListOfPhoto.isEmpty()
+            recyclerviewPhotos.layoutManager = LinearLayoutManager(
+                this@AddPropertyActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            recyclerviewPhotos.adapter = PhotoRvAdapterInAddProperty(
+                viewModel,
+                this@AddPropertyActivity,
+                mutableListOfPhoto,
+                mutableListDescriptionPhoto,
+                recyclerviewPhotos
+            )
+        }
     }
 
     private fun configTypeRecyclerView() {
-        typeRv.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        typeRv.adapter = TypeRvAdapterAddProperty(viewModel,
-            this,
-            Type.values()
-        )
+        with(binding) {
+            recyclerviewType.layoutManager = LinearLayoutManager(
+                this@AddPropertyActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            recyclerviewType.adapter = TypeRvAdapterAddProperty(
+                viewModel,
+                this@AddPropertyActivity,
+                Type.values()
+            )
+        }
     }
 
     private fun configOptionRecyclerView() {
-        optionRv.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        optionRv.adapter = OptionRvAdapterAddProperty(
-            viewModel,
-            this,
-            Option.values()
-        )
+        with(binding) {
+            recyclerviewOption.layoutManager = LinearLayoutManager(
+                this@AddPropertyActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            recyclerviewOption.adapter = OptionRvAdapterAddProperty(
+                viewModel,
+                this@AddPropertyActivity,
+                Option.values()
+            )
+        }
     }
 
     private fun configToolbar() {
-        setSupportActionBar(topToolbar)
+        setSupportActionBar(binding.toolbarTop)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)

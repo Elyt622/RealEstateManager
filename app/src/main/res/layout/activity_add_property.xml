@@ -7,7 +7,7 @@
     tools:context=".ui.activity.AddPropertyActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_on_top_add_property_activity"
+        android:id="@+id/toolbar_top"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#FFFFFF"
@@ -23,13 +23,13 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_on_bottom_add_property_activity"
+        android:id="@+id/toolbar_bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent" >
 
         <Button
-            android:id="@+id/button_add_new_property_add_property_activity"
+            android:id="@+id/button_add_new_property"
             android:text="@string/add_new_property"
             style="@style/Widget.AppCompat.Button.Colored"
             android:textSize="14sp"
@@ -40,19 +40,19 @@
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
-        android:id="@+id/scrollView_add_property_activity"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/toolbar_on_bottom_add_property_activity"
+        app:layout_constraintBottom_toTopOf="@+id/toolbar_bottom"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_on_top_add_property_activity">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_top">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textview_static_photos_add_property_activity"
+                android:id="@+id/textview_static_photos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_photos_add_property_activity"
+                android:id="@+id/recyclerview_photos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -72,10 +72,10 @@
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_photos_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_photos" />
 
             <Button
-                android:id="@+id/button_add_photo_add_property_activity"
+                android:id="@+id/button_add_photo"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,10 +85,10 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerview_photos_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/recyclerview_photos" />
 
             <Button
-                android:id="@+id/button_take_photo_add_property_activity"
+                android:id="@+id/button_take_photo"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,10 +98,10 @@
                 android:text="@string/take_photo"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerview_photos_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/recyclerview_photos" />
 
             <TextView
-                android:id="@+id/textview_static_type_add_property_activity"
+                android:id="@+id/textview_static_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -110,21 +110,21 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_add_photo_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/button_add_photo" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_type_add_property_activity"
+                android:id="@+id/recyclerview_type"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/textview_static_rooms_add_property_activity"
+                app:layout_constraintBottom_toTopOf="@+id/textview_static_rooms"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_type_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_type" />
 
             <TextView
-                android:id="@+id/textview_static_rooms_add_property_activity"
+                android:id="@+id/textview_static_rooms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -133,41 +133,43 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_type_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_type" />
 
             <EditText
-                android:id="@+id/editText_rooms_add_property_activity"
+                android:id="@+id/editText_rooms"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                app:layout_constraintEnd_toEndOf="@+id/textview_static_rooms_add_property_activity"
-                app:layout_constraintStart_toStartOf="@+id/textview_static_rooms_add_property_activity"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_rooms_add_property_activity"
-                android:importantForAutofill="no" />
+                app:layout_constraintEnd_toEndOf="@+id/textview_static_rooms"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_rooms"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_rooms"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <TextView
-                android:id="@+id/textview_static_beds_add_property_activity"
+                android:id="@+id/textview_static_beds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/beds"
                 android:textStyle="bold"
                 android:textSize="15sp"
-                app:layout_constraintEnd_toStartOf="@+id/textview_static_bathrooms_add_property_activity"
-                app:layout_constraintStart_toEndOf="@+id/textview_static_rooms_add_property_activity"
-                app:layout_constraintTop_toTopOf="@+id/textview_static_rooms_add_property_activity" />
+                app:layout_constraintEnd_toStartOf="@+id/textview_static_bathrooms"
+                app:layout_constraintStart_toEndOf="@+id/textview_static_rooms"
+                app:layout_constraintTop_toTopOf="@+id/textview_static_rooms" />
 
             <EditText
-                android:id="@+id/editText_beds_add_property_activity"
+                android:id="@+id/editText_beds"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                app:layout_constraintEnd_toEndOf="@+id/textview_static_beds_add_property_activity"
-                app:layout_constraintStart_toStartOf="@+id/textview_static_beds_add_property_activity"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_beds_add_property_activity"
-                android:importantForAutofill="no" />
+                app:layout_constraintEnd_toEndOf="@+id/textview_static_beds"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_beds"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_beds"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <TextView
-                android:id="@+id/textview_static_bathrooms_add_property_activity"
+                android:id="@+id/textview_static_bathrooms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
@@ -175,20 +177,21 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textview_static_beds_add_property_activity" />
+                app:layout_constraintTop_toTopOf="@+id/textview_static_beds" />
 
             <EditText
-                android:id="@+id/editText_bathrooms_add_property_activity"
+                android:id="@+id/editText_bathrooms"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                app:layout_constraintEnd_toEndOf="@+id/textview_static_bathrooms_add_property_activity"
-                app:layout_constraintStart_toStartOf="@+id/textview_static_bathrooms_add_property_activity"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_bathrooms_add_property_activity"
-                android:importantForAutofill="no" />
+                app:layout_constraintEnd_toEndOf="@+id/textview_static_bathrooms"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_bathrooms"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_bathrooms"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <TextView
-                android:id="@+id/textview_static_surface_add_property_activity"
+                android:id="@+id/textview_static_surface"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -197,42 +200,44 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_bathrooms_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_bathrooms" />
 
             <EditText
-                android:id="@+id/editText_surface_add_property_activity"
+                android:id="@+id/editText_surface"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                app:layout_constraintEnd_toEndOf="@+id/textview_static_surface_add_property_activity"
-                app:layout_constraintStart_toStartOf="@+id/textview_static_surface_add_property_activity"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_surface_add_property_activity"
-                android:importantForAutofill="no" />
+                app:layout_constraintEnd_toEndOf="@+id/textview_static_surface"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_surface"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_surface"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <TextView
-                android:id="@+id/textview_static_description_add_property_activity"
+                android:id="@+id/textview_static_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/price_with_star"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/editText_bathrooms_add_property_activity"
-                app:layout_constraintStart_toStartOf="@+id/textview_static_beds_add_property_activity"
-                app:layout_constraintTop_toTopOf="@+id/textview_static_surface_add_property_activity" />
+                app:layout_constraintEnd_toStartOf="@+id/editText_bathrooms"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_beds"
+                app:layout_constraintTop_toTopOf="@+id/textview_static_surface" />
 
             <EditText
-                android:id="@+id/editText_price_add_property_activity"
+                android:id="@+id/editText_price"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:importantForAutofill="no"
                 android:gravity="center"
                 android:inputType="number"
-                app:layout_constraintEnd_toEndOf="@+id/textview_static_description_add_property_activity"
-                app:layout_constraintStart_toStartOf="@+id/textview_static_description_add_property_activity"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_description_add_property_activity" />
+                app:layout_constraintEnd_toEndOf="@+id/textview_static_description"
+                app:layout_constraintStart_toStartOf="@+id/textview_static_description"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_description"
+                tools:ignore="LabelFor" />
 
             <TextView
-                android:id="@+id/textview_static_address_add_property_activity"
+                android:id="@+id/textview_static_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -241,10 +246,10 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_surface_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_surface" />
 
             <EditText
-                android:id="@+id/editText_address_add_property_activity"
+                android:id="@+id/editText_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -254,10 +259,12 @@
                 android:inputType="textPostalAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_address_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_address"
+                android:importantForAutofill="no"
+                tools:ignore="LabelFor" />
 
             <TextView
-                android:id="@+id/textview_static_options_add_property_activity"
+                android:id="@+id/textview_static_options"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -266,21 +273,21 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_address_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_address" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_option_add_property_activity"
+                android:id="@+id/recyclerview_option"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/textview_static_price_add_property_activity"
+                app:layout_constraintBottom_toTopOf="@+id/textview_static_price"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_options_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_options" />
 
             <TextView
-                android:id="@+id/textview_static_price_add_property_activity"
+                android:id="@+id/textview_static_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -289,10 +296,10 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_options_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_options" />
 
             <EditText
-                android:id="@+id/editText_description_add_property_activity"
+                android:id="@+id/editText_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -302,7 +309,8 @@
                 android:inputType="textLongMessage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_price_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_price"
+                tools:ignore="LabelFor" />
 
             <TextView
                 android:id="@+id/textview_static_agent_firstname"
@@ -314,7 +322,7 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_description_add_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_description" />
 
             <EditText
                 android:id="@+id/editText_agent_name"
@@ -325,7 +333,8 @@
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_agent_firstname" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_agent_firstname"
+                tools:ignore="LabelFor" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
