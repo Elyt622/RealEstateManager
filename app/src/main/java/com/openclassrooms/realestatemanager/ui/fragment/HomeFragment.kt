@@ -148,7 +148,6 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewPager.isUserInputEnabled = true
         applySort()
     }
 

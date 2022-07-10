@@ -55,9 +55,4 @@ class ProfileFragment : Fragment() {
             }
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        viewPager.isUserInputEnabled = true
-    }
 }

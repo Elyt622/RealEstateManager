@@ -384,7 +384,6 @@ class ExploreFragment : Fragment() {
     }
 
     override fun onResume() {
-        viewPager.isUserInputEnabled = true
         super.onResume()
         applySort()
     }

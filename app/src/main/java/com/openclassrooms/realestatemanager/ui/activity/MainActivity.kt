@@ -7,7 +7,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.ui.adapter.ViewPagerAdapter
-import com.openclassrooms.realestatemanager.ui.custom.ZoomOutPageTransformer
 import com.openclassrooms.realestatemanager.viewmodel.MainViewModel
 
 class MainActivity : BaseActivity() {
@@ -37,7 +36,7 @@ class MainActivity : BaseActivity() {
     private fun configViewpager() {
         val pagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = pagerAdapter
-        viewPager.setPageTransformer(ZoomOutPageTransformer())
+        viewPager.isUserInputEnabled = false
 
         viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {

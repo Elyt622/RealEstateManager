@@ -86,9 +86,4 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     ), 10F)
         )
     }
-
-    override fun onResume() {
-        viewPager.isUserInputEnabled = false
-        super.onResume()
-    }
 }
