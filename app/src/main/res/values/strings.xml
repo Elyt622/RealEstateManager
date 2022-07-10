@@ -70,7 +70,7 @@
     <string name="with">$ with</string>
     <string name="cost_of_credit">Cost of credit:</string>
     <string name="_0">0</string>
-    <string name="_$">$</string>
+    <string name="dollar">$</string>
     <string name="_15">15</string>
     <string name="_1_65">1.65</string>
     <string name="percentage">%</string>
