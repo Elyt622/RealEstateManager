@@ -153,14 +153,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun showDetailsFragment() {
-        val fragment = childFragmentManager
-            .findFragmentById(binding.fragmentDetails!!.id)
-        if (fragment != null) {
-            childFragmentManager
-                .beginTransaction()
-                .show(
-                    fragment
-                ).commit()
+        if (binding.fragmentDetails != null) {
+            val fragment = childFragmentManager
+                .findFragmentById(binding.fragmentDetails!!.id)
+            if (fragment != null) {
+                childFragmentManager
+                    .beginTransaction()
+                    .show(
+                        fragment
+                    ).commit()
+            }
         }
     }
 }
