@@ -14,7 +14,6 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityCameraBinding
 import java.io.File
@@ -29,14 +28,10 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var outputDirectory: File
 
-    private lateinit var buttonTakePhoto: FloatingActionButton
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        buttonTakePhoto = binding.buttonTakePhotoCameraActivity
 
         ActivityCompat.requestPermissions(
             this,
@@ -51,7 +46,7 @@ class CameraActivity : AppCompatActivity() {
 
         outputDirectory = getOutputDirectory()
 
-        buttonTakePhoto.setOnClickListener{
+        binding.buttonTakePhoto.setOnClickListener{
             takePhoto()
         }
     }
@@ -61,7 +56,9 @@ class CameraActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (cameraPermissionGranted() && readPermissionGranted() && writePermissionGranted()) {
+        if (cameraPermissionGranted()
+            && readPermissionGranted()
+            && writePermissionGranted()) {
             startCamera()
         } else {
             finish()
@@ -70,21 +67,30 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun cameraPermissionGranted() : Boolean {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+        if(ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED){
             return true
         }
         return false
     }
 
     private fun readPermissionGranted() : Boolean {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+        if(ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED){
             return true
         }
         return false
     }
 
     private fun writePermissionGranted() : Boolean {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+        if(ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED){
             return true
         }
         return false
@@ -138,8 +144,8 @@ class CameraActivity : AppCompatActivity() {
                 override fun onError(exception: ImageCaptureException) {
                     Log.d("DEBUG", exception.message.toString())
                 }
-
-            })
+            }
+        )
     }
 
     private fun startCamera(){
@@ -154,9 +160,10 @@ class CameraActivity : AppCompatActivity() {
                 .build()
                 .also { preview ->
                     preview.setSurfaceProvider(
-                        binding.previewViewPreviewActivity.surfaceProvider
+                        binding.previewView.surfaceProvider
                     )
                 }
+
             imageCapture = ImageCapture.Builder()
                 .build()
 

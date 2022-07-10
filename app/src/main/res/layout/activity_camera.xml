@@ -7,17 +7,17 @@
     tools:context=".ui.activity.CameraActivity">
 
     <androidx.camera.view.PreviewView
-        android:id="@+id/preview_view_preview_activity"
+        android:id="@+id/preview_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_take_photo_camera_activity"
+        android:id="@+id/button_take_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#FF0000"
-        app:layout_constraintBottom_toBottomOf="@+id/preview_view_preview_activity"
+        app:layout_constraintBottom_toBottomOf="@+id/preview_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:contentDescription="@string/record_photo" />
