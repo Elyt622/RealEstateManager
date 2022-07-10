@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
-                android:text="0"
+                android:text="@string/_0"
                 android:textColor="@color/colorPrimary"
                 android:textSize="36sp"
                 android:textStyle="bold" />
@@ -151,11 +151,12 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:textColor="@color/colorPrimary"
-        android:hint="0"
-        android:gravity="end" />
+        android:hint="@string/_0"
+        android:gravity="end"
+        android:importantForAutofill="no" />
 
         <TextView
-            android:text="$"
+            android:text="@string/_$"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_width="wrap_content"
@@ -193,14 +194,15 @@
             android:layout_marginEnd="10dp"
             android:src="@drawable/baseline_remove_24px"
             android:textSize="36sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:contentDescription="@string/button_remove_year" />
 
         <TextView
             android:id="@+id/textView_duration_loan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
-            android:text="15"
+            android:text="@string/_15"
             android:layout_marginEnd="4dp"
             android:textSize="19sp"
             android:textStyle="bold" />
@@ -218,7 +220,8 @@
             android:layout_marginStart="10dp"
             android:src="@drawable/baseline_add_24px"
             android:textSize="36sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:contentDescription="@string/button_add_year" />
 
     </LinearLayout>
 
@@ -248,12 +251,13 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:hint="1.65"
+            android:hint="@string/_1_65"
             android:inputType="numberDecimal"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:importantForAutofill="no" />
 
         <TextView
-            android:text="%"
+            android:text="@string/percentage"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_width="wrap_content"
@@ -287,14 +291,15 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:hint="0.34"
+            android:hint="@string/_0_34"
             android:inputType="numberDecimal"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:importantForAutofill="no" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="%"
+            android:text="@string/percentage"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -305,7 +310,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Calculate"
+        android:text="@string/calculate"
         style="@style/Widget.AppCompat.Button.Colored"
         android:textColor="@color/quantum_white_100"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
