@@ -7,15 +7,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
@@ -42,49 +37,9 @@ class PropertyFragment : Fragment() {
 
     private lateinit var viewModel: PropertyViewModel
 
-    private lateinit var image: ImageView
-
-    private lateinit var rvPhoto: RecyclerView
-
-    private lateinit var rvOptions: RecyclerView
-
-    private lateinit var typeTextView: TextView
-
-    private lateinit var priceTextView: TextView
-
-    private lateinit var descriptionTextView: TextView
-
-    private lateinit var surfaceTextView: TextView
-
-    private lateinit var stateTextView: TextView
-
-    private lateinit var bedTextView: TextView
-
-    private lateinit var roomTextView: TextView
-
-    private lateinit var bathroomTextView: TextView
-
-    private lateinit var addressTextView: TextView
-
-    private lateinit var referenceTextView: TextView
-
-    private lateinit var entryDateTextView: TextView
-
-    private lateinit var agentTextView: TextView
-
-    private lateinit var titleText: TextView
-
-    private lateinit var soldTextView: TextView
-
-    private lateinit var soldStaticTextView: TextView
-
-    private lateinit var toolbar : Toolbar
-
     private lateinit var binding: FragmentPropertyBinding
 
     private lateinit var map: MapView
-
-    private lateinit var modifyPropertyButton: Button
 
     var ref = 1
 
@@ -96,38 +51,10 @@ class PropertyFragment : Fragment() {
     ): View {
         binding = FragmentPropertyBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[PropertyViewModel::class.java]
-        modifyPropertyButton = binding.buttonModifyPropertyPropertyFragment
 
         // MapView
         map = binding.map
         map.onCreate(savedInstanceState)
-
-        // ImageView
-        image = binding.imageViewMainPictureActivityProperty
-
-        // TextView
-        typeTextView = binding.textviewTypePropertyActivity
-        priceTextView = binding.textviewPricePropertyActivity
-        surfaceTextView = binding.textviewSurfacePropertyActivity
-        descriptionTextView = binding.textviewDescriptionPropertyActivity
-        stateTextView = binding.textviewStatePropertyActivity
-        bedTextView = binding.textviewBedsPropertyActivity
-        roomTextView = binding.textviewRoomsPropertyActivity
-        bathroomTextView = binding.textviewBathroomPropertyActivity
-        addressTextView = binding.textviewAddressPropertyActivity
-        referenceTextView = binding.textviewReferencePropertyActivity
-        entryDateTextView = binding.textviewEntryDatePropertyActivity
-        agentTextView = binding.textviewAgentPropertyActivity
-        soldTextView = binding.textviewSoldDatePropertyActivity
-        soldStaticTextView = binding.textviewStaticSoldDatePropertyActivity
-        titleText = binding.textviewTypeTopToolbarPropertyActivity
-
-        //Toolbar
-        toolbar = binding.topToolbarPropertyActivity
-
-        // RecyclerView
-        rvPhoto = binding.recyclerViewPhotosPropertyActivity
-        rvOptions = binding.recyclerViewOptionsPropertyActivity
 
         return binding.root
     }
@@ -139,7 +66,7 @@ class PropertyFragment : Fragment() {
 
         loadProperty(property)
 
-        modifyPropertyButton.setOnClickListener{
+        binding.buttonModifyProperty.setOnClickListener{
             val intent = Intent(requireActivity(), ModifyPropertyActivity::class.java)
             intent.putExtra("REF", ref)
             startActivity(intent)
@@ -152,32 +79,33 @@ class PropertyFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy (
                 onNext = { results ->
+                    with(binding){
                     configPhotosRecyclerView(results.descriptionPhoto, results.photos)
                     configOptionsRecyclerView(results.options)
 
                     if(results.photos.isNotEmpty())
-                        Glide.with(this).load(results.photos[0]).into(image)
+                        Glide.with(this@PropertyFragment).load(results.photos[0]).into(imageViewMain)
 
                     configPriceTextView(results.price)
                     configSurfaceTextView(results.surface)
                     configAgentTextView(results.agentName)
 
-                    entryDateTextView.text = Utils.convertDateToString(results.entryDate)
-                    referenceTextView.text = results.ref.toString()
-                    addressTextView.text = results.address
-                    bathroomTextView.text = results.numberBathroom.toString()
-                    roomTextView.text = results.numberRoom.toString()
-                    bedTextView.text = results.numberBed.toString()
-                    typeTextView.text = results.type.name
-                    stateTextView.text = results.status.displayName
-                    descriptionTextView.text = results.description
+                    textviewEntryDate.text = Utils.convertDateToString(results.entryDate)
+                    textviewReference.text = results.ref.toString()
+                    textviewAddress.text = results.address
+                    textviewBathroom.text = results.numberBathroom.toString()
+                    textviewRooms.text = results.numberRoom.toString()
+                    textviewBeds.text = results.numberBed.toString()
+                    textviewType.text = results.type.name
+                    textviewState.text = results.status.displayName
+                    textviewDescription.text = results.description
                     if(results.soldDate == null){
-                        soldStaticTextView.isGone = true
-                        soldTextView.isGone = true
+                        textviewStaticSoldDate.isGone = true
+                        textviewSoldDate.isGone = true
                     } else {
-                        soldStaticTextView.isGone = false
-                        soldTextView.isGone = false
-                        soldTextView.text = Utils.convertDateToString(results.soldDate!!)
+                        textviewStaticSoldDate.isGone = false
+                        textviewSoldDate.isGone = false
+                        textviewSoldDate.text = Utils.convertDateToString(results.soldDate!!)
                     }
 
                     map.getMapAsync {
@@ -191,7 +119,8 @@ class PropertyFragment : Fragment() {
                                 15F
                             ))
                     }
-                },
+                    }
+                         },
                 onError = {
 
                 }
@@ -207,43 +136,70 @@ class PropertyFragment : Fragment() {
     }
 
     private fun configPhotosRecyclerView(descriptionPhoto: MutableList<String>, photos: MutableList<Uri>){
-        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
-            rvPhoto.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            rvPhoto.adapter = PhotoRvAdapter(descriptionPhoto, image, photos)
-        } else {
-            rvPhoto.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            rvPhoto.adapter = PhotoRvAdapter(descriptionPhoto, image, photos)
+        with(binding) {
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                recyclerViewPhotos.layoutManager = LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+                recyclerViewPhotos.adapter = PhotoRvAdapter(
+                    descriptionPhoto,
+                    imageViewMain,
+                    photos
+                )
+            } else {
+                recyclerViewPhotos.layoutManager =
+                    LinearLayoutManager(
+                        context,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                recyclerViewPhotos.adapter = PhotoRvAdapter(
+                    descriptionPhoto,
+                    imageViewMain,
+                    photos
+                )
+            }
         }
     }
 
     private fun configOptionsRecyclerView(options: List<Option>?){
-        rvOptions.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        if (options != null && options.isNotEmpty()){
-            rvOptions.adapter = OptionRvAdapterDetails(options)
-            rvOptions.isGone = false
-        } else {
-            rvOptions.isGone = true
+        with(binding) {
+            recyclerViewOptions.layoutManager =
+                LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            if (options != null && options.isNotEmpty()) {
+                recyclerViewOptions.adapter = OptionRvAdapterDetails(options)
+                recyclerViewOptions.isGone = false
+            } else {
+                recyclerViewOptions.isGone = true
+            }
         }
     }
 
     private fun configSurfaceTextView(surface: Float?){
-        if(surface != null){
-            val surfaceFormatted = "$surface m²"
-            surfaceTextView.text = surfaceFormatted
-        } else {
-            surfaceTextView.text = getString(R.string.not_specified)
+        with(binding) {
+            if (surface != null) {
+                val surfaceFormatted = "$surface m²"
+                textviewSurface.text = surfaceFormatted
+            } else {
+                textviewSurface.text = getString(R.string.not_specified)
+            }
         }
     }
 
     private fun configAgentTextView(name: String){
         val agentFormattedText = " $name"
-        agentTextView.text = agentFormattedText
+        binding.textviewAgent.text = agentFormattedText
     }
 
     private fun configPriceTextView(priceInt: Int){
         val priceText = "$priceInt $"
-        priceTextView.text = priceText
+        binding.textviewPrice.text = priceText
     }
 
     override fun onStart() {
