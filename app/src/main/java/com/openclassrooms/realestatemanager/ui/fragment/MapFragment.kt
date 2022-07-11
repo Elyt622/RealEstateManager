@@ -1,9 +1,11 @@
 package com.openclassrooms.realestatemanager.ui.fragment
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -34,6 +36,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var viewPager: ViewPager2
 
+    private lateinit var googleMap: GoogleMap
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,9 +53,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         viewPager = requireActivity().findViewById(R.id.viewpager)
 
         map?.getMapAsync(this)
+
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        this.googleMap = googleMap
         var marker: Marker?
         viewModel
             .getAllProperties()
@@ -69,6 +76,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 }
             }
 
+        locationPermissionRequest.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
+
         googleMap.setOnMarkerClickListener {
             val result = it.tag.toString().toInt()
             setFragmentResult("requestRef", bundleOf("RefBundle" to result))
@@ -85,5 +99,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         -73.968565
                     ), 10F)
         )
+    }
+
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                googleMap.isMyLocationEnabled = true
+            }
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                googleMap.isMyLocationEnabled = true
+            }
+        }
     }
 }
