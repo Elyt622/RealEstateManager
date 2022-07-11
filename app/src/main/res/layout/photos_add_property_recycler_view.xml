@@ -36,7 +36,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/button_remove_recycler_view_add_property_activity"
+        android:id="@+id/button_remove_recycler_view"
         style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -77,7 +77,7 @@ class PhotoRvAdapterInModifyProperty(
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = binding.imageViewPhotoElementRv
-        val buttonRemove : Button = binding.buttonRemoveRecyclerViewAddPropertyActivity
+        val buttonRemove : Button = binding.buttonRemoveRecyclerView
         val textDescriptionPhoto : TextView = binding.textviewDescriptionPhoto
     }
 }
