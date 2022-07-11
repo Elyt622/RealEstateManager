@@ -61,7 +61,7 @@ class StatusRvAdapterExploreFragment (
     override fun getItemCount() = dataSet.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = binding.textviewInterestPointRvPropertyActivity
+        val textView: TextView = binding.textviewOptionsRv
         val cardView: CardView = binding.cardviewOptionsRvOptions
     }
 }

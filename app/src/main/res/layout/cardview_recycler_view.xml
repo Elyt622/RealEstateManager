@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textview_interest_point_rv_property_activity"
+            android:id="@+id/textview_options_rv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
