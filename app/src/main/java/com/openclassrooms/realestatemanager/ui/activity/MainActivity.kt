@@ -27,33 +27,37 @@ class MainActivity : BaseActivity() {
 
     private fun configViewpager() {
         val pagerAdapter = ViewPagerAdapter(this)
-        binding.viewpager.adapter = pagerAdapter
-        binding.viewpager.isUserInputEnabled = false
+        with(binding) {
+            viewpager.adapter = pagerAdapter
+            viewpager.isUserInputEnabled = false
 
-        binding.viewpager.registerOnPageChangeCallback(
-            object: ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    when(position) {
-                        0 -> binding.bottomNavigationView.menu.getItem(0).isChecked = true
-                        1 -> binding.bottomNavigationView.menu.getItem(1).isChecked = true
-                        2 -> binding.bottomNavigationView.menu.getItem(2).isChecked = true
-                        3 -> binding.bottomNavigationView.menu.getItem(3).isChecked = true
+            viewpager.registerOnPageChangeCallback(
+                object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        when (position) {
+                            0 -> bottomNavigationView.menu.getItem(0).isChecked = true
+                            1 -> bottomNavigationView.menu.getItem(1).isChecked = true
+                            2 -> bottomNavigationView.menu.getItem(2).isChecked = true
+                            3 -> bottomNavigationView.menu.getItem(3).isChecked = true
+                        }
+                        super.onPageSelected(position)
                     }
-                    super.onPageSelected(position)
                 }
-            }
-        )
+            )
+        }
     }
 
     private fun configBottomNav() {
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId){
-                R.id.home_bottom_navigation -> binding.viewpager.currentItem = 0
-                R.id.explorer_bottom_navigation -> binding.viewpager.currentItem = 1
-                R.id.map_bottom_navigation -> binding.viewpager.currentItem = 2
-                R.id.profile_bottom_navigation -> binding.viewpager.currentItem = 3
+        with(binding) {
+            bottomNavigationView.setOnItemSelectedListener {
+                when (it.itemId) {
+                    R.id.home_bottom_navigation -> viewpager.currentItem = 0
+                    R.id.explorer_bottom_navigation -> viewpager.currentItem = 1
+                    R.id.map_bottom_navigation -> viewpager.currentItem = 2
+                    R.id.profile_bottom_navigation -> viewpager.currentItem = 3
+                }
+                true
             }
-            true
         }
     }
 }
