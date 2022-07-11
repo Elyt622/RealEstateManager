@@ -37,7 +37,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/textView_static_type_explore_fragment"
+            android:id="@+id/textView_static_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -57,7 +57,7 @@
             android:scrollbars="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_static_type_explore_fragment" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_static_type" />
 
         <TextView
             android:id="@+id/textview_static_price"
@@ -66,7 +66,7 @@
             android:layout_marginTop="16dp"
             android:textStyle="bold"
             android:text="@string/price"
-            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
 
         <LinearLayout
@@ -99,8 +99,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/and"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
 
             <EditText
                 android:id="@+id/edit_text_end_price"
@@ -120,7 +120,7 @@
             android:layout_marginTop="16dp"
             android:textStyle="bold"
             android:text="@string/surface"
-            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type"
             app:layout_constraintTop_toBottomOf="@+id/linear_layout_price" />
 
         <LinearLayout
@@ -153,8 +153,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/and"
-                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
 
             <EditText
                 android:id="@+id/edit_text_end_surface"
@@ -175,7 +175,7 @@
             android:text="@string/bed_s"
             android:textStyle="bold"
             android:importantForAutofill="no"
-            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type"
             app:layout_constraintTop_toBottomOf="@+id/linear_layout_surface" />
 
         <LinearLayout
@@ -208,8 +208,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/and"
-                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
 
             <EditText
                 android:id="@+id/edit_text_end_beds"
@@ -229,7 +229,7 @@
             android:layout_marginTop="16dp"
             android:textStyle="bold"
             android:text="@string/bathroom_s"
-            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type"
             app:layout_constraintTop_toBottomOf="@+id/linear_layout_beds" />
 
         <LinearLayout
@@ -262,8 +262,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/and"
-                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
 
             <EditText
                 android:id="@+id/edit_text_end_bathrooms"
@@ -283,7 +283,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/options"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type"
             app:layout_constraintTop_toBottomOf="@+id/linear_layout_bathrooms" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -305,7 +305,7 @@
             android:layout_marginTop="16dp"
             android:textStyle="bold"
             android:text="@string/status"
-            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view_options" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -327,7 +327,7 @@
             android:layout_marginTop="16dp"
             android:textStyle="bold"
             android:text="@string/entry_date"
-            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view_status" />
 
         <LinearLayout
@@ -361,8 +361,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/and"
-                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
 
             <EditText
                 android:id="@+id/edit_text_end_entry_date"
@@ -384,7 +384,7 @@
             android:layout_marginTop="16dp"
             android:textStyle="bold"
             android:text="@string/sold_date"
-            app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type"
             app:layout_constraintTop_toBottomOf="@+id/linear_layout_entry_date" />
 
         <LinearLayout
@@ -418,8 +418,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/and"
-                app:layout_constraintStart_toStartOf="@+id/textView_static_type_explore_fragment"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_explore_fragment" />
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
 
             <EditText
                 android:id="@+id/edit_text_end_sold_date"
