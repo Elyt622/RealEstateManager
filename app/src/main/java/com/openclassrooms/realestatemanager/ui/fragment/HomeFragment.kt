@@ -81,56 +81,56 @@ class HomeFragment : Fragment() {
     }
 
     private fun applySort() {
-            val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-            toolbar.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.sort_price_asc -> {
-                        viewModel
-                            .getPropertiesWithAscPriceSort()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe {
-                                binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
-                            }
-                    }
-                    R.id.sort_price_desc -> {
-                        viewModel
-                            .getPropertiesWithDescPriceSort()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe {
-                                binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
-                            }
-                    }
-                    R.id.sort_type -> {
-                        viewModel
-                            .getPropertiesWithTypeSort()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe {
-                                binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
-                            }
-                    }
-                    R.id.sort_status -> {
-                        viewModel
-                            .getPropertiesWithStatusSort()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe {
-                                binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
-                            }
-                    }
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.sort_price_asc -> {
+                    viewModel
+                        .getPropertiesWithAscPriceSort()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                        }
                 }
-                false
+                R.id.sort_price_desc -> {
+                    viewModel
+                        .getPropertiesWithDescPriceSort()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                        }
+                }
+                R.id.sort_type -> {
+                    viewModel
+                        .getPropertiesWithTypeSort()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                        }
+                }
+                R.id.sort_status -> {
+                    viewModel
+                        .getPropertiesWithStatusSort()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                        }
+                }
             }
+            false
+        }
     }
 
     @Subscribe
-    fun  onEvent(event: LaunchActivityEvent) {
+    fun onEvent(event: LaunchActivityEvent) {
         if (binding.fragmentDetails == null) {
-                val intent = Intent(activity, PropertyActivity::class.java)
-                intent.putExtra("REF", event.ref)
-                startActivity(intent)
+            val intent = Intent(activity, PropertyActivity::class.java)
+            intent.putExtra("REF", event.ref)
+            startActivity(intent)
         }
     }
 

@@ -97,48 +97,51 @@ class ExploreFragment : Fragment() {
 
         with(binding){
             buttonSearch.setOnClickListener {
-                        viewModel.applyAllFilters(
-                            viewModel.getTypes(),
-                            editTextStartPrice.text.toString().toIntOrNull(),
-                            editTextEndPrice.text.toString().toIntOrNull(),
-                            editTextStartSurface.text.toString().toFloatOrNull(),
-                            editTextEndSurface.text.toString().toFloatOrNull(),
-                            editTextStartBeds.text.toString().toIntOrNull(),
-                            editTextEndBeds.text.toString().toIntOrNull(),
-                            editTextStartBathrooms.text.toString().toIntOrNull(),
-                            editTextEndBathrooms.text.toString().toIntOrNull(),
-                            viewModel.getOptions(),
-                            viewModel.getStatus(),
-                            viewModel.getStartEntryDate(),
-                            viewModel.getEndEntryDate(),
-                            viewModel.getStartSoldDate(),
-                            viewModel.getEndSoldDate()
-                        )
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeBy(
-                                onSuccess = { propertiesWithFilter ->
-                                    rv.adapter = PropertyRvAdapter(
-                                        applySortAndFilters(
-                                            propertiesWithSort,
-                                            propertiesWithFilter
-                                        )
-                                    )
-                                    showFragmentDetails(propertiesWithFilter)
-                                    map = parentFragmentManager.fragments[3].childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-                                    viewModel.setMarkerOnMap(map, propertiesWithFilter)
-                                    if(resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE) && propertiesWithFilter.isNotEmpty())
-                                        EventBus.getDefault().post(LaunchActivityEvent(propertiesWithFilter[0].ref))
-                                    viewPager.currentItem = 0
-                                },
-                                onError = {
-                                    Toast.makeText(
-                                        activity,
-                                        "No filter selected",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                })
-                    }
+                viewModel.applyAllFilters(
+                    viewModel.getTypes(),
+                    editTextStartPrice.text.toString().toIntOrNull(),
+                    editTextEndPrice.text.toString().toIntOrNull(),
+                    editTextStartSurface.text.toString().toFloatOrNull(),
+                    editTextEndSurface.text.toString().toFloatOrNull(),
+                    editTextStartBeds.text.toString().toIntOrNull(),
+                    editTextEndBeds.text.toString().toIntOrNull(),
+                    editTextStartBathrooms.text.toString().toIntOrNull(),
+                    editTextEndBathrooms.text.toString().toIntOrNull(),
+                    viewModel.getOptions(),
+                    viewModel.getStatus(),
+                    viewModel.getStartEntryDate(),
+                    viewModel.getEndEntryDate(),
+                    viewModel.getStartSoldDate(),
+                    viewModel.getEndSoldDate()
+                )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(
+                        onSuccess =
+                        { propertiesWithFilter ->
+                            rv.adapter = PropertyRvAdapter(
+                                applySortAndFilters(
+                                    propertiesWithSort,
+                                    propertiesWithFilter
+                                )
+                            )
+                            showFragmentDetails(propertiesWithFilter)
+                            map = parentFragmentManager.fragments[3].childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+                            viewModel.setMarkerOnMap(map, propertiesWithFilter)
+                            if(resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE) && propertiesWithFilter.isNotEmpty())
+                                EventBus.getDefault().post(LaunchActivityEvent(propertiesWithFilter[0].ref))
+                            viewPager.currentItem = 0
+                        },
+                        onError = {
+                            Toast.makeText(
+                                activity,
+                                "No filter selected",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
+            }
+
             buttonReset.setOnClickListener {
                 resetAllFields()
                 viewModel
