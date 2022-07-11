@@ -80,8 +80,8 @@ class PhotoRvAdapterInAddProperty(
     override fun getItemCount() = dataSet.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = binding.imageViewPhotoElementRv
-        val buttonRemove : Button = binding.buttonRemoveRecyclerView
+        val image: ImageView = binding.imageViewPhoto
+        val buttonRemove : Button = binding.buttonRemove
         val textDescriptionPhoto : TextView = binding.textviewDescriptionPhoto
     }
 }

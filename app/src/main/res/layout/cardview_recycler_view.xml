@@ -6,7 +6,7 @@
     android:layout_marginEnd="10dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardview_options_rv_options"
+        android:id="@+id/cardview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textview_options_rv"
+            android:id="@+id/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"

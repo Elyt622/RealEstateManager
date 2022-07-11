@@ -54,7 +54,7 @@ class PhotoRvAdapter(
     override fun getItemCount() = dataSet.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = binding.imageViewPhotoElementRv
+        val image: ImageView = binding.imageViewPhoto
         val descriptionImage : TextView = binding.textviewDescriptionPhoto
     }
 }

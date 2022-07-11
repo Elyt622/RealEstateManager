@@ -54,13 +54,13 @@ class PropertyRvAdapter(private val dataSet: List<Property>)
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val typeProperty: TextView = binding.textviewTypeProperty
-        val price: TextView = binding.textviewPriceRv
-        val address: TextView = binding.textviewAddressRv
-        val image: ImageView = binding.imageViewMainPictureRv
-        val elementRv: ConstraintLayout = binding.constraintLayoutElementRv
-        val beds: TextView = binding.textviewBedsRv
-        val bathroom: TextView = binding.textviewBathroomRv
-        val rooms: TextView = binding.textviewRoomsRv
-        val state: TextView = binding.textviewStateRv
+        val price: TextView = binding.textviewPrice
+        val address: TextView = binding.textviewAddress
+        val image: ImageView = binding.imageViewMain
+        val elementRv: ConstraintLayout = binding.constraintLayoutElement
+        val beds: TextView = binding.textviewBeds
+        val bathroom: TextView = binding.textviewBathroom
+        val rooms: TextView = binding.textviewRooms
+        val state: TextView = binding.textviewState
     }
 }

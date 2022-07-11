@@ -8,7 +8,8 @@ import com.openclassrooms.realestatemanager.ui.fragment.HomeFragment
 import com.openclassrooms.realestatemanager.ui.fragment.MapFragment
 import com.openclassrooms.realestatemanager.ui.fragment.ProfileFragment
 
-class ViewPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {
+class ViewPagerAdapter(fa: FragmentActivity)
+    : FragmentStateAdapter(fa) {
 
     override fun getItemCount(): Int {
         return 4

@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/image_view_photo_element_rv"
+            android:id="@+id/image_view_photo"
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="123dp"
             android:layout_height="120dp"
@@ -36,7 +36,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/button_remove_recycler_view"
+        android:id="@+id/button_remove"
         style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

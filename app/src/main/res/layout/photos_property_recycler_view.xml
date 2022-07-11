@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/image_view_photo_element_rv"
+            android:id="@+id/image_view_photo"
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="100dp"
             android:layout_height="80dp"

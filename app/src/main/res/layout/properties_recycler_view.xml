@@ -12,13 +12,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_layout_element_rv"
+            android:id="@+id/constraint_layout_element"
             android:layout_width="180dp"
             android:layout_height="300dp"
             android:layout_gravity="center">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView_main_picture"
+                android:id="@+id/cardView_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/image_view_main_picture_rv"
+                    android:id="@+id/image_view_main"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:layout_gravity="top|center"
@@ -47,7 +47,7 @@
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView_main_picture">
+                app:layout_constraintTop_toBottomOf="@+id/cardView_main">
 
                 <TextView
                     android:id="@+id/textview_type_property"
@@ -79,7 +79,7 @@
                         android:src="@drawable/baseline_place_24" />
 
                     <TextView
-                        android:id="@+id/textview_address_rv"
+                        android:id="@+id/textview_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
@@ -88,7 +88,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_bed_rv"
+                    android:id="@+id/linearLayout_bed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -105,7 +105,7 @@
                         android:src="@drawable/baseline_bed_24" />
 
                     <TextView
-                        android:id="@+id/textview_beds_rv"
+                        android:id="@+id/textview_beds"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
@@ -114,13 +114,13 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_bathroom_rv"
+                    android:id="@+id/linearLayout_bathroom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="12dp"
                     android:orientation="horizontal"
-                    app:layout_constraintStart_toEndOf="@+id/linearLayout_bed_rv"
+                    app:layout_constraintStart_toEndOf="@+id/linearLayout_bed"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout_address"
                     tools:ignore="UseCompoundDrawables">
 
@@ -132,7 +132,7 @@
                         android:src="@drawable/baseline_bathtub_24" />
 
                     <TextView
-                        android:id="@+id/textview_bathroom_rv"
+                        android:id="@+id/textview_bathroom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
@@ -141,13 +141,13 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_rooms_rv"
+                    android:id="@+id/linearLayout_rooms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="12dp"
                     android:orientation="horizontal"
-                    app:layout_constraintStart_toEndOf="@+id/linearLayout_bathroom_rv"
+                    app:layout_constraintStart_toEndOf="@+id/linearLayout_bathroom"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout_address"
                     tools:ignore="UseCompoundDrawables">
 
@@ -159,7 +159,7 @@
                         android:src="@drawable/baseline_house_24" />
 
                     <TextView
-                        android:id="@+id/textview_rooms_rv"
+                        android:id="@+id/textview_rooms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
@@ -168,18 +168,18 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textview_price_rv"
+                    android:id="@+id/textview_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="@+id/linearLayout_rooms_rv"
-                    app:layout_constraintStart_toStartOf="@+id/linearLayout_bed_rv"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_bed_rv" />
+                    app:layout_constraintEnd_toEndOf="@+id/linearLayout_rooms"
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout_bed"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_bed" />
 
                 <TextView
-                    android:id="@+id/textview_state_rv"
+                    android:id="@+id/textview_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
