@@ -53,14 +53,14 @@ class PropertyRvAdapter(private val dataSet: List<Property>)
     override fun getItemCount() = dataSet.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val typeProperty: TextView = binding.textviewTypePropertyHomeFragment
-        val price: TextView = binding.textviewPriceRvHomeFragment
-        val address: TextView = binding.textviewAddressRvHomeFragment
-        val image: ImageView = binding.imageViewMainPictureRvHomeFragment
-        val elementRv: ConstraintLayout = binding.constraintLayoutElementRvHomeFragment
-        val beds: TextView = binding.textviewBedsRvHomeFragment
-        val bathroom: TextView = binding.textviewBathroomRvHomeFragment
-        val rooms: TextView = binding.textviewRoomsRvHomeFragment
-        val state: TextView = binding.textviewStateRvHomeFragment
+        val typeProperty: TextView = binding.textviewTypeProperty
+        val price: TextView = binding.textviewPriceRv
+        val address: TextView = binding.textviewAddressRv
+        val image: ImageView = binding.imageViewMainPictureRv
+        val elementRv: ConstraintLayout = binding.constraintLayoutElementRv
+        val beds: TextView = binding.textviewBedsRv
+        val bathroom: TextView = binding.textviewBathroomRv
+        val rooms: TextView = binding.textviewRoomsRv
+        val state: TextView = binding.textviewStateRv
     }
 }
