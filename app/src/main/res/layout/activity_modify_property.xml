@@ -5,15 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scrollView_property_activity"
+    android:id="@+id/scrollView"
     tools:context=".ui.activity.PropertyActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_toolbar_modify_property_activity"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_toolbar_modify_property_activity">
+        app:layout_constraintTop_toBottomOf="@+id/top_toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_type_modify_property_activity"
+                android:id="@+id/recycler_view_type"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginStart="20dp"
@@ -49,10 +49,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/photos"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type_modify_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_photos_modify_property_activity"
+                android:id="@+id/recycler_view_photos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
             <Button
-                android:id="@+id/button_add_photo_modify_property_activity"
+                android:id="@+id/button_add_photo"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,10 +74,10 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_photos_modify_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_photos" />
 
             <Button
-                android:id="@+id/button_take_photo_modify_property_activity"
+                android:id="@+id/button_take_photo"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,20 +87,20 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_photos_modify_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_photos" />
 
             <TextView
-                android:id="@+id/textview_type_modify_property_activity"
+                android:id="@+id/textview_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/description"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_add_photo_modify_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/button_add_photo" />
 
             <EditText
-                android:id="@+id/edittext_description_modify_property_activity"
+                android:id="@+id/edittext_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -109,16 +109,19 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_type_modify_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_type"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:ignore="LabelFor" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout_characteristics_modify_property_activity"
+                android:id="@+id/constraintLayout_characteristics"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/edittext_description_modify_property_activity">
+                app:layout_constraintTop_toBottomOf="@+id/edittext_description">
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_surface_modify_property_activity"
+                    android:id="@+id/linearLayout_surface"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
@@ -145,17 +148,20 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/edittext_surface_modify_property_activity"
+                    android:id="@+id/edittext_surface"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/linearLayout_surface_modify_property_activity"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_surface_modify_property_activity" />
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout_surface"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_surface"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    tools:ignore="LabelFor" />
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_bed_modify_property_activity"
+                    android:id="@+id/linearLayout_bed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -182,23 +188,26 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/edittext_beds_modify_property_activity"
+                    android:id="@+id/edittext_beds"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/linearLayout_bed_modify_property_activity"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_bed_modify_property_activity" />
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout_bed"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_bed"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    tools:ignore="LabelFor" />
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_rooms_modify_property_activity"
+                    android:id="@+id/linearLayout_rooms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="@+id/linearLayout_surface_modify_property_activity"
-                    app:layout_constraintTop_toBottomOf="@+id/edittext_surface_modify_property_activity"
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout_surface"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_surface"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
@@ -218,23 +227,26 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/edittext_rooms_modify_property_activity"
+                    android:id="@+id/edittext_rooms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/linearLayout_rooms_modify_property_activity"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_rooms_modify_property_activity" />
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout_rooms"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_rooms"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    tools:ignore="LabelFor" />
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_bathroom_modify_property_activity"
+                    android:id="@+id/linearLayout_bathroom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="@+id/linearLayout_bed_modify_property_activity"
-                    app:layout_constraintTop_toBottomOf="@+id/edittext_beds_modify_property_activity"
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout_bed"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_beds"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
@@ -253,23 +265,26 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/edittext_bathroom_modify_property_activity"
+                    android:id="@+id/edittext_bathroom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/linearLayout_bathroom_modify_property_activity"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_bathroom_modify_property_activity" />
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout_bathroom"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_bathroom"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    tools:ignore="LabelFor" />
 
                 <LinearLayout
-                    android:id="@+id/linearLayout_address_modify_property_activity"
+                    android:id="@+id/linearLayout_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="@+id/linearLayout_rooms_modify_property_activity"
-                    app:layout_constraintTop_toBottomOf="@+id/edittext_rooms_modify_property_activity"
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout_rooms"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_rooms"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
@@ -289,7 +304,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/edittext_address_modify_property_activity"
+                    android:id="@+id/edittext_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
@@ -298,8 +313,11 @@
                     android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/linearLayout_address_modify_property_activity"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_address_modify_property_activity" />
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout_address"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_address"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    tools:ignore="LabelFor" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -310,10 +328,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/options"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_characteristics_modify_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout_characteristics" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_options_modify_property_activity"
+                android:id="@+id/recycler_view_options"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
@@ -324,79 +342,82 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
             <TextView
-                android:id="@+id/textview_static_entry_date_modify_property_activity"
+                android:id="@+id/textview_static_entry_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/added_on"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_options_modify_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_options" />
 
             <TextView
-                android:id="@+id/textview_entry_date_modify_property_activity"
+                android:id="@+id/textview_entry_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/textview_static_entry_date_modify_property_activity"
-                app:layout_constraintStart_toEndOf="@+id/textview_static_entry_date_modify_property_activity"
-                app:layout_constraintTop_toTopOf="@+id/textview_static_entry_date_modify_property_activity" />
+                app:layout_constraintBottom_toBottomOf="@+id/textview_static_entry_date"
+                app:layout_constraintStart_toEndOf="@+id/textview_static_entry_date"
+                app:layout_constraintTop_toTopOf="@+id/textview_static_entry_date" />
 
             <TextView
-                android:id="@+id/textview_static_agent_modify_property_activity"
+                android:id="@+id/textview_static_agent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/by"
-                app:layout_constraintStart_toStartOf="@id/textview_static_entry_date_modify_property_activity"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_entry_date_modify_property_activity" />
+                app:layout_constraintStart_toStartOf="@id/textview_static_entry_date"
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_entry_date" />
 
             <EditText
-                android:id="@+id/edittext_agent_modify_property_activity"
+                android:id="@+id/edittext_agent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textview_static_agent_modify_property_activity"
-                app:layout_constraintStart_toEndOf="@+id/textview_static_agent_modify_property_activity"
-                app:layout_constraintTop_toTopOf="@+id/textview_static_agent_modify_property_activity" />
+                app:layout_constraintBottom_toBottomOf="@+id/textview_static_agent"
+                app:layout_constraintStart_toEndOf="@+id/textview_static_agent"
+                app:layout_constraintTop_toTopOf="@+id/textview_static_agent"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                tools:ignore="LabelFor" />
 
             <TextView
-                android:id="@+id/textview_static_sold_date_modify_property_activity"
+                android:id="@+id/textview_static_sold_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sold_on"
-                app:layout_constraintStart_toStartOf="@+id/textview_static_agent_modify_property_activity"
-                app:layout_constraintTop_toBottomOf="@+id/edittext_agent_modify_property_activity" />
+                app:layout_constraintStart_toStartOf="@+id/textview_static_agent"
+                app:layout_constraintTop_toBottomOf="@+id/edittext_agent" />
 
             <TextView
-                android:id="@+id/textview_sold_date_modify_property_activity"
+                android:id="@+id/textview_sold_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@+id/textview_static_sold_date_modify_property_activity"
-                app:layout_constraintTop_toBottomOf="@+id/edittext_agent_modify_property_activity" />
+                app:layout_constraintStart_toEndOf="@+id/textview_static_sold_date"
+                app:layout_constraintTop_toBottomOf="@+id/edittext_agent" />
 
             <TextView
-                android:id="@+id/textview_static_reference_modify_property_activity"
+                android:id="@+id/textview_static_reference"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="20dp"
                 android:text="@string/reference"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_view_options_modify_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_options" />
 
             <TextView
-                android:id="@+id/textview_reference_modify_property_activity"
+                android:id="@+id/textview_reference"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_static_reference_modify_property_activity" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_static_reference" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/bottom_toolbar_modify_property_activity"
+        android:id="@+id/bottom_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -415,7 +436,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/edittext_price_modify_property_activity"
+                android:id="@+id/edittext_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -424,10 +445,13 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                tools:ignore="LabelFor" />
 
             <Button
-                android:id="@+id/button_save_property_modify_property_activity"
+                android:id="@+id/button_save_property"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -441,14 +465,14 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/top_toolbar_modify_property_activity"
+        android:id="@+id/top_toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
         <TextView
-            android:id="@+id/textview_type_top_toolbar_modify_property_activity"
+            android:id="@+id/textview_type_top_toolbar"
             android:text="@string/modify_property"
             android:textStyle="bold"
             android:textSize="14sp"
@@ -456,7 +480,7 @@
             android:layout_height="wrap_content" />
 
         <Spinner
-            android:id="@+id/spinner_status_modify_property_activity"
+            android:id="@+id/spinner_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"/>

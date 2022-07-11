@@ -8,17 +8,17 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
@@ -57,49 +57,9 @@ class ModifyPropertyActivity : BaseActivity() {
 
     private lateinit var viewModel: ModifyPropertyViewModel
 
-    private lateinit var rvPhoto: RecyclerView
-
-    private lateinit var rvOption: RecyclerView
-
-    private lateinit var rvType: RecyclerView
-
-    private lateinit var priceEditText: EditText
-
-    private lateinit var descriptionEditText: EditText
-
-    private lateinit var surfaceEditText: EditText
-
-    private lateinit var bedEditText: EditText
-
-    private lateinit var roomEditText: EditText
-
-    private lateinit var bathroomEditText: EditText
-
-    private lateinit var addressEditText: EditText
-
-    private lateinit var referenceTextView: TextView
-
-    private lateinit var entryDateTextView: TextView
-
-    private lateinit var soldDateTextView: TextView
-
-    private lateinit var soldDateStaticTextView: TextView
-
-    private lateinit var agentEditText: EditText
-
-    private lateinit var topToolbar : Toolbar
-
-    private lateinit var savePropertyButton: Button
-
     private lateinit var placesClient: PlacesClient
 
     private lateinit var place: Place
-
-    private lateinit var addPhotoButton: Button
-
-    private lateinit var takePhotoButton: Button
-
-    private lateinit var statusSpinner: Spinner
 
     private lateinit var property: Observable<Property>
 
@@ -131,138 +91,111 @@ class ModifyPropertyActivity : BaseActivity() {
         Places.initialize(applicationContext, resources.getString(R.string.maps_api_key))
         placesClient = Places.createClient(this)
 
-        //RecyclerView
-        rvOption = binding.recyclerViewOptionsModifyPropertyActivity
-        rvPhoto = binding.recyclerViewPhotosModifyPropertyActivity
-        rvType = binding.recyclerViewTypeModifyPropertyActivity
-
-        //Toolbar
-        topToolbar = binding.topToolbarModifyPropertyActivity
-
-        //Button
-        savePropertyButton = binding.buttonSavePropertyModifyPropertyActivity
-        addPhotoButton = binding.buttonAddPhotoModifyPropertyActivity
-        takePhotoButton = binding.buttonTakePhotoModifyPropertyActivity
-
-        //EditText
-        priceEditText = binding.edittextPriceModifyPropertyActivity
-        descriptionEditText = binding.edittextDescriptionModifyPropertyActivity
-        surfaceEditText = binding.edittextSurfaceModifyPropertyActivity
-        bedEditText = binding.edittextBedsModifyPropertyActivity
-        roomEditText = binding.edittextRoomsModifyPropertyActivity
-        bathroomEditText = binding.edittextBathroomModifyPropertyActivity
-        addressEditText = binding.edittextAddressModifyPropertyActivity
-        agentEditText = binding.edittextAgentModifyPropertyActivity
-
-        //Textview
-        referenceTextView = binding.textviewReferenceModifyPropertyActivity
-        entryDateTextView = binding.textviewEntryDateModifyPropertyActivity
-        soldDateTextView = binding.textviewSoldDateModifyPropertyActivity
-        soldDateStaticTextView = binding.textviewStaticSoldDateModifyPropertyActivity
-
-        //Spinner
-        statusSpinner = binding.spinnerStatusModifyPropertyActivity
-
         //Config
         configToolbar()
 
-        //Action Click
-        addressEditText.setOnClickListener {
-            startAutocompleteIntent()
-        }
+        with(binding) {
 
-        addPhotoButton.setOnClickListener {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                123
-            )
-            readPermissionGranted()
-            writePermissionGranted()
-        }
+            //Action Click
+            edittextAddress.setOnClickListener {
+                startAutocompleteIntent()
+            }
 
-        takePhotoButton.setOnClickListener {
-            resultLauncher.launch(Intent(this, CameraActivity::class.java))
-        }
+            buttonAddPhoto.setOnClickListener {
+                ActivityCompat.requestPermissions(
+                    this@ModifyPropertyActivity,
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ),
+                    123
+                )
+                readPermissionGranted()
+                writePermissionGranted()
+            }
 
-        savePropertyButton.setOnClickListener {
-            viewModel.updateProperty(
-                ref,
-                viewModel.getType(),
-                Utils.convertStringToInt(priceEditText.text.toString()),
-                Utils.convertStringToFloat(surfaceEditText.text.toString()),
-                Utils.convertStringToInt(roomEditText.text.toString()),
-                Utils.convertStringToInt(bedEditText.text.toString()),
-                Utils.convertStringToInt(bathroomEditText.text.toString()),
-                descriptionEditText.text.toString(),
-                mutableListOfPhoto,
-                mutableListDescriptionPhoto,
-                addressEditText.text.toString(),
-                viewModel.getOptions(),
-                Status.values()[statusSpinner.selectedItemPosition],
-                entryDate,
-                viewModel.getSoldDate(),
-                agentEditText.text.toString(),
-                latitude,
-                longitude
-            )
+            binding.buttonTakePhoto.setOnClickListener {
+                resultLauncher.launch(Intent(this@ModifyPropertyActivity, CameraActivity::class.java))
+            }
+
+            binding.buttonSaveProperty.setOnClickListener {
+                viewModel.updateProperty(
+                    ref,
+                    viewModel.getType(),
+                    Utils.convertStringToInt(edittextPrice.text.toString()),
+                    Utils.convertStringToFloat(edittextSurface.text.toString()),
+                    Utils.convertStringToInt(edittextRooms.text.toString()),
+                    Utils.convertStringToInt(edittextBeds.text.toString()),
+                    Utils.convertStringToInt(edittextBathroom.text.toString()),
+                    edittextDescription.text.toString(),
+                    mutableListOfPhoto,
+                    mutableListDescriptionPhoto,
+                    edittextAddress.text.toString(),
+                    viewModel.getOptions(),
+                    Status.values()[spinnerStatus.selectedItemPosition],
+                    entryDate,
+                    viewModel.getSoldDate(),
+                    edittextAgent.text.toString(),
+                    latitude,
+                    longitude
+                )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(
+                        onComplete = {
+                            showToast("Saved")
+                            finish()
+                        },
+                        onError = {
+                            showErrorToastMessage(it.message)
+                        }
+                    )
+            }
+
+            property
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy (
-                    onComplete = {
-                        showToast("Saved")
-                        finish()
+                .subscribeBy(
+                    onNext = {
+                        configSpinner()
+                        edittextPrice.setText(it.price.toString())
+                        edittextDescription.setText(it.description)
+                        edittextSurface.setText(it.surface.toString())
+                        edittextBeds.setText(it.numberBed.toString())
+                        edittextRooms.setText(it.numberRoom.toString())
+                        edittextBathroom.setText(it.numberBathroom.toString())
+                        edittextAddress.setText(it.address)
+                        textviewReference.text = it.ref.toString()
+                        edittextAgent.setText(it.agentName)
+                        textviewEntryDate.text = Utils.convertDateToString(it.entryDate)
+                        mutableListOfPhoto = it.photos
+                        mutableListDescriptionPhoto = it.descriptionPhoto
+                        viewModel.setType(it.type)
+                        viewModel.setOptions(it.options)
+                        spinnerStatus.setSelection(it.status.ordinal)
+                        longitude = it.longitude
+                        latitude = it.latitude
+                        entryDate = it.entryDate
+                        viewModel.setSoldDate(it.soldDate)
+
+                        if (viewModel.getSoldDate() != null) {
+                            textviewSoldDate.isGone = false
+                            textviewStaticSoldDate.isGone = false
+                            textviewSoldDate.text =
+                                Utils.convertDateToString(viewModel.getSoldDate()!!)
+                        } else {
+                            textviewSoldDate.isGone = true
+                            textviewStaticSoldDate.isGone = true
+                        }
+                        configTypeRecyclerView()
+                        configOptionRecyclerView()
+                        configPhotosRecyclerView()
                     },
                     onError = {
-                        showErrorToastMessage(it.message)
+                        Log.d("DEBUG", it.message.toString())
                     }
-                )
+                ).addTo(bag)
         }
-
-        property
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy (
-                onNext = {
-                    configSpinner()
-                    priceEditText.setText(it.price.toString())
-                    descriptionEditText.setText(it.description)
-                    surfaceEditText.setText(it.surface.toString())
-                    bedEditText.setText(it.numberBed.toString())
-                    roomEditText.setText(it.numberRoom.toString())
-                    bathroomEditText.setText(it.numberBathroom.toString())
-                    addressEditText.setText(it.address)
-                    referenceTextView.text = it.ref.toString()
-                    agentEditText.setText(it.agentName)
-                    entryDateTextView.text = Utils.convertDateToString(it.entryDate)
-                    mutableListOfPhoto = it.photos
-                    mutableListDescriptionPhoto = it.descriptionPhoto
-                    viewModel.setType(it.type)
-                    viewModel.setOptions(it.options)
-                    statusSpinner.setSelection(it.status.ordinal)
-                    longitude = it.longitude
-                    latitude = it.latitude
-                    entryDate = it.entryDate
-                    viewModel.setSoldDate(it.soldDate)
-
-                    if(viewModel.getSoldDate() != null){
-                        soldDateTextView.isGone = false
-                        soldDateStaticTextView.isGone = false
-                        soldDateTextView.text = Utils.convertDateToString(viewModel.getSoldDate()!!)
-                    } else {
-                        soldDateTextView.isGone = true
-                        soldDateStaticTextView.isGone = true
-                    }
-                    configTypeRecyclerView()
-                    configOptionRecyclerView()
-                    configPhotosRecyclerView()
-                         },
-                onError = {
-                    Log.d("DEBUG", it.message.toString())
-                }
-            ).addTo(bag)
     }
 
     private fun showToast(message: String){
@@ -303,20 +236,26 @@ class ModifyPropertyActivity : BaseActivity() {
             }
             "SOLD_DATE_IS_EMPTY" -> {
                 showToast("Sold date is empty")
-                statusSpinner.setSelection(Status.ON_SALE.ordinal)
+                binding.spinnerStatus.setSelection(Status.ON_SALE.ordinal)
             }
         }
     }
 
     private fun readPermissionGranted() : Boolean {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED){
             return true
         }
         return false
     }
 
     private fun writePermissionGranted() : Boolean {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED){
             return true
         }
         return false
@@ -449,7 +388,7 @@ class ModifyPropertyActivity : BaseActivity() {
                 }
             }
         }
-        addressEditText.setText(address1.toString())
+        binding.edittextAddress.setText(address1.toString())
     }
 
     private fun startAutocompleteIntent() {
@@ -484,56 +423,63 @@ class ModifyPropertyActivity : BaseActivity() {
     )
 
     private fun configPhotosRecyclerView() {
-        rvPhoto.isGone = mutableListOfPhoto.isEmpty()
+        with(binding) {
+            recyclerViewPhotos.isGone = mutableListOfPhoto.isEmpty()
 
-        rvPhoto.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        rvPhoto.adapter = PhotoRvAdapterInModifyProperty(
-            viewModel,
-            this,
-            mutableListOfPhoto,
-            mutableListDescriptionPhoto,
-            rvPhoto
-        )
+            recyclerViewPhotos.layoutManager = LinearLayoutManager(
+                this@ModifyPropertyActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            recyclerViewPhotos.adapter = PhotoRvAdapterInModifyProperty(
+                viewModel,
+                this@ModifyPropertyActivity,
+                mutableListOfPhoto,
+                mutableListDescriptionPhoto,
+                recyclerViewPhotos
+            )
+        }
     }
 
     private fun configTypeRecyclerView() {
-        rvType.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        rvType.adapter = TypeRvAdapterModifyProperty(viewModel,
-            this,
-            Type.values(),
-        )
+        with(binding) {
+            recyclerViewType.layoutManager = LinearLayoutManager(
+                this@ModifyPropertyActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            recyclerViewType.adapter = TypeRvAdapterModifyProperty(
+                viewModel,
+                this@ModifyPropertyActivity,
+                Type.values(),
+            )
+        }
     }
 
     private fun configOptionRecyclerView() {
-        rvOption.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        rvOption.adapter = OptionRvAdapterModifyProperty(
-            viewModel,
-            this,
-            Option.values(),
-        )
+        with(binding) {
+            recyclerViewOptions.layoutManager = LinearLayoutManager(
+                this@ModifyPropertyActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            recyclerViewOptions.adapter = OptionRvAdapterModifyProperty(
+                viewModel,
+                this@ModifyPropertyActivity,
+                Option.values(),
+            )
+        }
     }
 
     private fun configSpinner(){
         val array: Array<String> = arrayOf(Status.ON_SALE.displayName, Status.SOLD.displayName)
         adapterSpinner = ArrayAdapter(this, R.layout.spinner_item_custom, array)
-        statusSpinner.adapter = adapterSpinner
-        statusSpinner.onItemSelectedListener = SpinnerAdapter(this, viewModel)
+        binding.spinnerStatus.adapter = adapterSpinner
+        binding.spinnerStatus.onItemSelectedListener = SpinnerAdapter(this, viewModel)
     }
 
     private fun configToolbar() {
-        setSupportActionBar(topToolbar)
+        setSupportActionBar(binding.topToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
