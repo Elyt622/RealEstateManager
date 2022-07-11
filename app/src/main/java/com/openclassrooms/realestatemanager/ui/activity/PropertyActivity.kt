@@ -60,6 +60,7 @@ class PropertyActivity : BaseActivity() {
                     configSurfaceTextView(results.surface)
                     configAgentTextView(results.agentName)
                     configToolbar()
+
                     with(binding) {
                         textviewEntryDate.text = Utils.convertDateToString(results.entryDate)
                         textviewReference.text = results.ref.toString()
@@ -79,24 +80,34 @@ class PropertyActivity : BaseActivity() {
                             textviewSoldDate.text = Utils.convertDateToString(results.soldDate!!)
                         }
                     }
+
                     map.getMapAsync {
                         it.addMarker(
                             MarkerOptions()
-                            .position(LatLng(results.latitude, results.longitude))
-                            .title(results.address))
-                        it.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                            LatLng(results.latitude, results.longitude),
-                            15F
-                        ))
+                            .position(LatLng(
+                                results.latitude,
+                                results.longitude)
+                            ).title(results.address)
+                        )
+                        it.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(
+                                    results.latitude,
+                                    results.longitude
+                                ), 15F)
+                        )
                     }
                          },
-            onError = {
+                onError = {
 
-            }
+                }
             )
 
         binding.buttonModifyProperty.setOnClickListener{
-            val intent = Intent(this, ModifyPropertyActivity::class.java)
+            val intent = Intent(
+                this,
+                ModifyPropertyActivity::class.java
+            )
             intent.putExtra("REF", ref)
             startActivity(intent)
         }
@@ -104,11 +115,12 @@ class PropertyActivity : BaseActivity() {
 
     private fun configPhotosRecyclerView(descriptionPhotos : MutableList<String>, photos: MutableList<Uri>){
         with(binding) {
-            recyclerViewPhotos.layoutManager = LinearLayoutManager(
-                this@PropertyActivity,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
+            recyclerViewPhotos.layoutManager =
+                LinearLayoutManager(
+                    this@PropertyActivity,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
             recyclerViewPhotos.adapter = PhotoRvAdapter(
                 descriptionPhotos,
                 imageViewMain,
