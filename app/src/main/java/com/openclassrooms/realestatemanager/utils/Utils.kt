@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.utils
 
 import android.content.Context
 import android.net.wifi.WifiManager
-import android.util.Log
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -57,26 +56,6 @@ object Utils {
     fun convertDateToString(date: Date): String {
         val dateFormat: DateFormat = SimpleDateFormat(" dd/MM/yyyy", Locale.FRANCE)
         return dateFormat.format(date)
-    }
-
-    fun convertStringToFloat(string: String) : Float? {
-        try {
-            if (string.isNotEmpty())
-                return string.toFloat()
-        }catch (e: NumberFormatException){
-            Log.d("DEBUG", e.message.toString())
-        }
-        return null
-    }
-
-    fun convertStringToInt(string: String) : Int? {
-        try {
-            if (string.isNotEmpty())
-                return string.toInt()
-        } catch (e: NumberFormatException){
-            Log.d("DEBUG", e.message.toString())
-        }
-        return null
     }
 
     fun <T> findCommon(first: List<T>, second: List<T>): List<T> {

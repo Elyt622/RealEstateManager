@@ -122,11 +122,11 @@ class ModifyPropertyActivity : BaseActivity() {
                 viewModel.updateProperty(
                     ref,
                     viewModel.getType(),
-                    Utils.convertStringToInt(edittextPrice.text.toString()),
-                    Utils.convertStringToFloat(edittextSurface.text.toString()),
-                    Utils.convertStringToInt(edittextRooms.text.toString()),
-                    Utils.convertStringToInt(edittextBeds.text.toString()),
-                    Utils.convertStringToInt(edittextBathroom.text.toString()),
+                    edittextPrice.text.toString().toIntOrNull(),
+                    edittextSurface.text.toString().toFloatOrNull(),
+                    edittextRooms.text.toString().toIntOrNull(),
+                    edittextBeds.text.toString().toIntOrNull(),
+                    edittextBathroom.text.toString().toIntOrNull(),
                     edittextDescription.text.toString(),
                     mutableListOfPhoto,
                     mutableListDescriptionPhoto,
@@ -204,36 +204,16 @@ class ModifyPropertyActivity : BaseActivity() {
 
     private fun showErrorToastMessage(error: String?){
         when(error){
-            "PHOTO_IS_EMPTY" -> {
-                showToast("No photo added")
-            }
-            "NO_SELECTED_TYPE" -> {
-                showToast("No selected type")
-            }
-            "ROOM_IS_EMPTY" -> {
-                showToast("Rooms is empty")
-            }
-            "BED_IS_EMPTY" -> {
-                showToast("Beds is empty")
-            }
-            "BATHROOM_IS_EMPTY" -> {
-                showToast("Bathrooms is empty")
-            }
-            "PRICE_IS_EMPTY" -> {
-                showToast("Price is empty")
-            }
-            "ADDRESS_IS_EMPTY" -> {
-                showToast("Address is empty")
-            }
-            "DESC_IS_EMPTY" -> {
-                showToast("Description is empty")
-            }
-            "AGENT_IS_EMPTY" -> {
-                showToast("Agent name is empty")
-            }
-            "LOCATION_IS_INVALID" -> {
-                showToast("Location is invalid")
-            }
+            "PHOTO_IS_EMPTY" -> showToast("No photo added")
+            "NO_SELECTED_TYPE" -> showToast("No selected type")
+            "ROOM_IS_EMPTY" -> showToast("Rooms is empty")
+            "BED_IS_EMPTY" -> showToast("Beds is empty")
+            "BATHROOM_IS_EMPTY" -> showToast("Bathrooms is empty")
+            "PRICE_IS_EMPTY" -> showToast("Price is empty")
+            "ADDRESS_IS_EMPTY" -> showToast("Address is empty")
+            "DESC_IS_EMPTY" -> showToast("Description is empty")
+            "AGENT_IS_EMPTY" -> showToast("Agent name is empty")
+            "LOCATION_IS_INVALID" -> showToast("Location is invalid")
             "SOLD_DATE_IS_EMPTY" -> {
                 showToast("Sold date is empty")
                 binding.spinnerStatus.setSelection(Status.ON_SALE.ordinal)

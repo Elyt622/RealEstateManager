@@ -27,7 +27,6 @@ import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterExploreFra
 import com.openclassrooms.realestatemanager.ui.adapter.PropertyRvAdapter
 import com.openclassrooms.realestatemanager.ui.adapter.StatusRvAdapterExploreFragment
 import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterExploreFragment
-import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -100,14 +99,14 @@ class ExploreFragment : Fragment() {
             buttonSearch.setOnClickListener {
                         viewModel.applyAllFilters(
                             viewModel.getTypes(),
-                            Utils.convertStringToInt(editTextStartPrice.text.toString()),
-                            Utils.convertStringToInt(editTextEndPrice.text.toString()),
-                            Utils.convertStringToFloat(editTextStartSurface.text.toString()),
-                            Utils.convertStringToFloat(editTextEndSurface.text.toString()),
-                            Utils.convertStringToInt(editTextStartBeds.text.toString()),
-                            Utils.convertStringToInt(editTextEndBeds.text.toString()),
-                            Utils.convertStringToInt(editTextStartBathrooms.text.toString()),
-                            Utils.convertStringToInt(editTextEndBathrooms.text.toString()),
+                            editTextStartPrice.text.toString().toIntOrNull(),
+                            editTextEndPrice.text.toString().toIntOrNull(),
+                            editTextStartSurface.text.toString().toFloatOrNull(),
+                            editTextEndSurface.text.toString().toFloatOrNull(),
+                            editTextStartBeds.text.toString().toIntOrNull(),
+                            editTextEndBeds.text.toString().toIntOrNull(),
+                            editTextStartBathrooms.text.toString().toIntOrNull(),
+                            editTextEndBathrooms.text.toString().toIntOrNull(),
                             viewModel.getOptions(),
                             viewModel.getStatus(),
                             viewModel.getStartEntryDate(),

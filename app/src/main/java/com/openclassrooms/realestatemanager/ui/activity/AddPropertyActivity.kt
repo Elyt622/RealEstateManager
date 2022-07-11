@@ -32,7 +32,6 @@ import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterAddPropert
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapterInAddProperty
 import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterAddProperty
 import com.openclassrooms.realestatemanager.utils.URIPathHelper
-import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -41,7 +40,6 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.nio.channels.FileChannel
 import java.util.*
-
 
 class AddPropertyActivity : BaseActivity() {
 
@@ -76,83 +74,64 @@ class AddPropertyActivity : BaseActivity() {
         configTypeRecyclerView()
         configOptionRecyclerView()
         configPhotosRecyclerView()
+
         with(binding){
-        editTextAddress.setOnClickListener {
-            startAutocompleteIntent()
-        }
+            editTextAddress.setOnClickListener {
+                startAutocompleteIntent()
+            }
 
-        buttonAddPhoto.setOnClickListener{
-            ActivityCompat.requestPermissions(
-                this@AddPropertyActivity,
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                123
-            )
-            readPermissionGranted()
-            writePermissionGranted()
-        }
+            buttonAddPhoto.setOnClickListener{
+                ActivityCompat.requestPermissions(
+                    this@AddPropertyActivity,
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    123
+                )
+                readPermissionGranted()
+                writePermissionGranted()
+            }
 
-        buttonTakePhoto.setOnClickListener{
-            resultLauncher.launch(Intent(this@AddPropertyActivity, CameraActivity::class.java))
-        }
+            buttonTakePhoto.setOnClickListener{
+                resultLauncher.launch(Intent(this@AddPropertyActivity, CameraActivity::class.java))
+            }
 
-        buttonAddNewProperty.setOnClickListener{
-            viewModel.insertProperty(
-                Utils.convertStringToFloat(editTextSurface.text.toString()),
-                Utils.convertStringToInt(editTextPrice.text.toString()),
-                Utils.convertStringToInt(editTextRooms.text.toString()),
-                Utils.convertStringToInt(editTextBeds.text.toString()),
-                Utils.convertStringToInt(editTextBathrooms.text.toString()),
-                editTextDescription.text.toString(),
-                editTextAddress.text.toString(),
-                mutableListOfPhoto,
-                mutableListDescriptionPhoto,
-                place?.latLng?.latitude,
-                place?.latLng?.longitude,
-                Date(),
-                viewModel.getOptions(),
-                editTextAgentName.text.toString()
-            ).subscribeBy (
-                onComplete = {
-                    finish()
-                },
-                onError = {
-                    when(it.message){
-                        "PHOTO_IS_EMPTY" -> {
-                            showToast("No photo added")
-                        }
-                        "NO_SELECTED_TYPE" -> {
-                            showToast("No selected type")
-                        }
-                        "ROOM_IS_EMPTY" -> {
-                            showToast("Rooms is empty")
-                        }
-                        "BED_IS_EMPTY" -> {
-                            showToast("Beds is empty")
-                        }
-                        "BATHROOM_IS_EMPTY" -> {
-                            showToast("Bathrooms is empty")
-                        }
-                        "PRICE_IS_EMPTY" -> {
-                            showToast("Price is empty")
-                        }
-                        "ADDRESS_IS_EMPTY" -> {
-                            showToast("Address is empty")
-                        }
-                        "DESC_IS_EMPTY" -> {
-                            showToast("Description is empty")
-                        }
-                        "AGENT_IS_EMPTY" -> {
-                             showToast("Agent name is empty")
-                        }
-                        "LOCATION_IS_INVALID" -> {
-                            showToast("Location is invalid")
+            buttonAddNewProperty.setOnClickListener{
+                viewModel.insertProperty(
+                    editTextSurface.text.toString().toFloatOrNull(),
+                    editTextPrice.text.toString().toIntOrNull(),
+                    editTextRooms.text.toString().toIntOrNull(),
+                    editTextBeds.text.toString().toIntOrNull(),
+                    editTextBathrooms.text.toString().toIntOrNull(),
+                    editTextDescription.text.toString(),
+                    editTextAddress.text.toString(),
+                    mutableListOfPhoto,
+                    mutableListDescriptionPhoto,
+                    place?.latLng?.latitude,
+                    place?.latLng?.longitude,
+                    Date(),
+                    viewModel.getOptions(),
+                    editTextAgentName.text.toString()
+                ).subscribeBy (
+                    onComplete = {
+                        finish()
+                    },
+                    onError = {
+                        when(it.message){
+                            "PHOTO_IS_EMPTY" -> showToast("No photo added")
+                            "NO_SELECTED_TYPE" -> showToast("No selected type")
+                            "ROOM_IS_EMPTY" -> showToast("Rooms is empty")
+                            "BED_IS_EMPTY" -> showToast("Beds is empty")
+                            "BATHROOM_IS_EMPTY" -> showToast("Bathrooms is empty")
+                            "PRICE_IS_EMPTY" -> showToast("Price is empty")
+                            "ADDRESS_IS_EMPTY" -> showToast("Address is empty")
+                            "DESC_IS_EMPTY" -> showToast("Description is empty")
+                            "AGENT_IS_EMPTY" -> showToast("Agent name is empty")
+                            "LOCATION_IS_INVALID" -> showToast("Location is invalid")
                         }
                     }
-                }
-            ).addTo(bag)
-        }
+                ).addTo(bag)
+            }
         }
     }
 
