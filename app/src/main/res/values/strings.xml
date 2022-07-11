@@ -78,4 +78,5 @@
     <string name="calculate">Calculate</string>
     <string name="button_add_year">Button add year</string>
     <string name="button_remove_year">Button remove year</string>
+    <string name="add_photo_description">ADD PHOTO DESCRIPTION</string>
 </resources>
