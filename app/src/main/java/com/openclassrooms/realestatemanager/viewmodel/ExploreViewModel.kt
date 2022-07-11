@@ -183,7 +183,7 @@ class ExploreViewModel : ViewModel() {
         if(maxBeds != null) stringBuilder.append("numberBed <= $maxBeds AND ")
         if(minBathrooms != null) stringBuilder.append("numberBathroom >= $minBathrooms AND ")
         if(maxBathrooms != null) stringBuilder.append("numberBathroom <= $maxBathrooms AND ")
-        if(options.isNotEmpty()) stringBuilder.append("options LIKE ${getQueryForSelectOptions(options)} AND ")
+        if(options.isNotEmpty()) stringBuilder.append("(options LIKE ${getQueryForSelectOptions(options)}) AND ")
         if(statusList.isNotEmpty()) stringBuilder.append("status IN ${getQueryForSelect(statusList)} AND ")
         if(startEntryDate != null) stringBuilder.append("entryDate >= ${startEntryDate.time} AND ")
         if(endEntryDate != null) stringBuilder.append("entryDate <= ${endEntryDate.time} AND ")
