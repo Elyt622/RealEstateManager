@@ -155,7 +155,7 @@ class HomeFragment : Fragment() {
         if (binding.fragmentDetails != null) {
             val fragment = childFragmentManager
                 .findFragmentById(binding.fragmentDetails!!.id)
-            if (fragment != null) {
+            if (fragment != null && fragment.isHidden) {
                 childFragmentManager
                     .beginTransaction()
                     .show(
