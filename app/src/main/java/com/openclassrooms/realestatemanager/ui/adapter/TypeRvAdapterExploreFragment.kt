@@ -14,10 +14,14 @@ import com.openclassrooms.realestatemanager.databinding.CardviewRecyclerViewBind
 import com.openclassrooms.realestatemanager.model.Type
 import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
 
-class TypeRvAdapterExploreFragment (private var viewModel: ExploreViewModel, private val context: Context?, private val dataSet: Array<Type>)
-    : RecyclerView.Adapter<TypeRvAdapterExploreFragment.ViewHolder>(){
+class TypeRvAdapterExploreFragment (
+    private var viewModel: ExploreViewModel,
+    private val dataSet: Array<Type>
+    ) : RecyclerView.Adapter<TypeRvAdapterExploreFragment.ViewHolder>(){
 
     private var clickedItems = BooleanArray(dataSet.size) {false}
+
+    private lateinit var context: Context
 
     private lateinit var binding: CardviewRecyclerViewBinding
 
@@ -27,6 +31,7 @@ class TypeRvAdapterExploreFragment (private var viewModel: ExploreViewModel, pri
             parent,
             false
         )
+        context = parent.context
         return ViewHolder(binding.root)
     }
 
@@ -34,11 +39,11 @@ class TypeRvAdapterExploreFragment (private var viewModel: ExploreViewModel, pri
         holder.textView.text = dataSet[position].name
 
         if (clickedItems[position]) {
-            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context!!, R.color.colorAccent))
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
             holder.textView.setTextColor(Color.WHITE)
         } else {
             holder.cardView.setCardBackgroundColor(Color.WHITE)
-            holder.textView.setTextColor(ContextCompat.getColor(context!!, R.color.colorText))
+            holder.textView.setTextColor(ContextCompat.getColor(context, R.color.colorText))
         }
 
 

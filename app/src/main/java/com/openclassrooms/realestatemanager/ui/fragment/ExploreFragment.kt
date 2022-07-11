@@ -346,7 +346,6 @@ class ExploreFragment : Fragment() {
             )
             recyclerViewType.adapter = TypeRvAdapterExploreFragment(
                 viewModel,
-                context,
                 Type.values()
             )
         }
@@ -361,7 +360,6 @@ class ExploreFragment : Fragment() {
             )
             recyclerViewOptions.adapter = OptionRvAdapterExploreFragment(
                 viewModel,
-                context,
                 Option.values()
             )
         }
@@ -376,7 +374,6 @@ class ExploreFragment : Fragment() {
             )
             recyclerViewStatus.adapter = StatusRvAdapterExploreFragment(
                 viewModel,
-                context,
                 Status.values()
             )
         }

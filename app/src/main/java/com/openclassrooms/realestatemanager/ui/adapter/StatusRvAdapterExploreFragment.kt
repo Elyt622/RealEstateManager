@@ -14,10 +14,14 @@ import com.openclassrooms.realestatemanager.databinding.CardviewRecyclerViewBind
 import com.openclassrooms.realestatemanager.model.Status
 import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
 
-class StatusRvAdapterExploreFragment (val viewModel: ExploreViewModel, val context: Context?, private val dataSet: Array<Status>)
-    : RecyclerView.Adapter<StatusRvAdapterExploreFragment.ViewHolder>() {
+class StatusRvAdapterExploreFragment (
+    val viewModel: ExploreViewModel,
+    private val dataSet: Array<Status>
+    ) : RecyclerView.Adapter<StatusRvAdapterExploreFragment.ViewHolder>() {
 
     private lateinit var binding: CardviewRecyclerViewBinding
+
+    private lateinit var context: Context
 
     private var clickedItems = BooleanArray(dataSet.size) { false }
 
@@ -27,6 +31,7 @@ class StatusRvAdapterExploreFragment (val viewModel: ExploreViewModel, val conte
             parent,
             false
         )
+        context = parent.context
         return ViewHolder(binding.root)
     }
 
@@ -36,14 +41,14 @@ class StatusRvAdapterExploreFragment (val viewModel: ExploreViewModel, val conte
         if (clickedItems[position]) {
             holder.cardView.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    context!!,
+                    context,
                     R.color.colorAccent
                 )
             )
             holder.textView.setTextColor(Color.WHITE)
         } else {
             holder.cardView.setCardBackgroundColor(Color.WHITE)
-            holder.textView.setTextColor(ContextCompat.getColor(context!!, R.color.colorText))
+            holder.textView.setTextColor(ContextCompat.getColor(context, R.color.colorText))
         }
 
         holder.cardView.setOnClickListener {

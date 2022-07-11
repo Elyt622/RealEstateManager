@@ -16,31 +16,36 @@ import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.openclassrooms.realestatemanager.databinding.PhotosPropertyRecyclerViewBinding
 
-
 class PhotoRvAdapter(
     private val descriptionPhoto: MutableList<String>,
     private val mainImage: ImageView,
-    private val dataSet: MutableList<Uri>,
-) : RecyclerView.Adapter<PhotoRvAdapter.ViewHolder>() {
+    private val dataSet: MutableList<Uri>
+    ) : RecyclerView.Adapter<PhotoRvAdapter.ViewHolder>() {
 
-    lateinit var context: Context
+    private lateinit var context: Context
 
     private lateinit var binding : PhotosPropertyRecyclerViewBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = PhotosPropertyRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding = PhotosPropertyRecyclerViewBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         context = parent.context
         return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val circleCrop: Transformation<Bitmap> = CircleCrop()
-        Glide
-            .with(context)
+
+        Glide.with(context)
             .load(dataSet[position].toString())
             .optionalTransform(WebpDrawable::class.java, WebpDrawableTransformation(circleCrop))
             .into(holder.image)
+
         holder.descriptionImage.text = descriptionPhoto[position]
+
         holder.image.setOnClickListener {
             Glide.with(context).load(dataSet[position].toString()).into(mainImage)
         }

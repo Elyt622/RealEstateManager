@@ -22,7 +22,11 @@ class OptionRvAdapterDetails(
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = CardviewRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding = CardviewRecyclerViewBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         context = parent.context
         return ViewHolder(binding.root)
     }

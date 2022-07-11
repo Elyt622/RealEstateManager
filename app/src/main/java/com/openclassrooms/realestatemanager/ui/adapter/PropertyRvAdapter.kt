@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.adapter
 
 import android.content.Context
-import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +15,10 @@ import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.utils.Utils
 import org.greenrobot.eventbus.EventBus
 
-class PropertyRvAdapter(private val dataSet: List<Property>) :
-    RecyclerView.Adapter<PropertyRvAdapter.ViewHolder>() {
+class PropertyRvAdapter(private val dataSet: List<Property>)
+    : RecyclerView.Adapter<PropertyRvAdapter.ViewHolder>() {
 
     lateinit var context: Context
-
-    lateinit var config: Configuration
 
     private lateinit var binding: PropertiesRecyclerViewBinding
 

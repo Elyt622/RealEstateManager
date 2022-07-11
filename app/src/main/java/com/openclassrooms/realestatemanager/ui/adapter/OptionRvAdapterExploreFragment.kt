@@ -14,19 +14,27 @@ import com.openclassrooms.realestatemanager.databinding.CardviewRecyclerViewBind
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
 
-class OptionRvAdapterExploreFragment (val viewModel: ExploreViewModel, val context: Context?, private val dataSet: Array<Option>)
-    : RecyclerView.Adapter<OptionRvAdapterExploreFragment.ViewHolder>() {
+class OptionRvAdapterExploreFragment (
+    val viewModel: ExploreViewModel,
+    private val dataSet: Array<Option>
+    ) : RecyclerView.Adapter<OptionRvAdapterExploreFragment.ViewHolder>() {
 
     private lateinit var binding: CardviewRecyclerViewBinding
 
+    private lateinit var context: Context
+
     private var clickedItems = BooleanArray(dataSet.size) { false }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
         binding = CardviewRecyclerViewBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
+        context = parent.context
         return ViewHolder(binding.root)
     }
 
@@ -36,14 +44,14 @@ class OptionRvAdapterExploreFragment (val viewModel: ExploreViewModel, val conte
         if (clickedItems[position]) {
             holder.cardView.setCardBackgroundColor(
                 ContextCompat.getColor(
-                    context!!,
+                    context,
                     R.color.colorAccent
                 )
             )
             holder.textView.setTextColor(Color.WHITE)
         } else {
             holder.cardView.setCardBackgroundColor(Color.WHITE)
-            holder.textView.setTextColor(ContextCompat.getColor(context!!, R.color.colorText))
+            holder.textView.setTextColor(ContextCompat.getColor(context, R.color.colorText))
         }
 
         holder.cardView.setOnClickListener {

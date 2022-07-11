@@ -350,7 +350,6 @@ class AddPropertyActivity : BaseActivity() {
             )
             recyclerviewPhotos.adapter = PhotoRvAdapterInAddProperty(
                 viewModel,
-                this@AddPropertyActivity,
                 mutableListOfPhoto,
                 mutableListDescriptionPhoto,
                 recyclerviewPhotos
@@ -367,7 +366,6 @@ class AddPropertyActivity : BaseActivity() {
             )
             recyclerviewType.adapter = TypeRvAdapterAddProperty(
                 viewModel,
-                this@AddPropertyActivity,
                 Type.values()
             )
         }
@@ -382,7 +380,6 @@ class AddPropertyActivity : BaseActivity() {
             )
             recyclerviewOption.adapter = OptionRvAdapterAddProperty(
                 viewModel,
-                this@AddPropertyActivity,
                 Option.values()
             )
         }

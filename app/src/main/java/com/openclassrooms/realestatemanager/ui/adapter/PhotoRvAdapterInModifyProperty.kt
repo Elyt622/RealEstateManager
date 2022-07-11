@@ -16,7 +16,6 @@ import com.openclassrooms.realestatemanager.viewmodel.ModifyPropertyViewModel
 
 class PhotoRvAdapterInModifyProperty(
     val viewModel: ModifyPropertyViewModel,
-    val context: Context,
     private val mutableListOfPhoto: MutableList<Uri>,
     private val mutableListDescriptionPhoto: MutableList<String>,
     private val rvPhoto: RecyclerView
@@ -24,12 +23,15 @@ class PhotoRvAdapterInModifyProperty(
 
     private lateinit var binding : PhotosAddPropertyRecyclerViewBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoRvAdapterInModifyProperty.ViewHolder {
+    private lateinit var context: Context
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = PhotosAddPropertyRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        context = parent.context
         return ViewHolder(binding.root)
     }
 
-    override fun onBindViewHolder(holder: PhotoRvAdapterInModifyProperty.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if(mutableListOfPhoto.isNotEmpty())
             Glide.with(context).load(mutableListOfPhoto[position]).into(holder.image)
         if (mutableListDescriptionPhoto.isNotEmpty() && mutableListDescriptionPhoto.size == mutableListOfPhoto.size)

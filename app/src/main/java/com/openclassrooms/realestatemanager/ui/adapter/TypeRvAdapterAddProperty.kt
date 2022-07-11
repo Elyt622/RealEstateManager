@@ -14,15 +14,20 @@ import com.openclassrooms.realestatemanager.databinding.CardviewRecyclerViewBind
 import com.openclassrooms.realestatemanager.model.Type
 import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
 
-class TypeRvAdapterAddProperty(private var viewModel: AddPropertyViewModel, private val context: Context, private val dataSet: Array<Type>)
-    : RecyclerView.Adapter<TypeRvAdapterAddProperty.ViewHolder>(){
+class TypeRvAdapterAddProperty(
+    private var viewModel: AddPropertyViewModel,
+    private val dataSet: Array<Type>
+    ) : RecyclerView.Adapter<TypeRvAdapterAddProperty.ViewHolder>(){
 
     private var clickedItem = -1
+
+    private lateinit var context: Context
 
     private lateinit var binding: CardviewRecyclerViewBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = CardviewRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        context = parent.context
         return ViewHolder(binding.root)
     }
 

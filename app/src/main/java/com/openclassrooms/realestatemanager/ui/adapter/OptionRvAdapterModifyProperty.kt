@@ -16,26 +16,27 @@ import com.openclassrooms.realestatemanager.viewmodel.ModifyPropertyViewModel
 
 class OptionRvAdapterModifyProperty(
     val viewModel: ModifyPropertyViewModel,
-    val context: Context,
     private val dataset: Array<Option>,
     ) : RecyclerView.Adapter<OptionRvAdapterModifyProperty.ViewHolder>() {
 
     private lateinit var binding : CardviewRecyclerViewBinding
 
+    private lateinit var context: Context
+
     private var clickedItems: BooleanArray = viewModel.getBooleanArrayWithListOptions(viewModel.getOptions())
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): OptionRvAdapterModifyProperty.ViewHolder {
-        binding = CardviewRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+    : ViewHolder {
+        binding = CardviewRecyclerViewBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        context = parent.context
         return ViewHolder(binding.root)
     }
 
-    override fun onBindViewHolder(
-        holder: OptionRvAdapterModifyProperty.ViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = dataset[position].displayName
 
         if (clickedItems[position]) {

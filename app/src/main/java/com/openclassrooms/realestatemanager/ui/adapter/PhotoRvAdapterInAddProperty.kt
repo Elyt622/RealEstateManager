@@ -16,13 +16,14 @@ import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
 
 class PhotoRvAdapterInAddProperty(
     val viewModel: AddPropertyViewModel,
-    val context: Context,
     var dataSet: MutableList<Uri>,
     var mutableListDescriptionPhoto: MutableList<String>,
     var photosRv: RecyclerView
-) : RecyclerView.Adapter<PhotoRvAdapterInAddProperty.ViewHolder>() {
+    ) : RecyclerView.Adapter<PhotoRvAdapterInAddProperty.ViewHolder>() {
 
     private lateinit var binding: PhotosAddPropertyRecyclerViewBinding
+
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = PhotosAddPropertyRecyclerViewBinding.inflate(
@@ -30,6 +31,7 @@ class PhotoRvAdapterInAddProperty(
             parent,
             false
         )
+        context = parent.context
         return ViewHolder(binding.root)
     }
 

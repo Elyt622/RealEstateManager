@@ -433,7 +433,6 @@ class ModifyPropertyActivity : BaseActivity() {
             )
             recyclerViewPhotos.adapter = PhotoRvAdapterInModifyProperty(
                 viewModel,
-                this@ModifyPropertyActivity,
                 mutableListOfPhoto,
                 mutableListDescriptionPhoto,
                 recyclerViewPhotos
@@ -450,7 +449,6 @@ class ModifyPropertyActivity : BaseActivity() {
             )
             recyclerViewType.adapter = TypeRvAdapterModifyProperty(
                 viewModel,
-                this@ModifyPropertyActivity,
                 Type.values(),
             )
         }
@@ -465,7 +463,6 @@ class ModifyPropertyActivity : BaseActivity() {
             )
             recyclerViewOptions.adapter = OptionRvAdapterModifyProperty(
                 viewModel,
-                this@ModifyPropertyActivity,
                 Option.values(),
             )
         }
