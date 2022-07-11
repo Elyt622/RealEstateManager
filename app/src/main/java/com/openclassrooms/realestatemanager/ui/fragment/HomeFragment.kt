@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
@@ -29,9 +28,8 @@ class HomeFragment : Fragment() {
     companion object {
         fun newInstance() = HomeFragment()
     }
-    private lateinit var viewModel: HomeViewModel
 
-    private lateinit var rv : RecyclerView
+    private lateinit var viewModel: HomeViewModel
 
     private lateinit var binding: HomeFragmentBinding
 
@@ -54,7 +52,7 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         viewPager = requireActivity().findViewById(R.id.viewpager)
         bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation_view)
-        rv = binding.recyclerViewListPropertiesHomeFragment
+
         return binding.root
     }
 
@@ -62,10 +60,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if(binding.fragmentDetails != null){
-            rv.layoutManager = GridLayoutManager(context, 1)
+            binding.recyclerViewListProperties.layoutManager = GridLayoutManager(context, 1)
         }
         else {
-            rv.layoutManager = GridLayoutManager(context, 2)
+            binding.recyclerViewListProperties.layoutManager = GridLayoutManager(context, 2)
         }
         configPropertiesRv()
         applySort()
@@ -77,7 +75,7 @@ class HomeFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                rv.adapter = PropertyRvAdapter(it)
+                binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
                 showDetailsFragment()
             }
     }
@@ -92,7 +90,7 @@ class HomeFragment : Fragment() {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe {
-                                rv.adapter = PropertyRvAdapter(it)
+                                binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
                             }
                     }
                     R.id.sort_price_desc -> {
@@ -101,7 +99,7 @@ class HomeFragment : Fragment() {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe {
-                                rv.adapter = PropertyRvAdapter(it)
+                                binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
                             }
                     }
                     R.id.sort_type -> {
@@ -110,7 +108,7 @@ class HomeFragment : Fragment() {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe {
-                                rv.adapter = PropertyRvAdapter(it)
+                                binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
                             }
                     }
                     R.id.sort_status -> {
@@ -119,7 +117,7 @@ class HomeFragment : Fragment() {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe {
-                                rv.adapter = PropertyRvAdapter(it)
+                                binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
                             }
                     }
                 }

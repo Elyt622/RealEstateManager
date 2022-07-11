@@ -87,7 +87,7 @@ class ExploreFragment : Fragment() {
         rv = parentFragmentManager
             .fragments[0]
             .requireView()
-            .findViewById(R.id.recycler_view_list_properties_home_fragment)
+            .findViewById(R.id.recycler_view_list_properties)
 
         datePickerDialog = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             myCalendar.set(Calendar.YEAR, year)
