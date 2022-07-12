@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
@@ -66,7 +65,6 @@ class HomeFragment : Fragment() {
             binding.recyclerViewListProperties.layoutManager = GridLayoutManager(context, 2)
         }
         configPropertiesRv()
-        applySort()
     }
 
     private fun configPropertiesRv(){
@@ -78,51 +76,6 @@ class HomeFragment : Fragment() {
                 binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
                 showDetailsFragment()
             }
-    }
-
-    private fun applySort() {
-        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.sort_price_asc -> {
-                    viewModel
-                        .getPropertiesWithAscPriceSort()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
-                        }
-                }
-                R.id.sort_price_desc -> {
-                    viewModel
-                        .getPropertiesWithDescPriceSort()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
-                        }
-                }
-                R.id.sort_type -> {
-                    viewModel
-                        .getPropertiesWithTypeSort()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
-                        }
-                }
-                R.id.sort_status -> {
-                    viewModel
-                        .getPropertiesWithStatusSort()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
-                        }
-                }
-            }
-            false
-        }
     }
 
     @Subscribe
@@ -142,11 +95,6 @@ class HomeFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        applySort()
     }
 
     private fun showDetailsFragment() {

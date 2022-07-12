@@ -11,12 +11,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/logo_toolbar" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_list_properties"
             android:layout_width="180dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_details"

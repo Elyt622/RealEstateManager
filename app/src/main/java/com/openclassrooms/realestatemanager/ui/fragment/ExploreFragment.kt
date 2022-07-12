@@ -4,12 +4,10 @@ import android.app.DatePickerDialog
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,10 +54,6 @@ class ExploreFragment : Fragment() {
 
     private var propertiesWithSort: List<Property>? = null
 
-    private lateinit var toolbar: Toolbar
-
-    private lateinit var menuItem: MenuItem
-
     private lateinit var viewPager: ViewPager2
 
     private lateinit var map : SupportMapFragment
@@ -69,9 +63,7 @@ class ExploreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = ExploreFragmentBinding.inflate(layoutInflater)
-        toolbar = requireActivity().findViewById(R.id.toolbar)
         viewPager = requireActivity().findViewById(R.id.viewpager)
-        menuItem = toolbar.menu.findItem(R.id.home_top_sort).setVisible(true)
         return binding.root
     }
 
@@ -231,50 +223,6 @@ class ExploreFragment : Fragment() {
         return propertiesWithSortAndFilters
     }
 
-    private fun applySort() {
-        toolbar.setOnMenuItemClickListener { item ->
-            when(item.itemId){
-                R.id.sort_price_asc -> {
-                    viewModel
-                        .getPropertiesWithAscPriceSort()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            propertiesWithSort = it
-                        }
-                }
-                R.id.sort_price_desc -> {
-                    viewModel
-                        .getPropertiesWithDescPriceSort()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe{
-                            propertiesWithSort = it
-                        }
-                }
-                R.id.sort_type -> {
-                    viewModel
-                        .getPropertiesWithTypeSort()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe{
-                            propertiesWithSort = it
-                        }
-                }
-                R.id.sort_status -> {
-                    viewModel
-                        .getPropertiesWithStatusSort()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe{
-                            propertiesWithSort = it
-                        }
-                }
-            }
-            false
-        }
-    }
-
     private fun resetAllFields(){
         with(binding) {
             editTextStartPrice.setText("")
@@ -379,10 +327,5 @@ class ExploreFragment : Fragment() {
                 Status.values()
             )
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        applySort()
     }
 }

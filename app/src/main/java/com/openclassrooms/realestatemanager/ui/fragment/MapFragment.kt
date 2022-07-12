@@ -53,8 +53,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         viewPager = requireActivity().findViewById(R.id.viewpager)
 
         map?.getMapAsync(this)
-
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
