@@ -40,6 +40,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/textview_sold"
+                    android:text="@string/sold"
+                    android:textColor="@color/quantum_white_100"
+                    android:background="#88FF0000"
+                    android:layout_width="130dp"
+                    android:layout_height="50dp"
+                    android:textStyle="bold"
+                    android:textSize="28sp"
+                    android:layout_gravity="center"
+                    android:gravity="center" />
+
             </androidx.cardview.widget.CardView>
 
             <androidx.constraintlayout.widget.ConstraintLayout

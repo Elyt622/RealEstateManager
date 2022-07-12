@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.PropertiesRecyclerViewBinding
@@ -29,7 +30,7 @@ class PropertyRvAdapter(private val dataSet: List<Property>)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
+        viewHolder.sold.isGone = dataSet[position].soldDate == null
         viewHolder.typeProperty.text = dataSet[position].type.name
 
         val priceString = """${dataSet[position].price} $"""
@@ -62,5 +63,6 @@ class PropertyRvAdapter(private val dataSet: List<Property>)
         val bathroom: TextView = binding.textviewBathroom
         val rooms: TextView = binding.textviewRooms
         val state: TextView = binding.textviewState
+        val sold: TextView = binding.textviewSold
     }
 }
