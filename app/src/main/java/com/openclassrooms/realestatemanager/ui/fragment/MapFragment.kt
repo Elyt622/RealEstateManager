@@ -74,13 +74,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 }
             }
 
-        locationPermissionRequest.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-        )
-
         googleMap.setOnMarkerClickListener {
             val result = it.tag.toString().toInt()
             setFragmentResult("requestRef", bundleOf("RefBundle" to result))
@@ -96,6 +89,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         40.779897,
                         -73.968565
                     ), 10F)
+        )
+
+        locationPermissionRequest.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
         )
     }
 
