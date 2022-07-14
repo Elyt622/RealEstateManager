@@ -60,7 +60,8 @@ class ExploreFragment : Fragment() {
     private var map : SupportMapFragment? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = ExploreFragmentBinding.inflate(layoutInflater)
@@ -143,12 +144,14 @@ class ExploreFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy{
-                val arrayAdapter = ArrayAdapter(
-                    requireActivity(),
-                    android.R.layout.simple_list_item_1,
-                    it
-                )
+                    if(activity != null){
+                         val arrayAdapter = ArrayAdapter(
+                            requireActivity(),
+                            android.R.layout.simple_list_item_1,
+                            it
+                        )
                     autocompleteSearch.setAdapter(arrayAdapter)
+                    }
                 }
 
             autocompleteSearch.setOnClickListener {
