@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,8 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +28,7 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.databinding.ActivityAddPropertyBinding
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Type
@@ -76,6 +80,7 @@ class AddPropertyActivity : BaseActivity() {
         configPhotosRecyclerView()
 
         with(binding){
+
             editTextAddress.setOnClickListener {
                 startAutocompleteIntent()
             }
@@ -93,7 +98,12 @@ class AddPropertyActivity : BaseActivity() {
             }
 
             buttonTakePhoto.setOnClickListener{
-                resultLauncher.launch(Intent(this@AddPropertyActivity, CameraActivity::class.java))
+                resultLauncher.launch(
+                    Intent(
+                        this@AddPropertyActivity,
+                        CameraActivity::class.java
+                    )
+                )
             }
 
             buttonAddNewProperty.setOnClickListener{
@@ -115,6 +125,7 @@ class AddPropertyActivity : BaseActivity() {
                 ).subscribeBy (
                     onComplete = {
                         finish()
+                        sendNotification()
                     },
                     onError = {
                         when(it.message){
@@ -133,6 +144,19 @@ class AddPropertyActivity : BaseActivity() {
                 ).addTo(bag)
             }
         }
+    }
+
+    private fun sendNotification() {
+        val title = "New property added"
+        val builder = NotificationCompat.Builder(
+            this,
+            App.NOTIFICATION_CHANNEL_ID
+        )
+            .setSmallIcon(R.drawable.logo_toolbar)
+            .setContentTitle(title)
+            .setAutoCancel(true)
+
+        NotificationManagerCompat.from(this).notify(0, builder.build())
     }
 
     private fun readPermissionGranted() : Boolean {
@@ -173,7 +197,8 @@ class AddPropertyActivity : BaseActivity() {
     private fun fillInAddress() {
         val components = place?.addressComponents
         val address1 = StringBuilder()
-
+        val geocoder = Geocoder(this, Locale.US)
+        Log.d("DEBUG", geocoder.getFromLocation(place?.latLng?.latitude!!, place?.latLng?.longitude!!, 1)[0].subLocality)
         if (components != null) {
             for (component in components.asList()) {
                 when (component.types[0]) {
@@ -230,7 +255,8 @@ class AddPropertyActivity : BaseActivity() {
         val view = LayoutInflater
             .from(this)
             .inflate(R.layout.alert_dialog_photo_description, null)
-        val editTextInput: EditText = view.findViewById(R.id.editText_photo_description)
+        val editTextInput: EditText =
+            view.findViewById(R.id.editText_photo_description)
         return AlertDialog.Builder(this)
             .setView(view)
             .setPositiveButton("OK") { _, _ ->
