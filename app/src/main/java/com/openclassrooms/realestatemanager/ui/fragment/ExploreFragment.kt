@@ -56,7 +56,7 @@ class ExploreFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager2
 
-    private lateinit var map : SupportMapFragment
+    private var map : SupportMapFragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -120,8 +120,8 @@ class ExploreFragment : Fragment() {
                                 )
                             )
                             showFragmentDetails(propertiesWithFilter)
-                            map = parentFragmentManager.fragments[3].childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-                            viewModel.setMarkerOnMap(map, propertiesWithFilter)
+                            map = parentFragmentManager.fragments[3].childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+                            viewModel.setMarkerOnMap(map!!, propertiesWithFilter)
                             if(resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE) && propertiesWithFilter.isNotEmpty())
                                 EventBus.getDefault().post(LaunchActivityEvent(propertiesWithFilter[0].ref))
                             viewPager.currentItem = 0
@@ -165,7 +165,8 @@ class ExploreFragment : Fragment() {
                     .subscribe {
                         allProperties ->
                         rv.adapter = PropertyRvAdapter(allProperties)
-                        viewModel.setMarkerOnMap(map, allProperties)
+                        if (map != null)
+                            viewModel.setMarkerOnMap(map!!, allProperties)
                         showFragmentDetails(allProperties)
                         if(resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE) && allProperties.isNotEmpty())
                             EventBus.getDefault().post(LaunchActivityEvent(allProperties[0].ref))
