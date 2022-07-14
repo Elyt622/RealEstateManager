@@ -1,11 +1,13 @@
 package com.openclassrooms.realestatemanager.ui.fragment
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -51,12 +53,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         viewModel = ViewModelProvider(this)[MapViewModel::class.java]
         val map = childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment?
         viewPager = requireActivity().findViewById(R.id.viewpager)
-
+        if(ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_DENIED) {
+            requestPermission()
+        }
         map?.getMapAsync(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
+        requestPermission()
         var marker: Marker?
         viewModel
             .getAllProperties()
@@ -90,13 +98,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         -73.968565
                     ), 10F)
         )
-
-        locationPermissionRequest.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-        )
     }
 
     private val locationPermissionRequest = registerForActivityResult(
@@ -106,9 +107,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
                 googleMap.isMyLocationEnabled = true
             }
-            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                googleMap.isMyLocationEnabled = true
-            }
         }
+    }
+
+    private fun requestPermission() {
+        locationPermissionRequest.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION)
+        )
     }
 }
