@@ -162,6 +162,8 @@ class ExploreViewModel : ViewModel() {
     fun applyAllFilters(
         addressArea: String,
         types: List<Type>,
+        minPhotos: Int?,
+        maxPhotos: Int?,
         minPrice: Int?,
         maxPrice: Int?,
         minSurface: Float?,
@@ -181,6 +183,8 @@ class ExploreViewModel : ViewModel() {
 
         if(addressArea.isNotEmpty()) stringBuilder.append("addressArea IS \"$addressArea\" AND ")
         if(types.isNotEmpty()) stringBuilder.append("type IN ${getQueryForSelect(types)} AND ")
+        if(minPhotos != null) stringBuilder.append("(SELECT length(photos) - length(replace(photos, ',', '')) + 1 >= $minPhotos) AND ")
+        if(maxPhotos != null) stringBuilder.append("(SELECT length(photos) - length(replace(photos, ',', '')) + 1 <= $maxPhotos) AND ")
         if(minPrice != null) stringBuilder.append("price >= $minPrice AND ")
         if(maxPrice != null) stringBuilder.append("price <= $maxPrice AND ")
         if(minSurface != null) stringBuilder.append("surface >= $minSurface AND ")

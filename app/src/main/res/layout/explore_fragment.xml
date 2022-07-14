@@ -64,17 +64,17 @@
             app:layout_constraintTop_toBottomOf="@+id/textView_static_type" />
 
         <TextView
-            android:id="@+id/textview_static_price"
+            android:id="@+id/textview_static_photos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textStyle="bold"
-            android:text="@string/price"
+            android:text="@string/photos_without_star"
             app:layout_constraintStart_toStartOf="@+id/textView_static_type"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
 
         <LinearLayout
-            android:id="@+id/linear_layout_price"
+            android:id="@+id/linear_layout_photos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -84,10 +84,10 @@
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_static_price">
+            app:layout_constraintTop_toBottomOf="@+id/textview_static_photos">
 
             <EditText
-                android:id="@+id/edit_text_start_price"
+                android:id="@+id/edit_text_start_photos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -98,7 +98,6 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textview_static_and_price_explorer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/and"
@@ -107,12 +106,66 @@
                 app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
 
             <EditText
-                android:id="@+id/edit_text_end_price"
+                android:id="@+id/edit_text_end_photos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:importantForAutofill="no"
                 android:hint="@string/max"
+                android:inputType="number"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textview_static_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/price"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView_static_type"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_photos" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_static_price">
+
+            <EditText
+                android:id="@+id/edit_text_start_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:hint="@string/min"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textview_static_and_price_explorer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/and"
+                app:layout_constraintStart_toStartOf="@+id/textView_static_type"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_type" />
+
+            <EditText
+                android:id="@+id/edit_text_end_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="@string/max"
+                android:importantForAutofill="no"
                 android:inputType="number"
                 android:textSize="14sp" />
         </LinearLayout>

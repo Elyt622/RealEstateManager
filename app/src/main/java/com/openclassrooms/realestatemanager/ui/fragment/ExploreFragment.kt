@@ -93,6 +93,8 @@ class ExploreFragment : Fragment() {
                 viewModel.applyAllFilters(
                     autocompleteSearch.text.toString(),
                     viewModel.getTypes(),
+                    editTextStartPhotos.text.toString().toIntOrNull(),
+                    editTextEndPhotos.text.toString().toIntOrNull(),
                     editTextStartPrice.text.toString().toIntOrNull(),
                     editTextEndPrice.text.toString().toIntOrNull(),
                     editTextStartSurface.text.toString().toFloatOrNull(),
