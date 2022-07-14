@@ -57,9 +57,4 @@ object Utils {
         val dateFormat: DateFormat = SimpleDateFormat(" dd/MM/yyyy", Locale.FRANCE)
         return dateFormat.format(date)
     }
-
-    fun <T> findCommon(first: List<T>, second: List<T>): List<T> {
-        return first.filter(second::contains).toSet().toList()
-    }
-
 }
