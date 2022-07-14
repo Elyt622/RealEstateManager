@@ -18,6 +18,7 @@ data class Property(
     var photos: MutableList<Uri> = mutableListOf(),
     var descriptionPhoto: MutableList<String> = mutableListOf(),
     var address: String = "",
+    var addressArea: String = "",
     var options: MutableList<Option>? = mutableListOf(),
     var status: Status = Status.ON_SALE,
     var entryDate: Date = Date(),

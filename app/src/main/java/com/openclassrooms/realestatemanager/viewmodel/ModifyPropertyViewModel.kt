@@ -77,6 +77,7 @@ class ModifyPropertyViewModel : ViewModel() {
         photos: MutableList<Uri>,
         descriptionPhoto: MutableList<String>,
         address: String,
+        addressArea: String,
         options: MutableList<Option>?,
         status: Status,
         entryDate: Date,
@@ -107,6 +108,7 @@ class ModifyPropertyViewModel : ViewModel() {
                     this.numberBed = numberBed
                     this.description = description
                     this.address = address
+                    this.addressArea = addressArea
                     this.photos = photos
                     this.latitude = latitude
                     this.longitude = longitude

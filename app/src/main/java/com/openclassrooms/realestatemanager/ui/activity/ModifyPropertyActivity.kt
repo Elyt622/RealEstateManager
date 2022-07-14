@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -115,10 +116,16 @@ class ModifyPropertyActivity : BaseActivity() {
             }
 
             binding.buttonTakePhoto.setOnClickListener {
-                resultLauncher.launch(Intent(this@ModifyPropertyActivity, CameraActivity::class.java))
+                resultLauncher.launch(
+                    Intent(
+                        this@ModifyPropertyActivity,
+                        CameraActivity::class.java
+                    )
+                )
             }
 
             binding.buttonSaveProperty.setOnClickListener {
+
                 viewModel.updateProperty(
                     ref,
                     viewModel.getType(),
@@ -131,6 +138,7 @@ class ModifyPropertyActivity : BaseActivity() {
                     mutableListOfPhoto,
                     mutableListDescriptionPhoto,
                     edittextAddress.text.toString(),
+                    getAddressArea(latitude, longitude),
                     viewModel.getOptions(),
                     Status.values()[spinnerStatus.selectedItemPosition],
                     entryDate,
@@ -196,6 +204,11 @@ class ModifyPropertyActivity : BaseActivity() {
                     }
                 ).addTo(bag)
         }
+    }
+
+    private fun getAddressArea(latitude: Double, longitude: Double) : String{
+        val geocoder = Geocoder(this, Locale.US)
+        return geocoder.getFromLocation(latitude, longitude, 1)[0].subLocality
     }
 
     private fun showToast(message: String){

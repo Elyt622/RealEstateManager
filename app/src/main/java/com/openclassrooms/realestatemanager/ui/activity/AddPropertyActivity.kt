@@ -115,6 +115,7 @@ class AddPropertyActivity : BaseActivity() {
                     editTextBathrooms.text.toString().toIntOrNull(),
                     editTextDescription.text.toString(),
                     editTextAddress.text.toString(),
+                    getAddressArea(place?.latLng?.latitude!!, place?.latLng?.longitude!!),
                     mutableListOfPhoto,
                     mutableListDescriptionPhoto,
                     place?.latLng?.latitude,
@@ -197,8 +198,7 @@ class AddPropertyActivity : BaseActivity() {
     private fun fillInAddress() {
         val components = place?.addressComponents
         val address1 = StringBuilder()
-        val geocoder = Geocoder(this, Locale.US)
-        Log.d("DEBUG", geocoder.getFromLocation(place?.latLng?.latitude!!, place?.latLng?.longitude!!, 1)[0].subLocality)
+
         if (components != null) {
             for (component in components.asList()) {
                 when (component.types[0]) {
@@ -213,6 +213,11 @@ class AddPropertyActivity : BaseActivity() {
             }
         }
         binding.editTextAddress.setText(address1.toString())
+    }
+
+    private fun getAddressArea(latitude: Double, longitude: Double) : String{
+        val geocoder = Geocoder(this, Locale.US)
+        return geocoder.getFromLocation(latitude, longitude, 1)[0].subLocality
     }
 
     private fun startAutocompleteIntent() {

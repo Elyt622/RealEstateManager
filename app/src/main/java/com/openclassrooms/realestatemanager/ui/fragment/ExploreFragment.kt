@@ -89,7 +89,9 @@ class ExploreFragment : Fragment() {
 
         with(binding){
             buttonSearch.setOnClickListener {
+
                 viewModel.applyAllFilters(
+                    autocompleteSearch.text.toString(),
                     viewModel.getTypes(),
                     editTextStartPrice.text.toString().toIntOrNull(),
                     editTextEndPrice.text.toString().toIntOrNull(),
@@ -132,6 +134,26 @@ class ExploreFragment : Fragment() {
                             ).show()
                         }
                     )
+            }
+
+            viewModel.loadAllAddressArea()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy{
+                val arrayAdapter = ArrayAdapter(
+                    requireActivity(),
+                    android.R.layout.simple_list_item_1,
+                    it
+                )
+                    autocompleteSearch.setAdapter(arrayAdapter)
+                }
+
+            autocompleteSearch.setOnClickListener {
+                autocompleteSearch.showDropDown()
+            }
+
+            autocompleteSearch.setOnFocusChangeListener{ _, _ ->
+                autocompleteSearch.showDropDown()
             }
 
             buttonReset.setOnClickListener {

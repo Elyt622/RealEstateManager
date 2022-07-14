@@ -50,6 +50,7 @@ class AddPropertyViewModel : ViewModel() {
         numberBathroom: Int?,
         description: String,
         address: String,
+        addressArea: String,
         photos: MutableList<Uri>,
         descriptionPhoto: MutableList<String>,
         latitude: Double?,
@@ -78,6 +79,7 @@ class AddPropertyViewModel : ViewModel() {
                     this.numberBed = numberBed
                     this.description = description
                     this.address = address
+                    this.addressArea = addressArea
                     this.photos = photos
                     this.latitude = latitude
                     this.longitude = longitude

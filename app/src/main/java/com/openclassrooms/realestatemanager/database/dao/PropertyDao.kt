@@ -25,6 +25,9 @@ interface PropertyDao {
     @Update
     fun updatePropertyWithRef(property: Property) : Completable
 
+    @Query("SELECT DISTINCT addressArea FROM Property")
+    fun loadAllAddressArea() : Single<List<String>>
+
     // Filter
     @RawQuery
     fun filter(query: SupportSQLiteQuery) : Single<List<Property>>
