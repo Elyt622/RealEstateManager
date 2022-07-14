@@ -30,6 +30,8 @@ class PropertyActivity : BaseActivity() {
 
     private lateinit var map: MapView
 
+    private var currencyDollar : Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPropertyBinding.inflate(layoutInflater)
@@ -103,6 +105,10 @@ class PropertyActivity : BaseActivity() {
                 }
             )
 
+        binding.buttonConvertToEuro.setOnClickListener {
+            currencyDollar = convertCurrency(currencyDollar)
+        }
+
         binding.buttonModifyProperty.setOnClickListener{
             val intent = Intent(
                 this,
@@ -111,6 +117,13 @@ class PropertyActivity : BaseActivity() {
             intent.putExtra("REF", ref)
             startActivity(intent)
         }
+    }
+
+    private fun configPriceTextView(price: Int) {
+        if (currencyDollar)
+            binding.textviewPrice.text = price.toString()
+        else
+            binding.textviewPrice.text = Utils.convertDollarToEuro(price).toString()
     }
 
     private fun configPhotosRecyclerView(descriptionPhotos : MutableList<String>, photos: MutableList<Uri>){
@@ -159,9 +172,22 @@ class PropertyActivity : BaseActivity() {
         binding.textviewAgent.text = agentFormattedText
     }
 
-    private fun configPriceTextView(priceInt: Int){
-        val priceText = "$priceInt $"
-        binding.textviewPrice.text = priceText
+    private fun convertCurrency(dollar: Boolean) : Boolean {
+        with(binding) {
+            if (dollar) {
+                textviewPrice.text =
+                    Utils.convertDollarToEuro(textviewPrice.text.toString().toInt()).toString()
+                textviewCurrencyIcon.text = "€"
+                buttonConvertToEuro.text = "$"
+                return false
+            } else {
+                textviewPrice.text =
+                    Utils.convertEuroToDollar(textviewPrice.text.toString().toInt()).toString()
+                textviewCurrencyIcon.text = "$"
+                buttonConvertToEuro.text = "€"
+                return true
+            }
+        }
     }
 
     private fun configToolbar() {

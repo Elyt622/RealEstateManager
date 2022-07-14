@@ -82,4 +82,5 @@
     <string name="sold">SOLD</string>
     <string name="search_properties_with_address_area">Search properties with address area</string>
     <string name="photos_without_star">Photos</string>
+    <string name="euro">€</string>
 </resources>

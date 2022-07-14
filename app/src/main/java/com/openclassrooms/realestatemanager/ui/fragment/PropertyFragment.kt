@@ -45,6 +45,8 @@ class PropertyFragment : Fragment() {
 
     private lateinit var property : Observable<Property>
 
+    private var currencyDollar : Boolean = true
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,10 +68,16 @@ class PropertyFragment : Fragment() {
 
         loadProperty(property)
 
-        binding.buttonModifyProperty.setOnClickListener{
-            val intent = Intent(requireActivity(), ModifyPropertyActivity::class.java)
-            intent.putExtra("REF", ref)
-            startActivity(intent)
+        with(binding) {
+            buttonModifyProperty.setOnClickListener {
+                val intent = Intent(requireActivity(), ModifyPropertyActivity::class.java)
+                intent.putExtra("REF", ref)
+                startActivity(intent)
+            }
+
+            buttonConvertToEuro.setOnClickListener {
+                currencyDollar = convertCurrency(currencyDollar)
+            }
         }
     }
 
@@ -80,33 +88,35 @@ class PropertyFragment : Fragment() {
             .subscribeBy (
                 onNext = { results ->
                     with(binding){
-                    configPhotosRecyclerView(results.descriptionPhoto, results.photos)
-                    configOptionsRecyclerView(results.options)
 
-                    if(results.photos.isNotEmpty())
-                        Glide.with(this@PropertyFragment).load(results.photos[0]).into(imageViewMain)
+                        configPhotosRecyclerView(results.descriptionPhoto, results.photos)
+                        configOptionsRecyclerView(results.options)
 
-                    configPriceTextView(results.price)
-                    configSurfaceTextView(results.surface)
-                    configAgentTextView(results.agentName)
+                        if(results.photos.isNotEmpty())
+                            Glide.with(this@PropertyFragment).load(results.photos[0]).into(imageViewMain)
 
-                    textviewEntryDate.text = Utils.convertDateToString(results.entryDate)
-                    textviewReference.text = results.ref.toString()
-                    textviewAddress.text = results.address
-                    textviewBathroom.text = results.numberBathroom.toString()
-                    textviewRooms.text = results.numberRoom.toString()
-                    textviewBeds.text = results.numberBed.toString()
-                    textviewType.text = results.type.name
-                    textviewState.text = results.status.displayName
-                    textviewDescription.text = results.description
-                    if(results.soldDate == null){
-                        textviewStaticSoldDate.isGone = true
-                        textviewSoldDate.isGone = true
-                    } else {
-                        textviewStaticSoldDate.isGone = false
-                        textviewSoldDate.isGone = false
-                        textviewSoldDate.text = Utils.convertDateToString(results.soldDate!!)
-                    }
+                        configSurfaceTextView(results.surface)
+                        configAgentTextView(results.agentName)
+                        configPriceTextView(results.price)
+
+                        textviewEntryDate.text = Utils.convertDateToString(results.entryDate)
+                        textviewReference.text = results.ref.toString()
+                        textviewAddress.text = results.address
+                        textviewBathroom.text = results.numberBathroom.toString()
+                        textviewRooms.text = results.numberRoom.toString()
+                        textviewBeds.text = results.numberBed.toString()
+                        textviewType.text = results.type.name
+                        textviewState.text = results.status.displayName
+                        textviewDescription.text = results.description
+
+                        if(results.soldDate == null){
+                            textviewStaticSoldDate.isGone = true
+                            textviewSoldDate.isGone = true
+                        } else {
+                            textviewStaticSoldDate.isGone = false
+                            textviewSoldDate.isGone = false
+                            textviewSoldDate.text = Utils.convertDateToString(results.soldDate!!)
+                        }
 
                     map.getMapAsync {
                         it.addMarker(
@@ -125,6 +135,13 @@ class PropertyFragment : Fragment() {
 
                 }
             )
+    }
+
+    private fun configPriceTextView(price: Int) {
+        if (currencyDollar)
+            binding.textviewPrice.text = price.toString()
+        else
+            binding.textviewPrice.text = Utils.convertDollarToEuro(price).toString()
     }
 
     @Subscribe
@@ -192,14 +209,27 @@ class PropertyFragment : Fragment() {
         }
     }
 
+    private fun convertCurrency(dollar: Boolean) : Boolean {
+        with(binding) {
+            if (dollar) {
+                textviewPrice.text =
+                    Utils.convertDollarToEuro(textviewPrice.text.toString().toInt()).toString()
+                textviewCurrencyIcon.text = "€"
+                buttonConvertToEuro.text = "$"
+                return false
+            } else {
+                textviewPrice.text =
+                    Utils.convertEuroToDollar(textviewPrice.text.toString().toInt()).toString()
+                textviewCurrencyIcon.text = "$"
+                buttonConvertToEuro.text = "€"
+                return true
+            }
+        }
+    }
+
     private fun configAgentTextView(name: String){
         val agentFormattedText = " $name"
         binding.textviewAgent.text = agentFormattedText
-    }
-
-    private fun configPriceTextView(priceInt: Int){
-        val priceText = "$priceInt $"
-        binding.textviewPrice.text = priceText
     }
 
     override fun onStart() {
