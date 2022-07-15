@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentMapBinding
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.MapViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -115,5 +117,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION)
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!Utils.isInternetAvailable(requireActivity())) {
+            Toast.makeText(
+                requireActivity(),
+                "Wifi is unavailable to detect your position",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 }
