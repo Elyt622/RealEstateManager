@@ -4,13 +4,7 @@
         android:id="@+id/home_bottom_navigation"
         android:enabled="true"
         android:icon="@drawable/baseline_apartment_24"
-        android:title="@string/home"
-        />
-    <item
-        android:id="@+id/explorer_bottom_navigation"
-        android:enabled="true"
-        android:icon="@drawable/baseline_search_24"
-        android:title="@string/explorer" />
+        android:title="@string/home" />
     <item
         android:id="@+id/map_bottom_navigation"
         android:enabled="true"

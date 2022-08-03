@@ -3,33 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/home_top_sort"
+        android:id="@+id/home_top_filter"
         android:enabled="true"
-        android:icon="@drawable/baseline_sort_24"
+        android:icon="@drawable/baseline_filter_list_24px"
         android:title="@string/sort_by"
         app:showAsAction="ifRoom" >
-
-        <menu>
-            <item
-                android:id="@+id/sort_price_asc"
-                android:enabled="true"
-                android:title="@string/asc_price" />
-
-            <item
-                android:id="@+id/sort_price_desc"
-                android:enabled="true"
-                android:title="@string/desc_price" />
-
-            <item
-                android:id="@+id/sort_type"
-                android:enabled="true"
-                android:title="@string/type" />
-
-            <item
-                android:id="@+id/sort_status"
-                android:enabled="true"
-                android:title="@string/status" />
-        </menu>
 
     </item>
 

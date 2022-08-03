@@ -31,17 +31,4 @@ interface PropertyDao {
     // Filter
     @RawQuery
     fun filter(query: SupportSQLiteQuery) : Single<List<Property>>
-
-    //Sort
-    @Query("SELECT * FROM Property ORDER BY price ASC")
-    fun loadAllPropertiesWithAscPriceSort() : Observable<List<Property>>
-
-    @Query("SELECT * FROM Property ORDER BY price DESC")
-    fun loadAllPropertiesWithDescPriceSort() : Observable<List<Property>>
-
-    @Query("SELECT * FROM Property ORDER BY type")
-    fun loadAllPropertiesWithTypeSort() : Observable<List<Property>>
-
-    @Query("SELECT * FROM Property ORDER BY status")
-    fun loadAllPropertiesWithStatusSort() : Observable<List<Property>>
 }

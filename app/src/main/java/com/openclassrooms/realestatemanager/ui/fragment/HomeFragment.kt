@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
@@ -16,11 +17,14 @@ import com.openclassrooms.realestatemanager.databinding.HomeFragmentBinding
 import com.openclassrooms.realestatemanager.event.LaunchActivityEvent
 import com.openclassrooms.realestatemanager.ui.activity.PropertyActivity
 import com.openclassrooms.realestatemanager.ui.adapter.PropertyRvAdapter
+import com.openclassrooms.realestatemanager.ui.custom.ModalBottomSheet
 import com.openclassrooms.realestatemanager.viewmodel.HomeViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+
 
 class HomeFragment : Fragment() {
 
@@ -42,6 +46,12 @@ class HomeFragment : Fragment() {
             val result = bundle.getInt("RefBundle")
             EventBus.getDefault().post(LaunchActivityEvent(result))
         }
+        setFragmentResultListener("requestSql") { _, bundle ->
+            val result = bundle.getString("RefBundle")
+            if (result != null) {
+                getResultToFilter(result)
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +67,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        configToolbar()
         if(binding.fragmentDetails != null){
             binding.recyclerViewListProperties.layoutManager = GridLayoutManager(context, 1)
         }
@@ -74,7 +84,6 @@ class HomeFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
-                showDetailsFragment()
             }
     }
 
@@ -84,6 +93,24 @@ class HomeFragment : Fragment() {
             val intent = Intent(activity, PropertyActivity::class.java)
             intent.putExtra("REF", event.ref)
             startActivity(intent)
+        }
+    }
+
+    private fun getResultToFilter(resultQuery: String) {
+        if (resultQuery.isNotEmpty())
+            viewModel.getPropertiesWithFilter(SimpleSQLiteQuery(resultQuery))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy {
+                    binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                }
+        else {
+            viewModel.getAllProperties()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy {
+                    binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                }
         }
     }
 
@@ -97,17 +124,21 @@ class HomeFragment : Fragment() {
         EventBus.getDefault().unregister(this)
     }
 
-    private fun showDetailsFragment() {
-        if (binding.fragmentDetails != null) {
-            val fragment = childFragmentManager
-                .findFragmentById(binding.fragmentDetails!!.id)
-            if (fragment != null && fragment.isHidden) {
-                childFragmentManager
-                    .beginTransaction()
-                    .show(
-                        fragment
-                    ).commit()
+    private fun configToolbar() {
+        with(binding){
+            toolbar.setOnMenuItemClickListener{
+                when (it.itemId) {
+                    R.id.home_top_filter -> {
+                        configModalBottomSheet()
+                    }
+                }
+                true
             }
         }
+    }
+
+    private fun configModalBottomSheet(){
+        val modalBottomSheet = ModalBottomSheet()
+        modalBottomSheet.show(parentFragmentManager, ModalBottomSheet.TAG)
     }
 }

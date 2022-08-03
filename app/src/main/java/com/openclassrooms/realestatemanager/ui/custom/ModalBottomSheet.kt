@@ -1,47 +1,34 @@
-package com.openclassrooms.realestatemanager.ui.fragment
+package com.openclassrooms.realestatemanager.ui.custom
 
 import android.app.DatePickerDialog
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.maps.SupportMapFragment
-import com.openclassrooms.realestatemanager.R
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.openclassrooms.realestatemanager.databinding.ExploreFragmentBinding
-import com.openclassrooms.realestatemanager.event.LaunchActivityEvent
 import com.openclassrooms.realestatemanager.model.Option
-import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Status
 import com.openclassrooms.realestatemanager.model.Type
 import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterExploreFragment
-import com.openclassrooms.realestatemanager.ui.adapter.PropertyRvAdapter
 import com.openclassrooms.realestatemanager.ui.adapter.StatusRvAdapterExploreFragment
 import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterExploreFragment
 import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.greenrobot.eventbus.EventBus
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class ExploreFragment : Fragment() {
+class ModalBottomSheet : BottomSheetDialogFragment() {
 
     private lateinit var binding: ExploreFragmentBinding
-
-    companion object {
-        fun newInstance() = ExploreFragment()
-    }
 
     private lateinit var viewModel: ExploreViewModel
 
@@ -51,21 +38,12 @@ class ExploreFragment : Fragment() {
 
     private lateinit var editText: EditText
 
-    private lateinit var rv : RecyclerView
-
-    private var propertiesWithSort: List<Property>? = null
-
-    private lateinit var viewPager: ViewPager2
-
-    private var map : SupportMapFragment? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = ExploreFragmentBinding.inflate(layoutInflater)
-        viewPager = requireActivity().findViewById(R.id.viewpager)
         return binding.root
     }
 
@@ -77,11 +55,6 @@ class ExploreFragment : Fragment() {
         configOptionRv()
         configStatusRv()
 
-        rv = parentFragmentManager
-            .fragments[0]
-            .requireView()
-            .findViewById(R.id.recycler_view_list_properties)
-
         datePickerDialog = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             myCalendar.set(Calendar.YEAR, year)
             myCalendar.set(Calendar.MONTH, month)
@@ -91,7 +64,7 @@ class ExploreFragment : Fragment() {
 
         with(binding){
             buttonSearch.setOnClickListener {
-
+                val queryString =
                 viewModel.applyAllFilters(
                     autocompleteSearch.text.toString(),
                     viewModel.getTypes(),
@@ -112,32 +85,8 @@ class ExploreFragment : Fragment() {
                     viewModel.getStartSoldDate(),
                     viewModel.getEndSoldDate()
                 )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(
-                        onSuccess =
-                        { propertiesWithFilter ->
-                            rv.adapter = PropertyRvAdapter(
-                                applySortAndFilters(
-                                    propertiesWithSort,
-                                    propertiesWithFilter
-                                )
-                            )
-                            showFragmentDetails(propertiesWithFilter)
-                            map = parentFragmentManager.fragments[3].childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-                            viewModel.setMarkerOnMap(map!!, propertiesWithFilter)
-                            if(resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE) && propertiesWithFilter.isNotEmpty())
-                                EventBus.getDefault().post(LaunchActivityEvent(propertiesWithFilter[0].ref))
-                            viewPager.currentItem = 0
-                        },
-                        onError = {
-                            Toast.makeText(
-                                activity,
-                                "No filter selected",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    )
+                setFragmentResult("requestSql", bundleOf("RefBundle" to queryString))
+                dismiss()
             }
 
             viewModel.loadAllAddressArea()
@@ -145,12 +94,12 @@ class ExploreFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy{
                     if(activity != null){
-                         val arrayAdapter = ArrayAdapter(
+                        val arrayAdapter = ArrayAdapter(
                             requireActivity(),
                             android.R.layout.simple_list_item_1,
                             it
                         )
-                    autocompleteSearch.setAdapter(arrayAdapter)
+                        autocompleteSearch.setAdapter(arrayAdapter)
                     }
                 }
 
@@ -164,20 +113,8 @@ class ExploreFragment : Fragment() {
 
             buttonReset.setOnClickListener {
                 resetAllFields()
-                viewModel
-                    .getAllProperties()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        allProperties ->
-                        rv.adapter = PropertyRvAdapter(allProperties)
-                        if (map != null)
-                            viewModel.setMarkerOnMap(map!!, allProperties)
-                        showFragmentDetails(allProperties)
-                        if(resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE) && allProperties.isNotEmpty())
-                            EventBus.getDefault().post(LaunchActivityEvent(allProperties[0].ref))
-                        viewPager.currentItem = 0
-                    }
+                setFragmentResult("requestSql", bundleOf("RefBundle" to ""))
+                dismiss()
             }
 
             editTextStartEntryDate.setOnClickListener {
@@ -200,56 +137,6 @@ class ExploreFragment : Fragment() {
                 showDatePickerDialog()
             }
         }
-    }
-
-    private fun showFragmentDetails(properties: List<Property>) {
-        val fragment = requireActivity()
-            .supportFragmentManager
-            .fragments[0]
-            .childFragmentManager
-            .findFragmentById(R.id.fragment_details)
-        if (fragment != null) {
-            if (properties.isEmpty()) {
-                requireActivity()
-                    .supportFragmentManager
-                    .fragments[0]
-                    .childFragmentManager
-                    .beginTransaction()
-                    .hide(
-                        fragment
-                    ).commit()
-                Toast.makeText(requireActivity(), "No results with this filter", Toast.LENGTH_LONG).show()
-            }
-            else
-                requireActivity()
-                    .supportFragmentManager
-                    .fragments[0]
-                    .childFragmentManager
-                    .beginTransaction()
-                    .show(
-                        fragment
-                    ).commit()
-        }
-    }
-
-    private fun applySortAndFilters(propertiesWithSort: List<Property>?, propertiesWithFilters: List<Property>?) : List<Property>{
-        val propertiesWithSortAndFilters: MutableList<Property> = mutableListOf()
-        if (propertiesWithSort != null) {
-            for (property in propertiesWithSort) {
-                if (propertiesWithFilters != null && propertiesWithFilters.contains(property)) {
-                    propertiesWithSortAndFilters.add(property)
-                }
-                else if (propertiesWithFilters == null){
-                    return propertiesWithSort
-                }
-            }
-        }
-        else {
-            if (propertiesWithFilters != null) {
-                return propertiesWithFilters
-            }
-        }
-        return propertiesWithSortAndFilters
     }
 
     private fun resetAllFields(){
@@ -357,4 +244,9 @@ class ExploreFragment : Fragment() {
             )
         }
     }
-}
+
+
+    companion object {
+            const val TAG = "ModalBottomSheet"
+        }
+    }
