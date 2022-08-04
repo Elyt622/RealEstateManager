@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.custom
+package com.openclassrooms.realestatemanager.ui.fragment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -26,7 +26,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ModalBottomSheet : BottomSheetDialogFragment() {
+class ModalBottomFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: ExploreFragmentBinding
 
@@ -85,7 +85,8 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
                     viewModel.getStartSoldDate(),
                     viewModel.getEndSoldDate()
                 )
-                setFragmentResult("requestSql", bundleOf("RefBundle" to queryString))
+                setFragmentResult("requestSqlToList", bundleOf("SqlListBundle" to queryString))
+                setFragmentResult("requestSqlToMap", bundleOf("SqlMapBundle" to queryString))
                 dismiss()
             }
 
@@ -113,7 +114,8 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
 
             buttonReset.setOnClickListener {
                 resetAllFields()
-                setFragmentResult("requestSql", bundleOf("RefBundle" to ""))
+                setFragmentResult("requestSqlToList", bundleOf("SqlListBundle" to ""))
+                setFragmentResult("requestSqlToMap", bundleOf("SqlMapBundle" to ""))
                 dismiss()
             }
 

@@ -10,14 +10,11 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.sqlite.db.SimpleSQLiteQuery
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.HomeFragmentBinding
 import com.openclassrooms.realestatemanager.event.LaunchActivityEvent
 import com.openclassrooms.realestatemanager.ui.activity.PropertyActivity
 import com.openclassrooms.realestatemanager.ui.adapter.PropertyRvAdapter
-import com.openclassrooms.realestatemanager.ui.custom.ModalBottomSheet
 import com.openclassrooms.realestatemanager.viewmodel.HomeViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -36,18 +33,14 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
 
-    private lateinit var bottomNavigationView: BottomNavigationView
-
-    private lateinit var viewPager: ViewPager2
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener("requestRef") { _, bundle ->
             val result = bundle.getInt("RefBundle")
             EventBus.getDefault().post(LaunchActivityEvent(result))
         }
-        setFragmentResultListener("requestSql") { _, bundle ->
-            val result = bundle.getString("RefBundle")
+        setFragmentResultListener("requestSqlToList") { _, bundle ->
+            val result = bundle.getString("SqlListBundle")
             if (result != null) {
                 getResultToFilter(result)
             }
@@ -57,10 +50,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View {
         binding = HomeFragmentBinding.inflate(layoutInflater)
-
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        viewPager = requireActivity().findViewById(R.id.viewpager)
-        bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation_view)
 
         return binding.root
     }
@@ -138,7 +128,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun configModalBottomSheet(){
-        val modalBottomSheet = ModalBottomSheet()
-        modalBottomSheet.show(parentFragmentManager, ModalBottomSheet.TAG)
+        val modalBottomFragment = ModalBottomFragment()
+        modalBottomFragment.show(parentFragmentManager, ModalBottomFragment.TAG)
     }
 }

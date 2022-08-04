@@ -12,7 +12,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -67,23 +69,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
         requestPermission()
-        var marker: Marker?
-        viewModel
-            .getAllProperties()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { properties ->
-                for (property in properties) {
-                    marker = googleMap.addMarker(
-                        MarkerOptions()
-                            .position(LatLng(property.latitude, property.longitude))
-                            .title(property.address)
-                            .snippet(property.type.name)
-                    )
-                    marker?.tag = property.ref
-                }
-            }
 
+        setMarkerOnMap()
         googleMap.setOnMarkerClickListener {
             val result = it.tag.toString().toInt()
             setFragmentResult("requestRef", bundleOf("RefBundle" to result))
@@ -117,6 +104,58 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION)
         )
+    }
+
+    private fun setMarkerOnMap() {
+        setAllMarkerOnMap()
+        setFragmentResultListener("requestSqlToMap") { _, bundle ->
+            googleMap.clear()
+            val result = bundle.getString("SqlMapBundle")
+            if (result != null) {
+                if (result.isNotEmpty()) {
+                    setMarkerWithFilterOnMap(result)
+                } else {
+                    setAllMarkerOnMap()
+                }
+            }
+        }
+    }
+
+    private fun setAllMarkerOnMap() {
+        var marker: Marker?
+        viewModel
+            .getAllProperties()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { properties ->
+                for (property in properties) {
+                    marker = googleMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(property.latitude, property.longitude))
+                            .title(property.address)
+                            .snippet(property.type.name)
+                    )
+                    marker?.tag = property.ref
+                }
+            }
+    }
+
+    private fun setMarkerWithFilterOnMap(result: String) {
+        var marker: Marker?
+        viewModel.getPropertiesWithFilter(SimpleSQLiteQuery(result))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { properties ->
+                for (property in properties) {
+                    marker = googleMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(property.latitude, property.longitude))
+                            .title(property.address)
+                            .snippet(property.type.name)
+                    )
+                    marker?.tag = property.ref
+                }
+            }
     }
 
     override fun onResume() {
