@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ProfileFragmentBinding
 import com.openclassrooms.realestatemanager.ui.activity.AddPropertyActivity
 import com.openclassrooms.realestatemanager.ui.activity.LoanSimulatorActivity
@@ -24,14 +22,11 @@ class ProfileFragment : Fragment() {
 
     private lateinit var binding: ProfileFragmentBinding
 
-    private lateinit var viewPager: ViewPager2
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = ProfileFragmentBinding.inflate(layoutInflater)
-        viewPager = requireActivity().findViewById(R.id.viewpager)
 
         return binding.root
     }
