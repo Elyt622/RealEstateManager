@@ -11,11 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.databinding.HomeFragmentBinding
 import com.openclassrooms.realestatemanager.event.LaunchActivityEvent
 import com.openclassrooms.realestatemanager.ui.activity.PropertyActivity
 import com.openclassrooms.realestatemanager.ui.adapter.PropertyRvAdapter
 import com.openclassrooms.realestatemanager.viewmodel.HomeViewModel
+import com.openclassrooms.realestatemanager.viewmodel.ViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -30,6 +32,8 @@ class HomeFragment : Fragment() {
     }
 
     private lateinit var viewModel: HomeViewModel
+
+    private lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var binding: HomeFragmentBinding
 
@@ -50,7 +54,9 @@ class HomeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View {
         binding = HomeFragmentBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        viewModelFactory = ViewModelFactory(App.database.propertyDao())
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
 
         return binding.root
     }
