@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.openclassrooms.realestatemanager.databinding.PropertiesRecyclerViewBinding
 import com.openclassrooms.realestatemanager.event.LaunchActivityEvent
 import com.openclassrooms.realestatemanager.model.Property
-import com.openclassrooms.realestatemanager.utils.Utils
 import org.greenrobot.eventbus.EventBus
 
 class PropertyRvAdapter(private val dataSet: List<Property>)
@@ -36,7 +35,7 @@ class PropertyRvAdapter(private val dataSet: List<Property>)
         val priceString = """${dataSet[position].price} $"""
         viewHolder.price.text = priceString
 
-        viewHolder.address.text = Utils.truncateString(dataSet[position].address, 16)
+        viewHolder.address.text = dataSet[position].address
         viewHolder.typeProperty.text = dataSet[position].type.name
 
         viewHolder.beds.text = dataSet[position].numberBed.toString()
