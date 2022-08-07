@@ -47,16 +47,6 @@ object Utils {
         return wifi.isWifiEnabled
     }
 
-    fun truncateString(string : String, nb : Int) : String {
-        val phrase: String?
-        if(string.length > nb){
-            phrase = string.substring(0, nb) + "..."
-        } else {
-            return string
-        }
-        return phrase
-    }
-
     fun convertDateToString(date: Date): String {
         val dateFormat: DateFormat = SimpleDateFormat(" dd/MM/yyyy", Locale.FRANCE)
         return dateFormat.format(date)
