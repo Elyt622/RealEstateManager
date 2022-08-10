@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
@@ -24,13 +23,15 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.databinding.FragmentMapBinding
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.MapViewModel
+import com.openclassrooms.realestatemanager.viewmodel.ViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class MapFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     companion object {
         fun newInstance() = MapFragment()
@@ -39,6 +40,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentMapBinding
 
     private lateinit var viewModel: MapViewModel
+
+    private lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewPager: ViewPager2
 
@@ -54,7 +57,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[MapViewModel::class.java]
+
+        viewModelFactory = ViewModelFactory(propertyDao)
+        viewModel = ViewModelProvider(this, viewModelFactory)[MapViewModel::class.java]
+
         val map = childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment?
         viewPager = requireActivity().findViewById(R.id.viewpager)
         if(ContextCompat.checkSelfPermission(

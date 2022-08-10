@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -26,6 +25,7 @@ import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterDetails
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapter
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
+import com.openclassrooms.realestatemanager.viewmodel.ViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -33,9 +33,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class PropertyFragment : Fragment() {
+class PropertyFragment : BaseFragment() {
 
     private lateinit var viewModel: PropertyViewModel
+
+    private lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var binding: FragmentPropertyBinding
 
@@ -52,6 +54,8 @@ class PropertyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPropertyBinding.inflate(layoutInflater)
+
+        viewModelFactory = ViewModelFactory(propertyDao)
         viewModel = ViewModelProvider(this)[PropertyViewModel::class.java]
 
         // MapView

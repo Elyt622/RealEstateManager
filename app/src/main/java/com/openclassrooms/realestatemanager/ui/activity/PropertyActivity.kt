@@ -18,6 +18,7 @@ import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterDetails
 import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapter
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.PropertyViewModel
+import com.openclassrooms.realestatemanager.viewmodel.ViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -25,6 +26,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class PropertyActivity : BaseActivity() {
 
     private lateinit var viewModel: PropertyViewModel
+
+    private lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var binding: ActivityPropertyBinding
 
@@ -37,7 +40,9 @@ class PropertyActivity : BaseActivity() {
         binding = ActivityPropertyBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[PropertyViewModel::class.java]
+
+        viewModelFactory = ViewModelFactory(propertyDao)
+        viewModel = ViewModelProvider(this, viewModelFactory)[PropertyViewModel::class.java]
 
         // MapView
         map = binding.map

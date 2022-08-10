@@ -10,21 +10,9 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import java.util.*
 
-class ExploreViewModel : ViewModel() {
-
-    private val propertyDao = App.database.propertyDao()
-
-    private var types: MutableList<Type> = mutableListOf()
-
-    private var options: MutableList<Option> = mutableListOf()
-
-    private var status: MutableList<Status> = mutableListOf()
-
-    private var startEntryDate: Date? = null
-
-    private var endEntryDate: Date? = null
-
-    private var startSoldDate: Date? = null
+class ExploreViewModel(
+    private val propertyDao: PropertyDao
+) : ViewModel() {
 
     var types: MutableList<Type> = mutableListOf()
 

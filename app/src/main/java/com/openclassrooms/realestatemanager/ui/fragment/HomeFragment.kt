@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.databinding.HomeFragmentBinding
 import com.openclassrooms.realestatemanager.event.LaunchActivityEvent
 import com.openclassrooms.realestatemanager.ui.activity.PropertyActivity
@@ -25,7 +23,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -54,8 +52,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View {
         binding = HomeFragmentBinding.inflate(layoutInflater)
-        viewModelFactory = ViewModelFactory(App.database.propertyDao())
-
+        viewModelFactory = ViewModelFactory(propertyDao)
         viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
 
         return binding.root

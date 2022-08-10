@@ -12,6 +12,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.databinding.ExploreFragmentBinding
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Status
@@ -20,6 +21,7 @@ import com.openclassrooms.realestatemanager.ui.adapter.OptionRvAdapterExploreFra
 import com.openclassrooms.realestatemanager.ui.adapter.StatusRvAdapterExploreFragment
 import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterExploreFragment
 import com.openclassrooms.realestatemanager.viewmodel.ExploreViewModel
+import com.openclassrooms.realestatemanager.viewmodel.ViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -29,6 +31,8 @@ import java.util.*
 class ModalBottomFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: ExploreFragmentBinding
+
+    private lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: ExploreViewModel
 
@@ -49,7 +53,9 @@ class ModalBottomFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[ExploreViewModel::class.java]
+
+        viewModelFactory = ViewModelFactory(App.database.propertyDao())
+        viewModel = ViewModelProvider(this, viewModelFactory)[ExploreViewModel::class.java]
 
         configTypeRv()
         configOptionRv()

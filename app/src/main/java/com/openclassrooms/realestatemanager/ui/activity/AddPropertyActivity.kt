@@ -37,6 +37,7 @@ import com.openclassrooms.realestatemanager.ui.adapter.PhotoRvAdapterInAddProper
 import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterAddProperty
 import com.openclassrooms.realestatemanager.utils.URIPathHelper
 import com.openclassrooms.realestatemanager.viewmodel.AddPropertyViewModel
+import com.openclassrooms.realestatemanager.viewmodel.ViewModelFactory
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import java.io.File
@@ -48,6 +49,8 @@ import java.util.*
 class AddPropertyActivity : BaseActivity() {
 
     private lateinit var viewModel: AddPropertyViewModel
+
+    private lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var binding: ActivityAddPropertyBinding
 
@@ -68,7 +71,8 @@ class AddPropertyActivity : BaseActivity() {
         setContentView(binding.root)
         dir = getOutputDirectory()
 
-        viewModel = ViewModelProvider(this)[AddPropertyViewModel::class.java]
+        viewModelFactory = ViewModelFactory(propertyDao)
+        viewModel = ViewModelProvider(this, viewModelFactory)[AddPropertyViewModel::class.java]
 
         // Initialize the SDK
         Places.initialize(applicationContext, resources.getString(R.string.maps_api_key))

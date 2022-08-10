@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.viewmodel
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
-import com.openclassrooms.realestatemanager.app.App
+import com.openclassrooms.realestatemanager.database.dao.PropertyDao
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Type
@@ -12,9 +12,9 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 
-class AddPropertyViewModel : ViewModel() {
-
-    private val propertyDao = App.database.propertyDao()
+class AddPropertyViewModel(
+    private val propertyDao: PropertyDao
+) : ViewModel() {
 
     var type: Type? = null
 

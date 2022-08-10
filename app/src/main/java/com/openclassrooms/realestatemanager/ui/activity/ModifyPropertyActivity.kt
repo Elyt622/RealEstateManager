@@ -39,6 +39,7 @@ import com.openclassrooms.realestatemanager.ui.adapter.TypeRvAdapterModifyProper
 import com.openclassrooms.realestatemanager.utils.URIPathHelper
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.ModifyPropertyViewModel
+import com.openclassrooms.realestatemanager.viewmodel.ViewModelFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.addTo
@@ -57,6 +58,8 @@ class ModifyPropertyActivity : BaseActivity() {
     private lateinit var binding: ActivityModifyPropertyBinding
 
     private lateinit var viewModel: ModifyPropertyViewModel
+
+    private lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var placesClient: PlacesClient
 
@@ -81,7 +84,8 @@ class ModifyPropertyActivity : BaseActivity() {
         binding = ActivityModifyPropertyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[ModifyPropertyViewModel::class.java]
+        viewModelFactory = ViewModelFactory(propertyDao)
+        viewModel = ViewModelProvider(this, viewModelFactory)[ModifyPropertyViewModel::class.java]
 
         val ref = intent.getIntExtra("REF", -1)
 
