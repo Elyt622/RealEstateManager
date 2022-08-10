@@ -23,7 +23,7 @@ interface PropertyDao {
     fun loadPropertyWithRef(ref: Int) : Observable<Property>
 
     @Update
-    fun updatePropertyWithRef(property: Property) : Completable
+    fun updateProperty(property: Property) : Completable
 
     @Query("SELECT DISTINCT addressArea FROM Property")
     fun loadAllAddressArea() : Single<List<String>>

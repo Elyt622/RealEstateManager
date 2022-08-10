@@ -1,12 +1,10 @@
 package com.openclassrooms.realestatemanager.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.openclassrooms.realestatemanager.app.App
+import com.openclassrooms.realestatemanager.database.dao.PropertyDao
 import com.openclassrooms.realestatemanager.model.Option
-import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Status
 import com.openclassrooms.realestatemanager.model.Type
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import java.util.*
 
@@ -56,10 +54,6 @@ class ExploreViewModel(
             }
         }
         return statusList
-    }
-
-    fun getAllProperties(): Observable<List<Property>> {
-        return propertyDao.loadAllProperty()
     }
 
     fun loadAllAddressArea() : Single<List<String>> {

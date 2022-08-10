@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class UtilsTests {
+
     @Test
     fun convertDollarToEuro_isCorrect() {
         val value = 100
@@ -23,7 +24,7 @@ class UtilsTests {
 
     @Test
     fun todayDate_isCorrect() {
-        val dateFormat: DateFormat = SimpleDateFormat(" dd/MM/yyyy", Locale.FRANCE)
+        val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE)
         val todayDate = dateFormat.format(Date())
 
         Assert.assertEquals(todayDate, Utils.todayDate)
