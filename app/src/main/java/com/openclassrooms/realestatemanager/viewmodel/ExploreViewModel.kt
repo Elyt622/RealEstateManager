@@ -137,9 +137,10 @@ class ExploreViewModel(
         if(stringBuilder.isNotEmpty()){
             val lastIdx = stringBuilder.lastIndexOf(" AND")
             stringBuilder = StringBuilder(stringBuilder).replace(lastIdx, lastIdx+4, ";")
+            stringQuery = "SELECT * FROM Property WHERE $stringBuilder"
+        } else {
+            stringQuery = ""
         }
-
-        stringQuery = "SELECT * FROM Property WHERE $stringBuilder"
 
         return stringQuery
     }
