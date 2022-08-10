@@ -30,6 +30,7 @@ class MainActivity : BaseActivity() {
         with(binding) {
             viewpager.adapter = pagerAdapter
             viewpager.isUserInputEnabled = false
+            viewpager.offscreenPageLimit = 2
 
             viewpager.registerOnPageChangeCallback(
                 object : ViewPager2.OnPageChangeCallback() {
