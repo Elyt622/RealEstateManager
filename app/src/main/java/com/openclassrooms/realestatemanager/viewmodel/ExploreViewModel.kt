@@ -26,49 +26,19 @@ class ExploreViewModel : ViewModel() {
 
     private var startSoldDate: Date? = null
 
-    private var endSoldDate: Date? = null
+    var types: MutableList<Type> = mutableListOf()
 
-    fun getStartEntryDate() = this.startEntryDate
+    var options: MutableList<Option> = mutableListOf()
 
-    fun getEndEntryDate() = this.endEntryDate
+    var status: MutableList<Status> = mutableListOf()
 
-    fun getStartSoldDate() = this.startSoldDate
+    var startEntryDate: Date? = null
 
-    fun getEndSoldDate() = this.endSoldDate
+    var endEntryDate: Date? = null
 
-    fun setStartEntryDate(startEntryDate: Date?) {
-        this.startEntryDate = startEntryDate
-    }
+    var startSoldDate: Date? = null
 
-    fun setEndEntryDate(endEntryDate: Date?) {
-        this.endEntryDate = endEntryDate
-    }
-
-    fun setStartSoldDate(startSoldDate: Date?) {
-        this.startSoldDate = startSoldDate
-    }
-
-    fun setEndSoldDate(endSoldDate: Date?) {
-        this.endSoldDate = endSoldDate
-    }
-
-    fun getTypes() = this.types
-
-    fun setTypes(types: MutableList<Type>) {
-        this.types = types
-    }
-
-    fun getOptions() = this.options
-
-    fun setOptions(options: MutableList<Option>) {
-        this.options = options
-    }
-
-    fun getStatus() = this.status
-
-    fun setStatus(status: MutableList<Status>) {
-        this.status = status
-    }
+    var endSoldDate: Date? = null
 
     fun getTypeWithPositionInRV(elements: BooleanArray): MutableList<Type> {
         val types: MutableList<Type> = mutableListOf()

@@ -128,7 +128,7 @@ class ModifyPropertyActivity : BaseActivity() {
 
                 viewModel.updateProperty(
                     ref,
-                    viewModel.getType(),
+                    viewModel.type,
                     edittextPrice.text.toString().toIntOrNull(),
                     edittextSurface.text.toString().toFloatOrNull(),
                     edittextRooms.text.toString().toIntOrNull(),
@@ -139,10 +139,10 @@ class ModifyPropertyActivity : BaseActivity() {
                     mutableListDescriptionPhoto,
                     edittextAddress.text.toString(),
                     getAddressArea(latitude, longitude),
-                    viewModel.getOptions(),
+                    viewModel.options,
                     Status.values()[spinnerStatus.selectedItemPosition],
                     entryDate,
-                    viewModel.getSoldDate(),
+                    viewModel.soldDate,
                     edittextAgent.text.toString(),
                     latitude,
                     longitude
@@ -178,19 +178,19 @@ class ModifyPropertyActivity : BaseActivity() {
                         textviewEntryDate.text = Utils.convertDateToString(it.entryDate)
                         mutableListOfPhoto = it.photos
                         mutableListDescriptionPhoto = it.descriptionPhoto
-                        viewModel.setType(it.type)
-                        viewModel.setOptions(it.options)
+                        viewModel.type = it.type
+                        viewModel.options = it.options
                         spinnerStatus.setSelection(it.status.ordinal)
                         longitude = it.longitude
                         latitude = it.latitude
                         entryDate = it.entryDate
-                        viewModel.setSoldDate(it.soldDate)
+                        viewModel.soldDate = it.soldDate
 
-                        if (viewModel.getSoldDate() != null) {
+                        if (viewModel.soldDate != null) {
                             textviewSoldDate.isGone = false
                             textviewStaticSoldDate.isGone = false
                             textviewSoldDate.text =
-                                Utils.convertDateToString(viewModel.getSoldDate()!!)
+                                Utils.convertDateToString(viewModel.soldDate!!)
                         } else {
                             textviewSoldDate.isGone = true
                             textviewStaticSoldDate.isGone = true

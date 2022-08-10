@@ -54,7 +54,7 @@ class StatusRvAdapterExploreFragment (
         holder.cardView.setOnClickListener {
             clickedItems[position] = !clickedItems[position]
             notifyItemChanged(position)
-            viewModel.setStatus(viewModel.getStatusWithPositionInRV(clickedItems))
+            viewModel.status = viewModel.getStatusWithPositionInRV(clickedItems)
         }
     }
 

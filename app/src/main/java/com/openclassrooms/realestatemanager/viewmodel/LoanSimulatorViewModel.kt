@@ -7,44 +7,22 @@ import kotlin.math.pow
 
 class LoanSimulatorViewModel : ViewModel() {
 
-    private var duration : Int = 15
+    var duration : Int = 15
 
-    private var interestRate : Double = 1.65
+    var interestRate : Double = 1.65
 
-    private var insuranceRate : Double = 0.34
+    var insuranceRate : Double = 0.34
 
-    private var insuranceGlobalToPay : Double = 0.0
+    var insuranceGlobalToPay : Double = 0.0
 
-    private var interestGlobalToPay : Double = 0.0
+    var interestGlobalToPay : Double = 0.0
 
-    fun getDuration() = duration
+    var interestMonthlyToPay : Double = 0.0
 
-    fun getInterestRate() = interestRate
+    var insuranceMonthlyToPay : Double = 0.0
 
-    fun getInsuranceRate() = insuranceRate
-
-    fun getInsuranceGlobalToPay() = insuranceGlobalToPay
-
-    fun getInterestGlobalToPay() = interestGlobalToPay
-
-    fun setDuration(duration: Int){
-        this.duration = duration
-    }
-
-    private fun setInterestRate(interestRate: Double) {
-        this.interestRate = interestRate
-    }
-
-    private fun setInsuranceRate(insuranceRate: Double) {
-        this.insuranceRate = insuranceRate
-    }
-
-    private fun setInsuranceGlobalToPay(insuranceGlobalToPay: Double) {
-        this.insuranceGlobalToPay = insuranceGlobalToPay
-    }
-
-    private fun setInterestGlobalToPay(interestGlobalToPay: Double) {
-        this.interestGlobalToPay = interestGlobalToPay
+    init {
+        setDefaultData(duration, interestRate, insuranceRate)
     }
 
     fun getCalculationMortgagePayment(
@@ -54,16 +32,17 @@ class LoanSimulatorViewModel : ViewModel() {
         df.roundingMode = RoundingMode.UP
 
         val insuranceGlobalToPay = (insuranceRate / 100.0 * loan * duration)
-        setInsuranceGlobalToPay(insuranceGlobalToPay)
+        this.insuranceGlobalToPay = insuranceGlobalToPay
 
         val monthlyToPay =
             ((loan * interestRate / 100) / 12) / (1 - (1 + (interestRate / 100 / 12)).pow(-duration * 12))
         val interestGlobalToPay = ((12.0 * duration * monthlyToPay) - loan)
-        setInterestGlobalToPay(interestGlobalToPay)
+        this.interestGlobalToPay = interestGlobalToPay
 
-        val insuranceMonthlyToPay = getInsuranceGlobalToPay() / (duration * 12)
+        insuranceMonthlyToPay = insuranceGlobalToPay / (duration * 12)
 
-        return df.format(monthlyToPay + insuranceMonthlyToPay)
+        interestMonthlyToPay = monthlyToPay + insuranceMonthlyToPay
+        return df.format(interestMonthlyToPay)
     }
 
     fun setDefaultData(
@@ -71,9 +50,9 @@ class LoanSimulatorViewModel : ViewModel() {
         interestRate: Double?,
         insuranceRate: Double?
     ) {
-        if (duration == null) setDuration(15) else setDuration(duration)
-        if (interestRate == null) setInterestRate(1.65) else setInterestRate(interestRate)
-        if (insuranceRate == null) setInsuranceRate(0.34) else setInsuranceRate(insuranceRate)
+        if (duration == null) this.duration = 15 else this.duration = duration
+        if (interestRate == null) this.interestRate = 1.65 else this.interestRate = interestRate
+        if (insuranceRate == null) this.insuranceRate = 0.34 else this.insuranceRate = insuranceRate
     }
 
 }

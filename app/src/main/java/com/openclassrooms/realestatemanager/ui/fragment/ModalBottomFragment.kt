@@ -67,7 +67,7 @@ class ModalBottomFragment : BottomSheetDialogFragment() {
                 val queryString =
                 viewModel.applyAllFilters(
                     autocompleteSearch.text.toString(),
-                    viewModel.getTypes(),
+                    viewModel.types,
                     editTextStartPhotos.text.toString().toIntOrNull(),
                     editTextEndPhotos.text.toString().toIntOrNull(),
                     editTextStartPrice.text.toString().toIntOrNull(),
@@ -78,12 +78,12 @@ class ModalBottomFragment : BottomSheetDialogFragment() {
                     editTextEndBeds.text.toString().toIntOrNull(),
                     editTextStartBathrooms.text.toString().toIntOrNull(),
                     editTextEndBathrooms.text.toString().toIntOrNull(),
-                    viewModel.getOptions(),
-                    viewModel.getStatus(),
-                    viewModel.getStartEntryDate(),
-                    viewModel.getEndEntryDate(),
-                    viewModel.getStartSoldDate(),
-                    viewModel.getEndSoldDate()
+                    viewModel.options,
+                    viewModel.status,
+                    viewModel.startEntryDate,
+                    viewModel.endEntryDate,
+                    viewModel.startSoldDate,
+                    viewModel.endSoldDate
                 )
                 setFragmentResult("requestSqlToList", bundleOf("SqlListBundle" to queryString))
                 setFragmentResult("requestSqlToMap", bundleOf("SqlMapBundle" to queryString))
@@ -157,13 +157,13 @@ class ModalBottomFragment : BottomSheetDialogFragment() {
             editTextEndSoldDate.setText("")
         }
         with(viewModel) {
-            setTypes(mutableListOf())
-            setOptions(mutableListOf())
-            setStatus(mutableListOf())
-            setStartEntryDate(null)
-            setEndEntryDate(null)
-            setStartSoldDate(null)
-            setEndSoldDate(null)
+            types = mutableListOf()
+            options = mutableListOf()
+            status = mutableListOf()
+            startEntryDate = null
+            endEntryDate = null
+            startSoldDate = null
+            endSoldDate = null
         }
         configTypeRv()
         configOptionRv()
@@ -187,19 +187,19 @@ class ModalBottomFragment : BottomSheetDialogFragment() {
             when(editText){
                 editTextStartEntryDate -> {
                     editTextStartEntryDate.setText(sdf.format(myCalendar.time))
-                    viewModel.setStartEntryDate(myCalendar.time)
+                    viewModel.startEntryDate = myCalendar.time
                 }
                 editTextEndEntryDate -> {
                     editTextEndEntryDate.setText(sdf.format(myCalendar.time))
-                    viewModel.setEndEntryDate(myCalendar.time)
+                    viewModel.endEntryDate = myCalendar.time
                 }
                 editTextStartSoldDate -> {
                     editTextStartSoldDate.setText(sdf.format(myCalendar.time))
-                    viewModel.setStartSoldDate(myCalendar.time)
+                    viewModel.startSoldDate = myCalendar.time
                 }
                 editTextEndSoldDate -> {
                     editTextEndSoldDate.setText(sdf.format(myCalendar.time))
-                    viewModel.setEndSoldDate(myCalendar.time)
+                    viewModel.endSoldDate = myCalendar.time
                 }
             }
         }

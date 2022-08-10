@@ -44,7 +44,7 @@ class TypeRvAdapterAddProperty(
         }
 
         holder.cardView.setOnClickListener {
-            viewModel.setType(dataSet[position])
+            viewModel.type = dataSet[position]
             if (clickedItem != -1) {
                 notifyItemChanged(clickedItem)
             }

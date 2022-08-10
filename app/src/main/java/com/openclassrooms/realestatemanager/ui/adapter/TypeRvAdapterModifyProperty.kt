@@ -19,7 +19,7 @@ class TypeRvAdapterModifyProperty(
     private val dataSet: Array<Type>
     ) : RecyclerView.Adapter<TypeRvAdapterModifyProperty.ViewHolder>() {
 
-    private var clickedItem = viewModel.getType().ordinal
+    private var clickedItem = viewModel.type.ordinal
 
     private lateinit var context: Context
 
@@ -45,7 +45,7 @@ class TypeRvAdapterModifyProperty(
             }
         }
         holder.cardView.setOnClickListener {
-            viewModel.setType(dataSet[position])
+            viewModel.type = dataSet[position]
             if (clickedItem != -1) {
                 notifyItemChanged(clickedItem)
             }

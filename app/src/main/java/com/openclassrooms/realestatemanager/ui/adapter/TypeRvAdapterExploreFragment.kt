@@ -50,7 +50,7 @@ class TypeRvAdapterExploreFragment (
         holder.cardView.setOnClickListener {
             clickedItems[position] = !clickedItems[position]
             notifyItemChanged(position)
-            viewModel.setTypes(viewModel.getTypeWithPositionInRV(clickedItems))
+            viewModel.types = viewModel.getTypeWithPositionInRV(clickedItems)
         }
     }
 

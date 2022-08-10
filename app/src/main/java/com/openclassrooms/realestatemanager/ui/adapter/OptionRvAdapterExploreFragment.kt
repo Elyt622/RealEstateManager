@@ -57,7 +57,7 @@ class OptionRvAdapterExploreFragment (
         holder.cardView.setOnClickListener {
             clickedItems[position] = !clickedItems[position]
             notifyItemChanged(position)
-            viewModel.setOptions(viewModel.getOptionsWithPositionInRV(clickedItems))
+            viewModel.options = viewModel.getOptionsWithPositionInRV(clickedItems)
         }
     }
 

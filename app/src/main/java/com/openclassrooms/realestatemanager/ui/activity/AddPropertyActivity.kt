@@ -121,7 +121,7 @@ class AddPropertyActivity : BaseActivity() {
                     place?.latLng?.latitude,
                     place?.latLng?.longitude,
                     Date(),
-                    viewModel.getOptions(),
+                    viewModel.options,
                     editTextAgentName.text.toString()
                 ).subscribeBy (
                     onComplete = {

@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.viewmodel
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
-import com.openclassrooms.realestatemanager.app.App
+import com.openclassrooms.realestatemanager.database.dao.PropertyDao
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Status
@@ -13,33 +13,15 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 
-class ModifyPropertyViewModel : ViewModel() {
+data class ModifyPropertyViewModel(
+    private val propertyDao: PropertyDao
+) : ViewModel() {
 
-    private val propertyDao = App.database.propertyDao()
+    lateinit var type: Type
 
-    private lateinit var type: Type
+    var soldDate: Date? = null
 
-    private var soldDate: Date? = null
-
-    private var options: MutableList<Option>? = null
-
-    fun getType() = type
-
-    fun setType(type: Type){
-        this.type = type
-    }
-
-    fun getOptions() = options
-
-    fun setOptions(options: MutableList<Option>?){
-        this.options = options
-    }
-
-    fun getSoldDate() = soldDate
-
-    fun setSoldDate(soldDate: Date?) {
-        this.soldDate = soldDate
-    }
+    var options: MutableList<Option>? = null
 
     fun getPropertyWithRef(ref: Int): Observable<Property> {
         return propertyDao.loadPropertyWithRef(ref)
@@ -121,7 +103,7 @@ class ModifyPropertyViewModel : ViewModel() {
                 }
             }
             .flatMapCompletable {
-                propertyDao.updatePropertyWithRef(it).subscribeOn(Schedulers.io())
+                propertyDao.updateProperty(it).subscribeOn(Schedulers.io())
             }
             .observeOn(AndroidSchedulers.mainThread())
 

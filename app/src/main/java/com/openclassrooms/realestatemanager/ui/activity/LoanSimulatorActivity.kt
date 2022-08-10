@@ -27,6 +27,9 @@ class LoanSimulatorActivity : BaseActivity() {
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.UP
 
+        binding.textViewDurationLoan.text = viewModel.duration.toString()
+        binding.textViewMonthlyPayment.text = df.format(viewModel.interestMonthlyToPay)
+
         with(binding) {
             buttonCalculate.setOnClickListener {
 
@@ -47,20 +50,20 @@ class LoanSimulatorActivity : BaseActivity() {
                     textViewMonthlyPayment.text = viewModel.getCalculationMortgagePayment(
                         editTextAmountLoan.text.toString().toDouble()
                     )
-                    textViewCreditCost.text = df.format(viewModel.getInterestGlobalToPay())
-                    textViewInsuranceCost.text = df.format(viewModel.getInsuranceGlobalToPay())
+                    textViewCreditCost.text = df.format(viewModel.interestGlobalToPay)
+                    textViewInsuranceCost.text = df.format(viewModel.insuranceGlobalToPay)
                     linearLayoutCreditCost.isGone = false
                 }
             }
 
             imageButtonAddYears.setOnClickListener {
-                viewModel.setDuration(viewModel.getDuration() + 1)
-                textViewDurationLoan.text = viewModel.getDuration().toString()
+                viewModel.duration = viewModel.duration + 1
+                textViewDurationLoan.text = viewModel.duration.toString()
             }
 
             imageButtonRemoveYears.setOnClickListener {
-                viewModel.setDuration(viewModel.getDuration() - 1)
-                textViewDurationLoan.text = viewModel.getDuration().toString()
+                viewModel.duration = viewModel.duration - 1
+                textViewDurationLoan.text = viewModel.duration.toString()
             }
         }
     }

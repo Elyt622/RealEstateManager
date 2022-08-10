@@ -23,7 +23,7 @@ class OptionRvAdapterModifyProperty(
 
     private lateinit var context: Context
 
-    private var clickedItems: BooleanArray = viewModel.getBooleanArrayWithListOptions(viewModel.getOptions())
+    private var clickedItems: BooleanArray = viewModel.getBooleanArrayWithListOptions(viewModel.options)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
     : ViewHolder {
@@ -54,7 +54,7 @@ class OptionRvAdapterModifyProperty(
 
         holder.cardView.setOnClickListener {
             clickedItems[position] = !clickedItems[position]
-            viewModel.setOptions(viewModel.getOptionsWithPositionInRV(clickedItems))
+            viewModel.options = viewModel.getOptionsWithPositionInRV(clickedItems)
             notifyItemChanged(position)
         }
     }

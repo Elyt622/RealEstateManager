@@ -16,21 +16,9 @@ class AddPropertyViewModel : ViewModel() {
 
     private val propertyDao = App.database.propertyDao()
 
-    private var type: Type? = null
+    var type: Type? = null
 
-    private var options: MutableList<Option>? = null
-
-    private fun getType() = type
-
-    fun setType(type: Type){
-        this.type = type
-    }
-
-    fun getOptions() = options
-
-    fun setOptions(options: MutableList<Option>?){
-        this.options = options
-    }
+    var options: MutableList<Option>? = null
 
     fun getOptionsWithPositionInRV(elements: BooleanArray) : MutableList<Option> {
         val options : MutableList<Option> = mutableListOf()
@@ -62,7 +50,7 @@ class AddPropertyViewModel : ViewModel() {
         Observable.just(Property())
             .map {
                 if (photos.size == 0) throw Exception("PHOTO_IS_EMPTY")
-                if (getType() == null) throw Exception("NO_SELECTED_TYPE")
+                if (type == null) throw Exception("NO_SELECTED_TYPE")
                 if (numberRoom == null) throw Exception("ROOM_IS_EMPTY")
                 if (numberBed == null) throw Exception("BED_IS_EMPTY")
                 if (numberBathroom == null) throw Exception("BATHROOM_IS_EMPTY")

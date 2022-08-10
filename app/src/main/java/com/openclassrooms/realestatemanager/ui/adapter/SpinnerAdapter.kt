@@ -20,12 +20,12 @@ class SpinnerAdapter(
         calendar.time = Date()
         when(p2){
             Status.ON_SALE.ordinal -> {
-                viewModel.setSoldDate(null)
+                viewModel.soldDate = null
             }
             Status.SOLD.ordinal -> {
-                if(viewModel.getSoldDate() != null) {
+                if(viewModel.soldDate != null) {
                     // TODO When user change exist date by another
-                } else if (viewModel.getSoldDate() == null){
+                } else if (viewModel.soldDate == null){
                     DatePickerDialog(
                         context,
                         this,
@@ -43,11 +43,11 @@ class SpinnerAdapter(
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        viewModel.setSoldDate(
+        viewModel.soldDate =
             GregorianCalendar(
                 year,
                 month - 1,
                 dayOfMonth
-            ).time)
+            ).time
     }
 }
