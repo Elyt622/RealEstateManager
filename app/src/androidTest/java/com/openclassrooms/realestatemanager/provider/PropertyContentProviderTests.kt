@@ -42,7 +42,7 @@ class PropertyContentProviderTests {
             ), null, null, null, null
         )
         assertThat(cursor, notNullValue())
-        assertThat(cursor?.count, `is`(8))
+        assertThat(cursor?.count, `is`(7))
         cursor?.close()
     }
 }
