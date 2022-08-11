@@ -56,7 +56,7 @@ class PropertyFragment : BaseFragment() {
         binding = FragmentPropertyBinding.inflate(layoutInflater)
 
         viewModelFactory = ViewModelFactory(propertyDao)
-        viewModel = ViewModelProvider(this)[PropertyViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[PropertyViewModel::class.java]
 
         // MapView
         map = binding.map
