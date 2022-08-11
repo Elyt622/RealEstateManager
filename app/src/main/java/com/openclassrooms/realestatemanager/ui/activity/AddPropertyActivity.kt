@@ -222,7 +222,8 @@ class AddPropertyActivity : BaseActivity() {
 
     private fun getAddressArea(latitude: Double, longitude: Double) : String{
         val geocoder = Geocoder(this, Locale.US)
-        return geocoder.getFromLocation(latitude, longitude, 1)[0].subLocality
+        val stringArea = geocoder.getFromLocation(latitude, longitude, 1)[0].subLocality.uppercase()
+        return stringArea.ifEmpty { "NOT SPECIFIED" }
     }
 
     private fun startAutocompleteIntent() {
