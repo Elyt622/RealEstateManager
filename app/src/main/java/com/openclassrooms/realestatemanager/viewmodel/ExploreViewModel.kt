@@ -60,7 +60,7 @@ class ExploreViewModel(
         return propertyDao.loadAllAddressArea()
     }
 
-    private fun <T> getQueryForSelect(list: List<T>): String{
+    fun <T> getQueryForSelect(list: List<T>): String{
         val stringBuilder = StringBuilder()
         stringBuilder.append("(")
         for (element in list) {
@@ -77,7 +77,7 @@ class ExploreViewModel(
         return stringBuilder.toString()
     }
 
-    private fun <T> getQueryForSelectOptions(list: List<T>): String{
+    fun <T> getQueryForSelectOptions(list: List<T>): String{
         val stringBuilder = StringBuilder()
         for (element in list) {
             if (list.size > 1) {
