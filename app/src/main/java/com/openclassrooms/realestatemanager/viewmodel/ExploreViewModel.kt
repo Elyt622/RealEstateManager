@@ -132,11 +132,11 @@ class ExploreViewModel(
         if(startEntryDate != null) stringBuilder.append("entryDate >= ${startEntryDate.time} AND ")
         if(endEntryDate != null) stringBuilder.append("entryDate <= ${endEntryDate.time} AND ")
         if(startSoldDate != null) stringBuilder.append("soldDate >= ${startSoldDate.time} AND ")
-        if(endSoldDate != null) stringBuilder.append("soldDate <= ${endSoldDate.time} AND")
+        if(endSoldDate != null) stringBuilder.append("soldDate <= ${endSoldDate.time} AND ")
 
         if(stringBuilder.isNotEmpty()){
-            val lastIdx = stringBuilder.lastIndexOf(" AND")
-            stringBuilder = StringBuilder(stringBuilder).replace(lastIdx, lastIdx+4, ";")
+            val lastIdx = stringBuilder.lastIndexOf(" AND ")
+            stringBuilder = StringBuilder(stringBuilder).replace(lastIdx, lastIdx+5, ";")
             stringQuery = "SELECT * FROM Property WHERE $stringBuilder"
         } else {
             stringQuery = ""

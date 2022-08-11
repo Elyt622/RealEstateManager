@@ -58,6 +58,29 @@ class ExploreViewModelTests {
 
     @Test
     fun applyAllFiltersTest() {
-        //TODO
+        val expectedString = "SELECT * FROM Property WHERE addressArea IS \"MANHATTAN\" AND type IN (\"APARTMENT\") AND price >= 10000;"
+
+        val testValue = viewModel.applyAllFilters(
+            "MANHATTAN",
+            listOf(Type.APARTMENT),
+            null,
+            null,
+            10000,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            listOf(),
+            listOf(),
+            null,
+            null,
+            null,
+            null
+        )
+
+        Assert.assertEquals(testValue, expectedString)
     }
 }
