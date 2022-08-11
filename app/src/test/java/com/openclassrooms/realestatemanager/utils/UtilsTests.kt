@@ -9,21 +9,21 @@ import java.util.*
 class UtilsTests {
 
     @Test
-    fun convertDollarToEuro_isCorrect() {
+    fun convertDollarToEuroTest() {
         val value = 100
         val expectedValue = 98
         Assert.assertEquals(expectedValue, Utils.convertDollarToEuro(value))
     }
 
     @Test
-    fun convertEuroToDollar_isCorrect() {
+    fun convertEuroToDollarTest() {
         val value = 98
         val expectedValue = 100
         Assert.assertEquals(expectedValue, Utils.convertEuroToDollar(value))
     }
 
     @Test
-    fun todayDate_isCorrect() {
+    fun todayDateTest() {
         val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE)
         val todayDate = dateFormat.format(Date())
 
@@ -31,7 +31,7 @@ class UtilsTests {
     }
 
     @Test
-    fun convertDateToString_isCorrect() {
+    fun convertDateToStringTest() {
         val formatter = SimpleDateFormat("dd/MM/yyyy")
         val expectedDate = "06/08/2022"
         val date = formatter.parse(expectedDate)

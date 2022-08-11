@@ -19,7 +19,6 @@ class LoanSimulatorViewModelTests {
         val loanValue = 100000.0
         viewModel.interestRate = 1.65
         viewModel.insuranceRate = 0.34
-
         val expectedGlobalInsurance = 5100.0
         val expectedGlobalInterest = 12953.333052534188
         val expectedMonthlyInsurance = 28.333333333333332
