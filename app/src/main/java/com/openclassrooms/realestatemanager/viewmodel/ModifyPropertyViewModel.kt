@@ -7,7 +7,6 @@ import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Status
 import com.openclassrooms.realestatemanager.model.Type
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -105,6 +104,4 @@ data class ModifyPropertyViewModel(
             .flatMapCompletable {
                 propertyDao.updateProperty(it).subscribeOn(Schedulers.io())
             }
-            .observeOn(AndroidSchedulers.mainThread())
-
 }
