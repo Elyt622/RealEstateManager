@@ -1,14 +1,14 @@
 package com.openclassrooms.realestatemanager.ui.fragment
 
 import android.Manifest
-import android.content.pm.PackageManager
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
@@ -23,7 +23,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.app.App
 import com.openclassrooms.realestatemanager.databinding.FragmentMapBinding
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewmodel.MapViewModel
@@ -63,18 +62,15 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
         val map = childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment?
         viewPager = requireActivity().findViewById(R.id.viewpager)
-        if(ContextCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_DENIED) {
-            requestPermission()
-        }
         map?.getMapAsync(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
-        requestPermission()
+
+        locationPermissionRequest.launch(arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION))
 
         setMarkerOnMap()
         googleMap.setOnMarkerClickListener {
@@ -95,21 +91,20 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         )
     }
 
+    @SuppressLint("MissingPermission")
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
-        when {
-            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                googleMap.isMyLocationEnabled = true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            when {
+                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                    googleMap.isMyLocationEnabled = true
+                }
+                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                    googleMap.isMyLocationEnabled = true
+                }
             }
         }
-    }
-
-    private fun requestPermission() {
-        locationPermissionRequest.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION)
-        )
     }
 
     private fun setMarkerOnMap() {
