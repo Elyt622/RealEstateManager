@@ -6,7 +6,6 @@ import com.openclassrooms.realestatemanager.database.dao.PropertyDao
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.model.Type
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -31,6 +30,7 @@ class AddPropertyViewModel(
     }
 
     fun insertProperty(
+        type: Type?,
         surface: Float?,
         price: Int?,
         numberRoom: Int?,
@@ -60,6 +60,7 @@ class AddPropertyViewModel(
                 if (longitude == null || latitude == null) throw Exception("LOCATION_IS_INVALID")
                 if (agentName.isEmpty()) throw Exception("AGENT_IS_EMPTY")
                 it.apply {
+                    this.type = type
                     this.surface = surface
                     this.price = price
                     this.numberRoom = numberRoom
@@ -80,5 +81,4 @@ class AddPropertyViewModel(
             .flatMapCompletable {
                 propertyDao.insertProperty(it).subscribeOn(Schedulers.io())
             }
-            .observeOn(AndroidSchedulers.mainThread())
 }

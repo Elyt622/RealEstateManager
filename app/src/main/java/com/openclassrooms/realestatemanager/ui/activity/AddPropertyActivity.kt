@@ -112,6 +112,7 @@ class AddPropertyActivity : BaseActivity() {
 
             buttonAddNewProperty.setOnClickListener{
                 viewModel.insertProperty(
+                    viewModel.type,
                     editTextSurface.text.toString().toFloatOrNull(),
                     editTextPrice.text.toString().toIntOrNull(),
                     editTextRooms.text.toString().toIntOrNull(),
