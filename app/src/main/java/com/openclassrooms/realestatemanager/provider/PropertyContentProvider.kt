@@ -9,11 +9,11 @@ import com.openclassrooms.realestatemanager.model.Property
 
 class PropertyContentProvider : ContentProvider() {
 
-    val AUTHORITY = "com.openclassrooms.realestatemanager.provider"
+    private val authority = "com.openclassrooms.realestatemanager.provider"
 
-    val TABLE_NAME = Property::class.java.simpleName
+    private val tableName: String = Property::class.java.simpleName
 
-    val URI_ITEM = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
+    val uriProperty: Uri = Uri.parse("content://$authority/$tableName")
 
     override fun onCreate(): Boolean {
         return true
@@ -28,14 +28,14 @@ class PropertyContentProvider : ContentProvider() {
     ): Cursor {
         if (context != null) {
             val cursor: Cursor = App.database.propertyDao().loadAllPropertyWithCursor()
-            cursor.setNotificationUri(requireContext().contentResolver, uri)
+            cursor.setNotificationUri(context!!.contentResolver, uri)
             return cursor
         }
         throw IllegalArgumentException("Failed to query row for uri $uri")
     }
 
     override fun getType(uri: Uri): String {
-        return "vnd.android.cursor.property/$AUTHORITY.$TABLE_NAME"
+        return "vnd.android.cursor.property/$authority.$tableName"
     }
 
     override fun insert(uri: Uri, contentValues: ContentValues?): Uri? {
