@@ -1,10 +1,12 @@
 package com.openclassrooms.realestatemanager.ui.fragment
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -95,7 +97,17 @@ class HomeFragment : BaseFragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy {
-                    binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                    if (it.isEmpty()) {
+                        Toast.makeText(
+                            requireContext(),
+                            "No result with this filter",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                        if(requireContext().resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE))
+                            EventBus.getDefault().post(LaunchActivityEvent(it[0].ref))
+                    }
                 }
         else {
             viewModel.getAllProperties()
@@ -103,6 +115,8 @@ class HomeFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy {
                     binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                    if(requireContext().resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE))
+                        EventBus.getDefault().post(LaunchActivityEvent(it[0].ref))
                 }
         }
     }
