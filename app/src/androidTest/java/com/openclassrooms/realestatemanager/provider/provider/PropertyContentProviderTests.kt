@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.provider
+package com.openclassrooms.realestatemanager.provider.provider
 
 import android.content.ContentResolver
 import android.content.ContentUris
@@ -7,6 +7,7 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.openclassrooms.realestatemanager.database.AppDatabase
+import com.openclassrooms.realestatemanager.provider.PropertyContentProvider
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
