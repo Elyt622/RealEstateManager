@@ -6,8 +6,6 @@ import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.databinding.ActivityLoanSimulatorBinding
 import com.openclassrooms.realestatemanager.viewmodel.LoanSimulatorViewModel
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
 class LoanSimulatorActivity : BaseActivity() {
 
@@ -23,36 +21,34 @@ class LoanSimulatorActivity : BaseActivity() {
         viewModel = ViewModelProvider(this)[LoanSimulatorViewModel::class.java]
 
         configToolbar()
-
-        val df = DecimalFormat("#.##")
-        df.roundingMode = RoundingMode.UP
-
-        binding.textViewDurationLoan.text = viewModel.duration.toString()
-        binding.textViewMonthlyPayment.text = df.format(viewModel.interestMonthlyToPay)
+        configAllFieldsOnStart()
 
         with(binding) {
             buttonCalculate.setOnClickListener {
-
-                viewModel.setDefaultData(
-                    textViewDurationLoan.text.toString().toIntOrNull(),
-                    editTextPercentageInterest.text.toString().toDoubleOrNull(),
-                    editTextPercentageInsurance.text.toString().toDoubleOrNull()
-                )
-
-                if (editTextAmountLoan.text.toString().isEmpty()) {
-                    Toast.makeText(
-                        this@LoanSimulatorActivity,
-                        "Amount of the loan is empty",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    linearLayoutCreditCost.isGone = true
-                } else {
-                    textViewMonthlyPayment.text = viewModel.getCalculationMortgagePayment(
-                        editTextAmountLoan.text.toString().toDouble()
+                try {
+                    viewModel.checkData(
+                        editTextAmountLoan.text.toString().toIntOrNull(),
+                        textViewDurationLoan.text.toString().toIntOrNull(),
+                        editTextPercentageInterest.text.toString().toDoubleOrNull(),
+                        editTextPercentageInsurance.text.toString().toDoubleOrNull()
                     )
-                    textViewCreditCost.text = df.format(viewModel.interestGlobalToPay)
-                    textViewInsuranceCost.text = df.format(viewModel.insuranceGlobalToPay)
-                    linearLayoutCreditCost.isGone = false
+                    textViewMonthlyPayment.text = viewModel.getCalculationMortgagePayment()
+                    showPaymentMessage(false)
+                } catch (e: Exception) {
+                    when(e.message) {
+                        "LOAN_IS_NULL" ->
+                            showToastMessage("Amount of the loan is empty")
+
+                        "LOAN_INCORRECT_VALUE" ->
+                            showToastMessage("Loan must be greater than 20000")
+
+                        "DURATION_INCORRECT_VALUE" ->
+                            showToastMessage("Duration must be greater than 10")
+
+                        "INTEREST_INCORRECT_VALUE" ->
+                            showToastMessage("Interest must be greater than 0")
+                    }
+                    showPaymentMessage(true)
                 }
             }
 
@@ -66,6 +62,27 @@ class LoanSimulatorActivity : BaseActivity() {
                 textViewDurationLoan.text = viewModel.duration.toString()
             }
         }
+    }
+
+    private fun showPaymentMessage(hide: Boolean) {
+        with(binding) {
+            if (!hide) {
+                textViewCreditCost.text = viewModel.df.format(viewModel.interestGlobalToPay)
+                textViewInsuranceCost.text = viewModel.df.format(viewModel.insuranceGlobalToPay)
+                linearLayoutCreditCost.isGone = hide
+            } else
+                linearLayoutCreditCost.isGone = hide
+        }
+    }
+
+    private fun showToastMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun configAllFieldsOnStart(){
+        binding.textViewDurationLoan.text = viewModel.duration.toString()
+        binding.textViewMonthlyPayment.text = viewModel.df.format(viewModel.interestMonthlyToPay)
+        binding.editTextAmountLoan.setText(viewModel.loan.toString())
     }
 
     private fun configToolbar() {

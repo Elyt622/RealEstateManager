@@ -7,6 +7,8 @@ import kotlin.math.pow
 
 class LoanSimulatorViewModel : ViewModel() {
 
+    var loan : Int = 20000
+
     var duration : Int = 15
 
     var interestRate : Double = 1.65
@@ -21,15 +23,14 @@ class LoanSimulatorViewModel : ViewModel() {
 
     var insuranceMonthlyToPay : Double = 0.0
 
+    val df = DecimalFormat("#.##")
+
     init {
-        setDefaultData(duration, interestRate, insuranceRate)
+        df.roundingMode = RoundingMode.UP
+        checkData(loan, duration, interestRate, insuranceRate)
     }
 
-    fun getCalculationMortgagePayment(
-        loan: Double,
-    ): String {
-        val df = DecimalFormat("#.##")
-        df.roundingMode = RoundingMode.UP
+    fun getCalculationMortgagePayment(): String {
 
         val insuranceGlobalToPay = (insuranceRate / 100.0 * loan * duration)
         this.insuranceGlobalToPay = insuranceGlobalToPay
@@ -45,14 +46,26 @@ class LoanSimulatorViewModel : ViewModel() {
         return df.format(interestMonthlyToPay)
     }
 
-    fun setDefaultData(
+    fun checkData(
+        loan: Int?,
         duration: Int?,
         interestRate: Double?,
         insuranceRate: Double?
     ) {
-        if (duration == null) this.duration = 15 else this.duration = duration
-        if (interestRate == null) this.interestRate = 1.65 else this.interestRate = interestRate
-        if (insuranceRate == null) this.insuranceRate = 0.34 else this.insuranceRate = insuranceRate
+        if (loan == null) throw Exception("LOAN_IS_NULL")
+        else if (loan < 20000) throw Exception("LOAN_INCORRECT_VALUE")
+        else this.loan = loan
+
+        if (duration == null) this.duration = 15
+        else if (duration < 10) throw Exception("DURATION_INCORRECT_VALUE")
+        else this.duration = duration
+
+        if (interestRate == null) this.interestRate = 1.65
+        else if (interestRate <= 0) throw Exception("INTEREST_INCORRECT_VALUE")
+        else this.interestRate = interestRate
+
+        if (insuranceRate == null) this.insuranceRate = 0.34
+        else this.insuranceRate = insuranceRate
     }
 
 }
