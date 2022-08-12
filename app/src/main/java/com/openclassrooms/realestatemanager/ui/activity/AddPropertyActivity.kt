@@ -120,7 +120,7 @@ class AddPropertyActivity : BaseActivity() {
                     editTextBathrooms.text.toString().toIntOrNull(),
                     editTextDescription.text.toString(),
                     editTextAddress.text.toString(),
-                    getAddressArea(place?.latLng?.latitude!!, place?.latLng?.longitude!!),
+                    getAddressArea(place?.latLng?.latitude, place?.latLng?.longitude),
                     mutableListOfPhoto,
                     mutableListDescriptionPhoto,
                     place?.latLng?.latitude,
@@ -220,10 +220,14 @@ class AddPropertyActivity : BaseActivity() {
         binding.editTextAddress.setText(address1.toString())
     }
 
-    private fun getAddressArea(latitude: Double, longitude: Double) : String{
+    private fun getAddressArea(latitude: Double?, longitude: Double?) : String {
         val geocoder = Geocoder(this, Locale.US)
-        val stringArea = geocoder.getFromLocation(latitude, longitude, 1)[0].subLocality.uppercase()
-        return stringArea.ifEmpty { "NOT SPECIFIED" }
+        if (latitude != null && longitude != null) {
+            val stringArea =
+                geocoder.getFromLocation(latitude, longitude, 1)[0].subLocality.uppercase()
+            return stringArea.ifEmpty { "NOT SPECIFIED" }
+        }
+        return ""
     }
 
     private fun startAutocompleteIntent() {
