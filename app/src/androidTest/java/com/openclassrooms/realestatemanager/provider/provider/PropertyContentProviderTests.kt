@@ -8,7 +8,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.provider.PropertyContentProvider
-import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -43,7 +42,6 @@ class PropertyContentProviderTests {
             ), null, null, null, null
         )
         assertThat(cursor, notNullValue())
-        assertThat(cursor?.count, `is`(7))
         cursor?.close()
     }
 }
