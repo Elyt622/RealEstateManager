@@ -16,7 +16,7 @@ class LoanSimulatorViewModelTests {
     @Test
     fun getCalculationMortgagePaymentTest(){
         viewModel.duration = 15
-        val loanValue = 100000.0
+        viewModel.loan = 100000
         viewModel.interestRate = 1.65
         viewModel.insuranceRate = 0.34
         val expectedGlobalInsurance = 5100.0
@@ -24,7 +24,7 @@ class LoanSimulatorViewModelTests {
         val expectedMonthlyInsurance = 28.333333333333332
         val expectedMonthlyInterest = 655.8518502918566
 
-        viewModel.getCalculationMortgagePayment(loanValue)
+        viewModel.getCalculationMortgagePayment()
 
         Assert.assertEquals(viewModel.insuranceGlobalToPay, expectedGlobalInsurance, 0.0)
         Assert.assertEquals(viewModel.interestGlobalToPay, expectedGlobalInterest, 0.0)

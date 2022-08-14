@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.viewmodel
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao
 import com.openclassrooms.realestatemanager.model.Option
 import com.openclassrooms.realestatemanager.model.Property
@@ -49,7 +48,7 @@ class ModifyPropertyViewModelTests {
 
     @After
     fun teardown() {
-        //verifyNoMoreInteractions(propertyDaoMock)
+        verifyNoMoreInteractions(propertyDaoMock)
     }
 
     @Test
@@ -82,6 +81,9 @@ class ModifyPropertyViewModelTests {
             .test()
             .awaitDone(5, TimeUnit.SECONDS)
             .assertComplete()
+
+        verify(propertyDaoMock).updateProperty(any())
+
     }
 
     @Test

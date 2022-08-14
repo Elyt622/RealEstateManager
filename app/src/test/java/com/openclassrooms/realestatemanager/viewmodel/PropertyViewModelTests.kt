@@ -33,13 +33,13 @@ class PropertyViewModelTests {
     fun getPropertyWithRefTest() {
         val expectedResult = property
 
-        whenever(propertyDaoMock.loadPropertyWithRef(property.ref))
-            .thenReturn(Observable.just(property))
+        whenever(propertyDaoMock.loadPropertyWithRef(expectedResult.ref))
+            .thenReturn(Observable.just(expectedResult))
 
-        viewModel.getPropertyWithRef(property.ref)
+        viewModel.getPropertyWithRef(expectedResult.ref)
             .test()
             .assertValue(expectedResult)
 
-        verify(propertyDaoMock).loadPropertyWithRef(property.ref)
+        verify(propertyDaoMock).loadPropertyWithRef(expectedResult.ref)
     }
 }
