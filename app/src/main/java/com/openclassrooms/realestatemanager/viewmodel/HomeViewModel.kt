@@ -18,4 +18,12 @@ class HomeViewModel(
     fun getPropertiesWithFilter(query: SupportSQLiteQuery): Single<List<Property>> {
         return propertyDao.filter(query)
     }
+
+    fun getPositionAdapterWithRef(ref: Int, properties : List<Property>) : Int{
+        for (property in properties){
+            if (property.ref == ref)
+                return properties.indexOf(property)
+            }
+        return 0
+    }
 }

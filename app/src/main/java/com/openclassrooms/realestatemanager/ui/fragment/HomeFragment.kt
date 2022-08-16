@@ -14,6 +14,7 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.HomeFragmentBinding
 import com.openclassrooms.realestatemanager.event.LaunchActivityEvent
+import com.openclassrooms.realestatemanager.model.Property
 import com.openclassrooms.realestatemanager.ui.activity.PropertyActivity
 import com.openclassrooms.realestatemanager.ui.adapter.PropertyRvAdapter
 import com.openclassrooms.realestatemanager.viewmodel.HomeViewModel
@@ -36,6 +37,8 @@ class HomeFragment : BaseFragment() {
     private lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var binding: HomeFragmentBinding
+
+    private lateinit var properties: List<Property>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +82,7 @@ class HomeFragment : BaseFragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                properties = it
             }
     }
 
@@ -88,6 +92,10 @@ class HomeFragment : BaseFragment() {
             val intent = Intent(activity, PropertyActivity::class.java)
             intent.putExtra("REF", event.ref)
             startActivity(intent)
+        } else {
+            binding.recyclerViewListProperties.scrollToPosition(
+                viewModel.getPositionAdapterWithRef(event.ref, properties)
+            )
         }
     }
 
@@ -105,6 +113,7 @@ class HomeFragment : BaseFragment() {
                         ).show()
                     } else {
                         binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                        properties = it
                         if(requireContext().resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE))
                             EventBus.getDefault().post(LaunchActivityEvent(it[0].ref))
                     }
@@ -115,6 +124,7 @@ class HomeFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy {
                     binding.recyclerViewListProperties.adapter = PropertyRvAdapter(it)
+                    properties = it
                     if(requireContext().resources.configuration.isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE))
                         EventBus.getDefault().post(LaunchActivityEvent(it[0].ref))
                 }
