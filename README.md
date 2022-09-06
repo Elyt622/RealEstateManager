@@ -29,7 +29,7 @@ Créer entièrement l’application à partir de "l'ébauche du stagiaire".
 - Exposer la base de données en lecture
 - Tester
 
-## Technos utilisés
+## Technos
 - Language Kotlin 
 - Architecture MVVM
 - RXJava
