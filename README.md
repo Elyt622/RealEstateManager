@@ -54,3 +54,38 @@ Importer le projet dans Android Studio
 Lancer le projet
 
 ## Application
+
+Les 3 fragments de l'application:
+- La liste avec tous les biens immobiliers
+- La carte avec tous les biens immobiliers representés par des marqueurs
+- "Le profil" non demandé dans le projet
+
+<img src="capture/Phone/1.jpg" alt="Screenshot de l'application]" width="200"/> <img src="capture/Phone/2.jpg" alt="Screenshot de l'application]" width="200"/> <img src="capture/Phone/3.jpg" alt="Screenshot de l'application]" width="200"/>
+____________________
+- On peut consulter le détail d'un bien en cliquant sur un marqueur de la carte, ou un élément de la liste
+- Toutes les informations concernant le bien sont accessibles sur l'écran détail
+- On a la possibilité de modifier le bien grâce au bouton "Modify property"
+
+<img src="capture/Phone/10.jpg" alt="Screenshot de l'application]" width="200"/> <img src="capture/Phone/11.jpg" alt="Screenshot de l'application]" width="200"/> <img src="capture/Phone/12.jpg" alt="Screenshot de l'application]" width="200"/> 
+____________________
+Dans la barre du haut, le bouton ouvre une fenêtre qui permet de filtrer les résultats obtenus sur la liste et la carte.
+
+<img src="capture/Phone/9.jpg" alt="Screenshot de l'application]" width="200"/>
+
+____________________
+
+Dans la section profil, on peut cliquer sur le bouton LoanSimulator pour ouvrir l'activité qui nous permet de simuler un prêt immobilier.
+
+<img src="capture/Phone/4.jpg" alt="Screenshot de l'application]" width="200"/>
+
+____________________
+
+La dernière fonctionnalité et l'ajout de bien immobilier en saisissant tous les détails du bien.
+
+<img src="capture/Phone/5.jpg" alt="Screenshot de l'application]" width="200"/> <img src="capture/Phone/6.jpg" alt="Screenshot de l'application]" width="200"/> <img src="capture/Phone/7.jpg" alt="Screenshot de l'application]" width="200"/> <img src="capture/Phone/8.jpg" alt="Screenshot de l'application]" width="200"/> 
+
+____________________
+
+L'application est adapté sur les tablettes grâce à l'utilisation des qualifiers. Sur le format tablette, l'écran détail est à côté de la liste. Et en format paysage les photos sont disponibles sur la droite de la photo principale.
+
+<img src="capture/Tablet/10.jpg" alt="Screenshot de l'application]" width="200"/> <img src="capture/Tablet/12.jpg" alt="Screenshot de l'application]" width="525"/>
