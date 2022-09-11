@@ -355,6 +355,7 @@
                 android:id="@+id/textview_entry_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textview_static_entry_date"
                 app:layout_constraintStart_toEndOf="@+id/textview_static_entry_date"
                 app:layout_constraintTop_toTopOf="@+id/textview_static_entry_date" />
@@ -391,6 +392,7 @@
                 android:id="@+id/textview_sold_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 app:layout_constraintStart_toEndOf="@+id/textview_static_sold_date"
                 app:layout_constraintTop_toBottomOf="@+id/edittext_agent" />
 
