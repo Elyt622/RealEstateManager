@@ -110,12 +110,12 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     private fun setMarkerOnMap() {
         setAllMarkerOnMap()
         setFragmentResultListener("requestSqlToMap") { _, bundle ->
-            googleMap.clear()
             val result = bundle.getString("SqlMapBundle")
             if (result != null) {
                 if (result.isNotEmpty()) {
                     setMarkerWithFilterOnMap(result)
                 } else {
+                    googleMap.clear()
                     setAllMarkerOnMap()
                 }
             }
@@ -147,14 +147,17 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { properties ->
-                for (property in properties) {
-                    marker = googleMap.addMarker(
-                        MarkerOptions()
-                            .position(LatLng(property.latitude, property.longitude))
-                            .title(property.address)
-                            .snippet(property.type.name)
-                    )
-                    marker?.tag = property.ref
+                if(properties.isNotEmpty()) {
+                    googleMap.clear()
+                    for (property in properties) {
+                        marker = googleMap.addMarker(
+                            MarkerOptions()
+                                .position(LatLng(property.latitude, property.longitude))
+                                .title(property.address)
+                                .snippet(property.type.name)
+                        )
+                        marker?.tag = property.ref
+                    }
                 }
             }
     }
